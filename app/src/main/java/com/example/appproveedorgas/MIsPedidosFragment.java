@@ -20,11 +20,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appproveedorgas.util.ProductDetail;
+import com.example.appproveedorgas.util.Sortbymeasurement;
 import com.example.appproveedorgas.util.product_marcas;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -121,12 +123,12 @@ public class MIsPedidosFragment extends Fragment {
                         Gson gson = new Gson();
                         mispedidos_list = gson.fromJson(response.substring(34,response.length()-1).trim(), new TypeToken<ArrayList<ProductDetail>>() {
                         }.getType());
-                        Toast.makeText(getContext(),response, Toast.LENGTH_LONG).show();
-
                         for (ProductDetail item : mispedidos_list) {
-                            item.setImage("http://34.71.251.155/"+item.getImage());
-                            item.setDescription(response.substring(34,response.length()-1).trim());
+                            item.setImage("http://34.71.251.155"+item.getImage());
                         }
+                        Collections.sort(mispedidos_list, new Sortbymeasurement());
+                        Toast.makeText(getContext(), mispedidos_list.get(0).getImage(), Toast.LENGTH_SHORT).show();
+
                         mIsPedidosAdapter=new MIsPedidosAdapter(mispedidos_list);
                         recyclerView.setAdapter(mIsPedidosAdapter);
                     }

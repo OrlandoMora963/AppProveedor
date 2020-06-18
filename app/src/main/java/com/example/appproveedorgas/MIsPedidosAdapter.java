@@ -79,8 +79,10 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
         }
 
         void bind(final ProductDetail products) {
-         //   product_name.setText(products.getDescription());
-            etxtPrecioUnitario.setText(products.getDescription());
+            product_name.setText(products.getDescription());
+            etxtPrecioUnitario.setText(String.valueOf(products.getUnit_price()));
+            etxtPrecioUnitario.setText(products.getImage());
+//            Picasso.get().load(products.getImage()).into(image_product);
             editar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
