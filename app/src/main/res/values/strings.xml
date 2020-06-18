@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Free Bussines</string>
+    <string name="hello_world">Hola</string>
+    <string name="action_settings">Configuraciones</string>
+    <string name="email">Correo</string>
+    <string name="passowrd">Password</string>
+    <string name="login">ENTRAR</string>
+    <string name="titulo">PROVEEDOR GAS</string>
+    <string name="show_pwd">Ver Password</string>
+    <string name="hide_pwd">Ocultar Password</string>
+    <string name="forgot">Olvide el password?</string>
+    <string name="closebutton">Boton para cerrar la Aplicacion</string>
+    <string name="newUser">Solicitar una cuenta</string>
+    <string name="fullName">DNI</string>
+    <string name="company_id">ID Empresa</string>
+    <string name="mobileNumber">Celular</string>
+    <string name="location">Direccion</string>
+    <string name="confirmPassword">Confirma Password</string>
+    <string name="terms_conditions">Acepto los terminos y condiciones</string>
+    <string name="signUp">Crear Cuenta</string>
+    <string name="already_user">Ya tengo un cuenta</string>
+    <string name="registered_emailid">Ingreso el correo con el que creo la cuenta</string>
+    <string name="submit">ENVIAR</string>
+    <string name="back">ATRAS</string>
+    <string name="title_activity_maps">Map</string>
+
+    <!--<string name="map_key" translatable="false">AIzaSyA_oRFtjaMQf1jFGAGTTTL2XxBqefUBzKw</string>-->
+    <string name="map_key" translatable="false">AIzaSyBI2Vi-qI0muLVtbHGCQR7t5KkkBRoav5I</string>
+    <string-array name="personal_type">
+        <item>Propietario</item>
+        <item>Distribuidor</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="ver_mis_productos">Ver mis productos</string>
+</resources>

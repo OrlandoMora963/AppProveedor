@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background_color">#0144B8</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="white_greyish">#EEEEEE</color>
+    <color name="button_selectorcolor">#9E9E9E</color>
+
+    <color name="colorPrimary">#0A50C9</color>
+    <color name="colorPrimaryDark">#0335A0</color>
+    <color name="colorAccent">#2196F3</color>
+
+    <color name="colorToGet">#00FF00</color>
+    <color name="colorToPay">#ff0000</color>
+    <color name="colorSecondary">#64b5f6</color>
+    <color name="colorWarning">#ef6c00</color>
+
+    <color name="tabtextcolor">#FFFFFF</color>
+    <color name="tabindicatorcolor">#5990E7</color>
+
+    <color name="table_header">#000000</color>
+    <color name="table_body">#333333</color>
+
+
+    <color name="marcasTitle">#000</color>
+    <color name="buttonAddCart">#46c406</color>
+    <color name="fondoitems">#065FD3</color>
+    <color name="textTitleButton">#fff</color>
+    <color name="deleteFondo">#f00</color>
+    <color name="subtitle">#9b9b9b</color>
+    <color name="frii_Background">#065FD3</color>
+
+    <color name="warning">#bb9a00</color>
+
+</resources>

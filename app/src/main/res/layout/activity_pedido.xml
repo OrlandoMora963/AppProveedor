@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/pb_detalle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_marginTop="-7dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:id="@+id/relativeLayoutMain"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical|end">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total: "
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:gravity="center_vertical|end"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/lbl_subtotal_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00.00"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    android:gravity="center_vertical|end"
+                    android:layout_marginEnd="25dp"/>
+            </LinearLayout>
+            <!--
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/name_text_input"
+                style="@style/CantidadTextInputLayoutStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_tiempo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tiempo"
+                    android:inputType="number"
+                    android:padding="10dp"
+                    android:textColorHighlight="@color/colorPrimary"
+                    android:textColorHint="@color/colorPrimary"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            -->
+            <!--progress bar -->
+            <ProgressBar
+                android:id="@+id/pb_pedido"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:indeterminate="true"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_espera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirmando pedido"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                android:layout_gravity="center"/>
+            <!-- /progress bar -->
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_denied"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_gravity="start|bottom"
+        android:src="@drawable/ic_close_white_24dp"
+        android:contentDescription="click"
+        android:layout_margin="16dp"
+        app:backgroundTint="@color/colorToPay"
+        app:borderWidth="0dp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center|bottom"
+        android:src="@drawable/ic_notifications_active_white_24dp"
+        android:contentDescription="click"
+        android:layout_margin="16dp"
+        app:backgroundTint="@color/colorSecondary"
+        app:borderWidth="0dp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_accept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_check_white_24dp"
+        android:contentDescription="click"
+        android:layout_margin="16dp"
+        app:backgroundTint="@color/colorToGet"
+        app:borderWidth="0dp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_delibered"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_playlist_add_check_white_24dp"
+        android:contentDescription="click"
+        android:layout_margin="16dp"
+        app:backgroundTint="@color/colorWarning"
+        app:borderWidth="0dp"/>
+
+</RelativeLayout>
+

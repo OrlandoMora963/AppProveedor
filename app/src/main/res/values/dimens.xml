@@ -1,0 +1,14 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- ancho de iconos-->
+    <dimen name="ancho_icono">35dp</dimen>
+
+    <dimen name="cell_text_size">7sp</dimen>
+
+    <dimen name="height_header">2dp</dimen>
+    <dimen name="width_content">200dp</dimen>
+    <dimen name="width_image">100dp</dimen>
+</resources>
