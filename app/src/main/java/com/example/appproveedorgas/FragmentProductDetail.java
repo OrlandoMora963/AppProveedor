@@ -110,12 +110,14 @@ public class FragmentProductDetail extends Fragment {
 
                         recyclerView.setAdapter(null);
                         Gson gson = new Gson();
-                        productDetails = gson.fromJson(response.substring(34,response.length()-1).trim(), new TypeToken<ArrayList<ProductDetail>>() {
+                        productDetails = gson.fromJson(response.substring(34,response.length()-1).trim(),
+                                new TypeToken<ArrayList<ProductDetail>>() {
                         }.getType());
-                        detailproductAdapter = new detailproductAdapter(productDetails);
+
                         for (ProductDetail item : productDetails) {
                             item.setImage("http://34.71.251.155/"+item.getImage());
                         }
+                        detailproductAdapter = new detailproductAdapter(productDetails);
                         recyclerView.setAdapter(detailproductAdapter);
                     }
                 }, new Response.ErrorListener() {

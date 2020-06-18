@@ -108,11 +108,6 @@ public class ProductFragment extends Fragment {
         //product_marcas.add(new product_marcas(1,"agua",""));
        // product_marcas.add(new product_marcas(1,"gas",""));
 
-
-
-
-
-
         return view;
 
     }

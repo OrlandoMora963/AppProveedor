@@ -3,17 +3,30 @@ package com.example.appproveedorgas;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.appproveedorgas.util.ProductDetail;
+import com.example.appproveedorgas.util.product_marcas;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -79,19 +92,62 @@ public class MIsPedidosFragment extends Fragment {
         View view =inflater.inflate(R.layout.fragment_mis_pedidos, container, false);
         recyclerView=view.findViewById(R.id.mis_pedidos_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        Listar();
+
 
         mispedidos_list=new ArrayList<>();
-        mispedidos_list.add(new ProductDetail(1,"product0 1",1,1,""));
+    /*    mispedidos_list.add(new ProductDetail(1,"product0 1",1,1,""));
         mispedidos_list.add(new ProductDetail(1,"product0 2",1,1,""));
         mispedidos_list.add(new ProductDetail(1,"product0 3",1,1,""));
         mispedidos_list.add(new ProductDetail(1,"product0 4",1,1,""));
 
         mIsPedidosAdapter=new MIsPedidosAdapter(mispedidos_list);
-        recyclerView.setAdapter(mIsPedidosAdapter);
+        recyclerView.setAdapter(mIsPedidosAdapter);*/
 
         return view;
     }
+    private void Listar()
+    {
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        StringBuilder sb = new StringBuilder();
+        sb.append("http://34.71.251.155/api/product/staff/BJRhK-xw4A");
+        String url = sb.toString();
+        final DatabaseHelper db=  new DatabaseHelper(getContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        recyclerView.setAdapter(null);
+                        Gson gson = new Gson();
+                        mispedidos_list = gson.fromJson(response.substring(34,response.length()-1).trim(), new TypeToken<ArrayList<ProductDetail>>() {
+                        }.getType());
+                        Toast.makeText(getContext(),response, Toast.LENGTH_LONG).show();
 
+                        for (ProductDetail item : mispedidos_list) {
+                            item.setImage("http://34.71.251.155/"+item.getImage());
+                            item.setDescription(response.substring(34,response.length()-1).trim());
+                        }
+                        mIsPedidosAdapter=new MIsPedidosAdapter(mispedidos_list);
+                        recyclerView.setAdapter(mIsPedidosAdapter);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "That didn't work!", Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                String token = db.getToken();
+                Log.d("Voley get", token);
+                headers.put("Authorization", "JWT " + token);
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+        queue.add(stringRequest);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

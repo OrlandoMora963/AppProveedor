@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appproveedorgas.util.ProductDetail;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -74,12 +75,12 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
             guardar=itemView.findViewById(R.id.guardar_misproductos);
             etxtPrecioUnitario=itemView.findViewById(R.id.editar_precio_misproductos);
 
-
+            image_product=itemView.findViewById(R.id.image_product);
         }
 
         void bind(final ProductDetail products) {
-
-            product_name.setText(products.getDescription());
+         //   product_name.setText(products.getDescription());
+            etxtPrecioUnitario.setText(products.getDescription());
             editar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
