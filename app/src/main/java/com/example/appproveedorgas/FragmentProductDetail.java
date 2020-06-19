@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
  * Use the {@link FragmentProductDetail#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class FragmentProductDetail extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -96,8 +99,7 @@ public class FragmentProductDetail extends Fragment {
         Listar();
         return view;
     }
-
-    private void Listar() {
+    void Listar() {
         RequestQueue queue = Volley.newRequestQueue(getContext());
         StringBuilder sb = new StringBuilder();
         sb.append("http://34.71.251.155/api/product/category/" + MarcasId);
@@ -117,7 +119,7 @@ public class FragmentProductDetail extends Fragment {
                         for (ProductDetail item : productDetails) {
                             item.setImage("http://34.71.251.155/"+item.getImage());
                         }
-                        detailproductAdapter = new detailproductAdapter(productDetails);
+                        detailproductAdapter = new detailproductAdapter(productDetails,FragmentProductDetail.this);
                         recyclerView.setAdapter(detailproductAdapter);
                     }
                 }, new Response.ErrorListener() {
@@ -157,6 +159,9 @@ public class FragmentProductDetail extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
+
 
     /**
      * This interface must be implemented by activities that contain this

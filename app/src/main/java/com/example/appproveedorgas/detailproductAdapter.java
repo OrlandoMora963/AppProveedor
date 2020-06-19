@@ -41,9 +41,10 @@ public class detailproductAdapter extends RecyclerView.Adapter<detailproductAdap
     private Context context;
     private DatabaseHelper db;
     List<ProductDetail> Product_list;
-
-    public detailproductAdapter(List<ProductDetail> product_list) {
+     FragmentProductDetail oFragmentProductDetail;
+    public detailproductAdapter(List<ProductDetail> product_list, FragmentProductDetail oFragmentProductDetail) {
         this.Product_list = product_list;
+        this.oFragmentProductDetail= oFragmentProductDetail;
     }
 
     @Override
@@ -76,7 +77,6 @@ public class detailproductAdapter extends RecyclerView.Adapter<detailproductAdap
     public int getItemCount() {
         return Product_list.size();
     }
-
     public class viewHolder extends RecyclerView.ViewHolder{
         TextView product_name;
         TextView txtMarca;
@@ -121,6 +121,7 @@ public class detailproductAdapter extends RecyclerView.Adapter<detailproductAdap
                                 try {
                               //      Toast.makeText(context, "Se agrego el producto", Toast.LENGTH_LONG).show();
                                     Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
+                                    oFragmentProductDetail.Listar();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }

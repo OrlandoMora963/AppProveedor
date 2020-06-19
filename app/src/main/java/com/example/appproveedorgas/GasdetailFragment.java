@@ -107,7 +107,7 @@ public class GasdetailFragment extends Fragment {
         return view;
     }
 
-    private void Listar() {
+    void Listar() {
         RequestQueue queue = Volley.newRequestQueue(getContext());
         final DatabaseHelper db=  new DatabaseHelper(getContext());
         StringBuilder sb = new StringBuilder();
@@ -136,7 +136,7 @@ public class GasdetailFragment extends Fragment {
                             }
                         }
                         Collections.sort(productDetails, new Sortbymeasurement());
-                        gasKilosAdapter = new GasKilosAdapter(productDetails);
+                        gasKilosAdapter = new GasKilosAdapter(productDetails,GasdetailFragment.this);
                         recyclerView.setAdapter(gasKilosAdapter);
                     }
                 }, new Response.ErrorListener() {

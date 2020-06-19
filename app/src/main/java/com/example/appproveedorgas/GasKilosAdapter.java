@@ -36,9 +36,10 @@ public class GasKilosAdapter extends RecyclerView.Adapter<GasKilosAdapter.viewHo
     private Context context;
     private DatabaseHelper db;
     List<ProductDetail> Product_list;
-
-    public GasKilosAdapter(List<ProductDetail> product_list) {
+    GasdetailFragment oGasdetailFragment;
+    public GasKilosAdapter(List<ProductDetail> product_list,GasdetailFragment oGasdetailFragment) {
         this.Product_list = product_list;
+        this.oGasdetailFragment= oGasdetailFragment;
     }
 
     @Override
@@ -74,6 +75,9 @@ public class GasKilosAdapter extends RecyclerView.Adapter<GasKilosAdapter.viewHo
         return Product_list.size();
     }
 
+    public interface InterfaceListar {
+        void Listar() ;
+    }
     public class viewHolder extends RecyclerView.ViewHolder{
 
         TextView product_name;
@@ -116,6 +120,7 @@ public class GasKilosAdapter extends RecyclerView.Adapter<GasKilosAdapter.viewHo
                                 try {
                                     //      Toast.makeText(context, "Se agrego el producto", Toast.LENGTH_LONG).show();
                                     Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
+                                    oGasdetailFragment.Listar();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
