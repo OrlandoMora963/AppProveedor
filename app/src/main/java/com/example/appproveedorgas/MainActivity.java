@@ -29,12 +29,19 @@ public class MainActivity extends FragmentActivity {
 
         getLocationPermission();
 
+
+        //Intent myIntent = new Intent(getBaseContext(),HomeActivity.class);
+        //startActivity(myIntent);
+
+
         this.db = new DatabaseHelper(getApplicationContext());
         if(db.existsToken()){
             Intent myIntent = new Intent(getBaseContext(),HomeActivity.class);
             startActivity(myIntent);
             finish();
         }
+
+
 
         fragmentManager = getSupportFragmentManager();
         // If savedinstnacestate is null then replace login fragment
