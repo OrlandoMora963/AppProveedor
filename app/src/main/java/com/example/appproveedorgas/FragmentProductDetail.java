@@ -2,6 +2,7 @@ package com.example.appproveedorgas;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -101,8 +104,9 @@ public class FragmentProductDetail extends Fragment {
     }
     void Listar() {
         RequestQueue queue = Volley.newRequestQueue(getContext());
+        final DatabaseHelper db=  new DatabaseHelper(getContext());
         StringBuilder sb = new StringBuilder();
-        sb.append("http://34.71.251.155/api/product/category/" + MarcasId);
+        sb.append("http://34.71.251.155/api/product/staff/categories/" + MarcasId);
         String url = sb.toString();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -127,7 +131,17 @@ public class FragmentProductDetail extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getContext(), "That didn't work!", Toast.LENGTH_SHORT).show();
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                String token = db.getToken();
+                Log.d("Voley get", token);
+                headers.put("Authorization", "JWT " + token);
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
         queue.add(stringRequest);
     }
 
