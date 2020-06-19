@@ -22,7 +22,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/image_product"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:background="@color/fondoitems"
@@ -44,7 +44,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/textView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+                app:layout_constraintTop_toBottomOf="@+id/image_product" />
 
             <TextView
                 android:id="@+id/textView"
@@ -52,12 +52,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="Peso: "
-                app:layout_constraintEnd_toStartOf="@+id/textView8"
+                app:layout_constraintEnd_toStartOf="@+id/txtPeso"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/gas_camion_name" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/txtPeso"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -73,12 +73,12 @@
                 android:layout_marginStart="8dp"
                 android:text="Precio Unitario: "
                 app:layout_constraintBottom_toTopOf="@+id/textView13"
-                app:layout_constraintEnd_toStartOf="@+id/editar_precio_misproductos"
+                app:layout_constraintEnd_toStartOf="@+id/etxtPrecioUnitario"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <EditText
-                android:id="@+id/editar_precio_misproductos"
+                android:id="@+id/etxtPrecioUnitario"
                 android:layout_width="72dp"
                 android:layout_height="25dp"
                 android:background="@drawable/custom_cantidad"
@@ -88,7 +88,7 @@
                 android:inputType="number"
                 app:layout_constraintBottom_toTopOf="@+id/textView13"
                 app:layout_constraintStart_toEndOf="@+id/textView11"
-                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                app:layout_constraintTop_toBottomOf="@+id/txtPeso" />
 
             <TextView
                 android:id="@+id/textView13"
@@ -101,7 +101,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/guardar_misproductos"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editar_precio_misproductos" />
+                app:layout_constraintTop_toBottomOf="@+id/etxtPrecioUnitario" />
 
             <Button
                 android:id="@+id/guardar_misproductos"
@@ -130,17 +130,17 @@
                 android:textColor="@color/white"
                 android:background="@drawable/custom_button"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/button3"
+                app:layout_constraintEnd_toStartOf="@+id/btnEstado"
                 app:layout_constraintStart_toEndOf="@+id/guardar_misproductos"
                 app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/btnEstado"
                 android:layout_width="0dp"
                 android:layout_height="25dp"
                 android:layout_marginStart="2dp"
                 android:layout_marginEnd="16dp"
-                android:text="Eliminar"
+                android:text="Habilitar"
                 android:textColor="@color/white"
                 android:background="@drawable/custom_button"
                 app:layout_constraintBottom_toBottomOf="parent"

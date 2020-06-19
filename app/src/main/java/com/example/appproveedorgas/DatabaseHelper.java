@@ -10,7 +10,6 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-
     private static final String DaTABASE_NAME="appgasProveedor.db";
     private static final String TABLE_NAME="account_pro";
     private static final String COL_1="ID";
@@ -21,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_6="password";
     private static final String COL_7="token";
     private static final String COL_8="tipe";
-    private static final String COL_9="company_id";
+    public static final String COL_9="company_id";
     //-----
     private static final String COL_10="company_name";
     private static final String COL_11="company_phone";

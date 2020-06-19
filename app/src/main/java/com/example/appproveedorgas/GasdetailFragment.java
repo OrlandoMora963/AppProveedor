@@ -3,6 +3,7 @@ package com.example.appproveedorgas;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -106,17 +109,19 @@ public class GasdetailFragment extends Fragment {
 
     private void Listar() {
         RequestQueue queue = Volley.newRequestQueue(getContext());
+        final DatabaseHelper db=  new DatabaseHelper(getContext());
         StringBuilder sb = new StringBuilder();
-        sb.append("http://34.71.251.155/api/product/markes/" + MarcaGas);
+        sb.append("http://34.71.251.155/api/product/staff/markes/" + MarcaGas);
         final String TypeGas = TipoGas.split("-")[1];
         String url = sb.toString();
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         recyclerView.setAdapter(null);
                         Gson gson = new Gson();
-                        productDetails = gson.fromJson(response, new TypeToken<ArrayList<ProductDetail>>() {
+                        productDetails = gson.fromJson(response.substring(34,response.length()-1).trim(), new TypeToken<ArrayList<ProductDetail>>() {
                         }.getType());
 
                         for (ProductDetail item : productDetails)
@@ -139,7 +144,17 @@ public class GasdetailFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getContext(), "That didn't work!", Toast.LENGTH_SHORT).show();
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                String token = db.getToken();
+                Log.d("Voley get", token);
+                headers.put("Authorization", "JWT " + token);
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
         queue.add(stringRequest);
     }
 

@@ -13,12 +13,6 @@ public class ProductDetail {
     Detail_measurement_id detail_measurement_id;
     Unit_measurement_id unit_measurement_id;
 
-    public ProductDetail(int i, String s, int i1, int i2, String s1) {
-    }
-
-
-    // Getter Methods
-
     public float getId() {
         return id;
     }
@@ -94,38 +88,3 @@ public class ProductDetail {
     }
 }
 
-class Category_id {
-    private int id;
-    private String name;
-    private String image;
-
-
-    // Getter Methods
-
-    public float getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    // Setter Methods
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-}

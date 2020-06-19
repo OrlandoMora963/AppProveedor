@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appproveedorgas.util.ProductDetail;
+import com.example.appproveedorgas.util.Sortbydescription;
 import com.example.appproveedorgas.util.Sortbymeasurement;
 import com.example.appproveedorgas.util.product_marcas;
 import com.google.gson.Gson;
@@ -111,10 +112,12 @@ public class MIsPedidosFragment extends Fragment {
     private void Listar()
     {
         RequestQueue queue = Volley.newRequestQueue(getContext());
-        StringBuilder sb = new StringBuilder();
-        sb.append("http://34.71.251.155/api/product/staff/BJRhK-xw4A");
-        String url = sb.toString();
         final DatabaseHelper db=  new DatabaseHelper(getContext());
+        StringBuilder sb = new StringBuilder();
+        account cuenta = db.getAcountToken();
+        sb.append("http://34.71.251.155/api/product/staff/"+ cuenta.getCompany_id());
+        String url = sb.toString();
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -125,10 +128,10 @@ public class MIsPedidosFragment extends Fragment {
                         }.getType());
                         for (ProductDetail item : mispedidos_list) {
                             item.setImage("http://34.71.251.155"+item.getImage());
+                            if(item.getCategory_id().getId()==2)
+                                item.setDescription(item.getMarke_id().getName()+" "+item.getDetail_measurement_id().getName());
                         }
-                        Collections.sort(mispedidos_list, new Sortbymeasurement());
-                        Toast.makeText(getContext(), mispedidos_list.get(0).getImage(), Toast.LENGTH_SHORT).show();
-
+                       Collections.sort(mispedidos_list, new Sortbydescription());
                         mIsPedidosAdapter=new MIsPedidosAdapter(mispedidos_list);
                         recyclerView.setAdapter(mIsPedidosAdapter);
                     }

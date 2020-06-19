@@ -101,8 +101,6 @@ public class detailproductAdapter extends RecyclerView.Adapter<detailproductAdap
             txtUnidadMedida.setText(" "+products.getUnit_measurement_id().getName());
             etxtPrecioUnitario.setText("0.00");
             Picasso.get().load(products.getImage()).into(image_product);
-
-
             btnguardar_misproductos.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     if (Double.valueOf(etxtPrecioUnitario.getText().toString()) < 1)

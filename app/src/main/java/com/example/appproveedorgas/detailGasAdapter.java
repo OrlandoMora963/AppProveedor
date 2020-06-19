@@ -1,18 +1,33 @@
 package com.example.appproveedorgas;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.appproveedorgas.util.ProductDetail;
+import com.example.appproveedorgas.util.VolleySingleton;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class detailGasAdapter extends RecyclerView.Adapter<detailGasAdapter.viewHolder> implements View.OnClickListener {
 
@@ -37,8 +52,6 @@ public class detailGasAdapter extends RecyclerView.Adapter<detailGasAdapter.view
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_product_gas,parent,false);
         view.setOnClickListener(this);
-
-
         return new viewHolder(view);
     }
 
@@ -72,6 +85,7 @@ public class detailGasAdapter extends RecyclerView.Adapter<detailGasAdapter.view
 
             product_name.setText(products.getMarke_id().getName());
             Picasso.get().load(products.getImage()).into(image_product);
+
         }
     }
 }
