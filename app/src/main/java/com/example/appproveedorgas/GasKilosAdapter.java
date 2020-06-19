@@ -118,8 +118,8 @@ public class GasKilosAdapter extends RecyclerView.Adapter<GasKilosAdapter.viewHo
                             @Override
                             public void onResponse(JSONObject response) {
                                 try {
-                                    //      Toast.makeText(context, "Se agrego el producto", Toast.LENGTH_LONG).show();
-                                    Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
+                                         Toast.makeText(context, "Se agrego el producto", Toast.LENGTH_LONG).show();
+                                    // Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
                                     oGasdetailFragment.Listar();
                                 } catch (Exception e) {
                                     e.printStackTrace();

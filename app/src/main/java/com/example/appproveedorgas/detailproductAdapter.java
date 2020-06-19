@@ -119,8 +119,8 @@ public class detailproductAdapter extends RecyclerView.Adapter<detailproductAdap
                             @Override
                             public void onResponse(JSONObject response) {
                                 try {
-                              //      Toast.makeText(context, "Se agrego el producto", Toast.LENGTH_LONG).show();
-                                    Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context, "Se agrego el producto", Toast.LENGTH_LONG).show();
+                               //     Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
                                     oFragmentProductDetail.Listar();
                                 } catch (Exception e) {
                                     e.printStackTrace();
