@@ -19,7 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.appproveedorgas.util.ProductDetail;
+import com.example.appproveedorgas.util.Product;
 import com.example.appproveedorgas.util.Sortbymeasurement;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -50,7 +50,7 @@ public class GasdetailFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private RecyclerView recyclerView;
-    private ArrayList<ProductDetail> productDetails;
+    private ArrayList<Product> products;
     private GasKilosAdapter gasKilosAdapter;
     public String MarcaGas = "";
     public String TipoGas = "";
@@ -121,22 +121,22 @@ public class GasdetailFragment extends Fragment {
                     public void onResponse(String response) {
                         recyclerView.setAdapter(null);
                         Gson gson = new Gson();
-                        productDetails = gson.fromJson(response.substring(34,response.length()-1).trim(), new TypeToken<ArrayList<ProductDetail>>() {
+                        products = gson.fromJson(response.substring(34,response.length()-1).trim(), new TypeToken<ArrayList<Product>>() {
                         }.getType());
 
-                        for (ProductDetail item : productDetails)
+                        for (Product item : products)
                             item.setImage("http://34.71.251.155/" + item.getImage());
 
-                        for (int i = 0; i < productDetails.size(); i++) {
-                            String ProductTypeGas = productDetails.get(i).getDetail_measurement_id().getName().split(" ")[1];
+                        for (int i = 0; i < products.size(); i++) {
+                            String ProductTypeGas = products.get(i).getDetail_measurement_id().getName().split(" ")[1];
              ;
                             if (! TypeGas.equals(ProductTypeGas)) {
-                                productDetails.remove(i);
+                                products.remove(i);
                                 i--;
                             }
                         }
-                        Collections.sort(productDetails, new Sortbymeasurement());
-                        gasKilosAdapter = new GasKilosAdapter(productDetails,GasdetailFragment.this);
+                        Collections.sort(products, new Sortbymeasurement());
+                        gasKilosAdapter = new GasKilosAdapter(products,GasdetailFragment.this);
                         recyclerView.setAdapter(gasKilosAdapter);
                     }
                 }, new Response.ErrorListener() {

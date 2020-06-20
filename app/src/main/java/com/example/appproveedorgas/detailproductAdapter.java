@@ -17,16 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.appproveedorgas.pojo.Usuario;
-import com.example.appproveedorgas.util.AdaptadorUsuario;
-import com.example.appproveedorgas.util.LoadImage;
-import com.example.appproveedorgas.util.ProductDetail;
+import com.example.appproveedorgas.util.Product;
 import com.example.appproveedorgas.util.VolleySingleton;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,9 +35,9 @@ public class detailproductAdapter extends RecyclerView.Adapter<detailproductAdap
     private View.OnClickListener listener;
     private Context context;
     private DatabaseHelper db;
-    List<ProductDetail> Product_list;
+    List<Product> Product_list;
      FragmentProductDetail oFragmentProductDetail;
-    public detailproductAdapter(List<ProductDetail> product_list, FragmentProductDetail oFragmentProductDetail) {
+    public detailproductAdapter(List<Product> product_list, FragmentProductDetail oFragmentProductDetail) {
         this.Product_list = product_list;
         this.oFragmentProductDetail= oFragmentProductDetail;
     }
@@ -94,7 +89,7 @@ public class detailproductAdapter extends RecyclerView.Adapter<detailproductAdap
             btnguardar_misproductos=itemView.findViewById(R.id.guardar_misproductos);
         }
 
-        void bind(final ProductDetail products) {
+        void bind(final Product products) {
 
             product_name.setText(products.getDescription());
             txtMarca.setText(products.getMarke_id().getName());

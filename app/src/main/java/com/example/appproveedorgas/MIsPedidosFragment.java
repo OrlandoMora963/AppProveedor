@@ -19,10 +19,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.appproveedorgas.util.ProductDetail;
+import com.example.appproveedorgas.util.Product;
+import com.example.appproveedorgas.util.ProductRegister;
 import com.example.appproveedorgas.util.Sortbydescription;
-import com.example.appproveedorgas.util.Sortbymeasurement;
-import com.example.appproveedorgas.util.product_marcas;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -54,7 +53,7 @@ public class MIsPedidosFragment extends Fragment {
 
 
     private RecyclerView recyclerView;
-    private ArrayList<ProductDetail> mispedidos_list;
+    private ArrayList<ProductRegister> mispedidos_list;
     private MIsPedidosAdapter mIsPedidosAdapter;
 
     public MIsPedidosFragment() {
@@ -109,7 +108,7 @@ public class MIsPedidosFragment extends Fragment {
 
         return view;
     }
-    private void Listar()
+    void Listar()
     {
         RequestQueue queue = Volley.newRequestQueue(getContext());
         final DatabaseHelper db=  new DatabaseHelper(getContext());
@@ -117,22 +116,21 @@ public class MIsPedidosFragment extends Fragment {
         account cuenta = db.getAcountToken();
         sb.append("http://34.71.251.155/api/product/staff/"+ cuenta.getCompany_id());
         String url = sb.toString();
-
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         recyclerView.setAdapter(null);
                         Gson gson = new Gson();
-                        mispedidos_list = gson.fromJson(response.substring(34,response.length()-1).trim(), new TypeToken<ArrayList<ProductDetail>>() {
+                        mispedidos_list = gson.fromJson(response.substring(34,response.length()-1).trim(), new TypeToken<ArrayList<ProductRegister>>() {
                         }.getType());
-                        for (ProductDetail item : mispedidos_list) {
-                            item.setImage("http://34.71.251.155"+item.getImage());
-                            if(item.getCategory_id().getId()==2)
-                                item.setDescription(item.getMarke_id().getName()+" "+item.getDetail_measurement_id().getName());
+                        for (ProductRegister item : mispedidos_list) {
+                            item.getProduct().setImage("http://34.71.251.155"+ item.getProduct().getImage());
+                            if(item.getProduct().getCategory_id().getId()==2)
+                                item.getProduct().setDescription(item.getProduct().getMarke_id().getName()+" "+item.getProduct().getDetail_measurement_id().getName());
                         }
-                       Collections.sort(mispedidos_list, new Sortbydescription());
-                        mIsPedidosAdapter=new MIsPedidosAdapter(mispedidos_list);
+                 //      Collections.sort(mispedidos_list, new Sortbydescription());
+                        mIsPedidosAdapter=new MIsPedidosAdapter(mispedidos_list,MIsPedidosFragment.this);
                         recyclerView.setAdapter(mIsPedidosAdapter);
                     }
                 }, new Response.ErrorListener() {

@@ -18,7 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.appproveedorgas.util.ProductDetail;
+import com.example.appproveedorgas.util.Product;
 import com.example.appproveedorgas.util.VolleySingleton;
 import com.squareup.picasso.Picasso;
 
@@ -35,9 +35,9 @@ public class GasKilosAdapter extends RecyclerView.Adapter<GasKilosAdapter.viewHo
     private View.OnClickListener listener;
     private Context context;
     private DatabaseHelper db;
-    List<ProductDetail> Product_list;
+    List<Product> Product_list;
     GasdetailFragment oGasdetailFragment;
-    public GasKilosAdapter(List<ProductDetail> product_list,GasdetailFragment oGasdetailFragment) {
+    public GasKilosAdapter(List<Product> product_list, GasdetailFragment oGasdetailFragment) {
         this.Product_list = product_list;
         this.oGasdetailFragment= oGasdetailFragment;
     }
@@ -94,7 +94,7 @@ public class GasKilosAdapter extends RecyclerView.Adapter<GasKilosAdapter.viewHo
             image_product=itemView.findViewById(R.id.image_product);
         }
 
-        void bind(final ProductDetail products) {
+        void bind(final Product products) {
 
             product_name.setText(products.getMarke_id().getName()+" "+products.getDetail_measurement_id().getName());
             txtPesoGas.setText(products.getMeasurement()+" "+products.getUnit_measurement_id().getName());

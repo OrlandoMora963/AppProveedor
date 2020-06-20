@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appproveedorgas.util.ProductDetail;
+import com.example.appproveedorgas.util.Product;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -20,9 +20,9 @@ public class CamionGasAdapter extends RecyclerView.Adapter<CamionGasAdapter.view
 
     private View.OnClickListener listener;
 
-    List<ProductDetail> Product_list;
+    List<Product> Product_list;
 
-    public CamionGasAdapter(List<ProductDetail> product_list) {
+    public CamionGasAdapter(List<Product> product_list) {
         this.Product_list = product_list;
     }
 
@@ -70,7 +70,7 @@ public class CamionGasAdapter extends RecyclerView.Adapter<CamionGasAdapter.view
             editar_precio_misproductos=itemView.findViewById(R.id.editar_precio_misproductos);
         }
 
-        void bind(final ProductDetail products) {
+        void bind(final Product products) {
 
             product_name.setText(products.getDescription());
             editar_precio_misproductos.setText("0.00");

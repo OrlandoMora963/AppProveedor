@@ -18,7 +18,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.appproveedorgas.util.ProductDetail;
+import com.example.appproveedorgas.util.Product;
+import com.example.appproveedorgas.util.ProductRegister;
 import com.example.appproveedorgas.util.VolleySingleton;
 import com.squareup.picasso.Picasso;
 
@@ -35,10 +36,12 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
     private View.OnClickListener listener;
     private Context context;
     private DatabaseHelper db;
-    List<ProductDetail> Product_list;
+    List<ProductRegister> Product_list;
+    MIsPedidosFragment oMIsPedidosFragment;
 
-    public MIsPedidosAdapter(List<ProductDetail> product_list) {
+    public MIsPedidosAdapter(List<ProductRegister> product_list, MIsPedidosFragment oMIsPedidosFragment) {
         this.Product_list = product_list;
+        this.oMIsPedidosFragment = oMIsPedidosFragment;
     }
 
     @Override
@@ -93,11 +96,20 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
             btnEstado = itemView.findViewById(R.id.btnEstado);
         }
 
-        void bind(final ProductDetail products) {
-            product_name.setText(products.getDescription());
-            txtPeso.setText(products.getMeasurement() + " " + products.getUnit_measurement_id().getName());
-            etxtPrecioUnitario.setText(String.valueOf(products.getUnit_price()));
-            Picasso.get().load(products.getImage()).into(image_product);
+        void bind(final ProductRegister products) {
+            product_name.setText(products.getProduct().getDescription());
+            txtPeso.setText(products.getProduct().getMeasurement() + " " + products.getProduct().getUnit_measurement_id().getName());
+            etxtPrecioUnitario.setText(String.valueOf(products.getRegister().getPrice()));
+            Picasso.get().load(products.getProduct().getImage()).into(image_product);
+            final String token = db.getToken();
+            if (products.getRegister().getStatus().equals("active")) {
+                btnEstado.setText("Habilitado");
+
+            } else {
+                btnEstado.setText("Deshabilitado");
+                btnguardar.setEnabled(false);
+                btneditar.setEnabled(false);
+            }
             btneditar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -115,15 +127,14 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
             btnguardar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Double.valueOf(etxtPrecioUnitario.getText().toString()) < 1)
+                    if (etxtPrecioUnitario.getText().toString().equals("") || Double.valueOf(etxtPrecioUnitario.getText().toString()) < 1)
                         Toast.makeText(context, "El precio debe ser mayor a 0", Toast.LENGTH_SHORT).show();
-                    else
-                    {
+                    else {
                         JSONObject object = new JSONObject();
                         try {
-                            object.put("id", products.getId());
-                            object.put("price", etxtPrecioUnitario.getText().toString());
-                            object.put("status","active");
+                            object.put("id", products.getRegister().getID());
+                            object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()));
+                            object.put("status", "active");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -132,9 +143,8 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
                             @Override
                             public void onResponse(JSONObject response) {
                                 try {
-
-                                    //      Toast.makeText(context, "Se agrego el producto", Toast.LENGTH_LONG).show();
-                                    Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context, "Se modifico el producto " + products.getProduct().getDescription(), Toast.LENGTH_LONG).show();
+                                    oMIsPedidosFragment.Listar();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -148,7 +158,7 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
                             @Override
                             public Map<String, String> getHeaders() {
                                 Map<String, String> headers = new HashMap<>();
-                                String token = db.getToken();
+
                                 Log.d("Voley get", token);
                                 headers.put("Authorization", "JWT " + token);
                                 headers.put("Content-Type", "application/json");
@@ -158,6 +168,55 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
 
                         VolleySingleton.getInstance(context).addToRequestQueue(objectRequest);
                     }
+                }
+            });
+            btnEstado.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    JSONObject object = new JSONObject();
+                    try {
+                        object.put("id", products.getRegister().getID());
+                        object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()));
+                        if (btnEstado.getText().toString().equals("Habilitado"))
+                            object.put("status", "disable");
+                        else
+                            object.put("status", "active");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    String url = "http://34.71.251.155/api/product/staff/register/";
+                    JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.PUT, url, object, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if (btnEstado.getText().toString().equals("Habilitado"))
+                                    Toast.makeText(context, "Se a deshabilitado el " + products.getProduct().getDescription(), Toast.LENGTH_LONG).show();
+                                else
+                                    Toast.makeText(context, "Se a habilitado el " + products.getProduct().getDescription(), Toast.LENGTH_LONG).show();
+
+                                oMIsPedidosFragment.Listar();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }) {
+                        @Override
+                        public Map<String, String> getHeaders() {
+                            Map<String, String> headers = new HashMap<>();
+
+                            Log.d("Voley get", token);
+                            headers.put("Authorization", "JWT " + token);
+                            headers.put("Content-Type", "application/json");
+                            return headers;
+                        }
+                    };
+
+                    VolleySingleton.getInstance(context).addToRequestQueue(objectRequest);
                 }
             });
         }

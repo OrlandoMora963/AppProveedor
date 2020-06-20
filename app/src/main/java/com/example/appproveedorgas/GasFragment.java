@@ -19,7 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.appproveedorgas.util.ProductDetail;
+import com.example.appproveedorgas.util.Product;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -48,7 +48,7 @@ public class GasFragment extends Fragment {
 
 
     private RecyclerView recyclerView;
-    private ArrayList<ProductDetail> productDetails_gas;
+    private ArrayList<Product> productDetails_gases;
     private detailGasAdapter detailgasAdapter;
     public String TipoGas="";
     public GasFragment() {
@@ -111,7 +111,7 @@ public class GasFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                String MarkeId=String.valueOf(productDetails_gas.get(recyclerView.getChildAdapterPosition(v)).getMarke_id().getId());
+                String MarkeId=String.valueOf(productDetails_gases.get(recyclerView.getChildAdapterPosition(v)).getMarke_id().getId());
                 GasdetailFragment oGasdetailFragment=  new GasdetailFragment();
                 oGasdetailFragment.MarcaGas=MarkeId;
                 oGasdetailFragment.TipoGas=TipoGas;
@@ -132,12 +132,12 @@ public class GasFragment extends Fragment {
                     public void onResponse(String response) {
                         recyclerView.setAdapter(null);
                         Gson gson = new Gson();
-                        productDetails_gas = gson.fromJson(response.substring(34,response.length()-1).trim(), new TypeToken<ArrayList<ProductDetail>>() {
+                        productDetails_gases = gson.fromJson(response.substring(34,response.length()-1).trim(), new TypeToken<ArrayList<Product>>() {
                         }.getType());
-                        for (ProductDetail item : productDetails_gas) {
+                        for (Product item : productDetails_gases) {
                             item.setImage("http://34.71.251.155/"+item.getImage());
                         }
-                        detailgasAdapter=new detailGasAdapter(productDetails_gas);
+                        detailgasAdapter=new detailGasAdapter(productDetails_gases);
 
                         recyclerView.setAdapter(detailgasAdapter);
 

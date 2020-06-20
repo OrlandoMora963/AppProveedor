@@ -2,7 +2,7 @@ package com.example.appproveedorgas.util;
 
 import java.util.Comparator;
 
-public class ProductDetail {
+public class Product {
     private int id;
     private String description;
     private float measurement;

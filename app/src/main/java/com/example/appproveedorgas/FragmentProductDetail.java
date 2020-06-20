@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.appproveedorgas.util.ProductDetail;
+import com.example.appproveedorgas.util.Product;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -51,7 +49,7 @@ public class FragmentProductDetail extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private RecyclerView recyclerView;
-    private ArrayList<ProductDetail> productDetails;
+    private ArrayList<Product> productDetails;
     private detailproductAdapter detailproductAdapter;
 
     public String MarcasId = "";
@@ -117,10 +115,10 @@ public class FragmentProductDetail extends Fragment {
                         recyclerView.setAdapter(null);
                         Gson gson = new Gson();
                         productDetails = gson.fromJson(response.substring(34,response.length()-1).trim(),
-                                new TypeToken<ArrayList<ProductDetail>>() {
+                                new TypeToken<ArrayList<Product>>() {
                         }.getType());
 
-                        for (ProductDetail item : productDetails) {
+                        for (Product item : productDetails) {
                             item.setImage("http://34.71.251.155/"+item.getImage());
                         }
                         detailproductAdapter = new detailproductAdapter(productDetails,FragmentProductDetail.this);

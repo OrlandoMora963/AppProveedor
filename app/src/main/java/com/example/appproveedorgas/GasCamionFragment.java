@@ -18,7 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.appproveedorgas.util.ProductDetail;
+import com.example.appproveedorgas.util.Product;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -47,7 +47,7 @@ public class GasCamionFragment extends Fragment {
 
 
     private RecyclerView recyclerView;
-    private ArrayList<ProductDetail> productDetails_list;
+    private ArrayList<Product> productDetails_list;
     private CamionGasAdapter camionGasAdapter;
 
     public GasCamionFragment() {
@@ -114,10 +114,10 @@ public class GasCamionFragment extends Fragment {
 
                         recyclerView.setAdapter(null);
                         Gson gson = new Gson();
-                        productDetails_list = gson.fromJson(response.substring(34,response.length()-1).trim(), new TypeToken<ArrayList<ProductDetail>>() {
+                        productDetails_list = gson.fromJson(response.substring(34,response.length()-1).trim(), new TypeToken<ArrayList<Product>>() {
                         }.getType());
                         camionGasAdapter = new CamionGasAdapter(productDetails_list);
-                        for (ProductDetail item : productDetails_list) {
+                        for (Product item : productDetails_list) {
                             item.setImage("http://34.71.251.155/"+item.getImage());
                         }
                         recyclerView.setAdapter(camionGasAdapter);

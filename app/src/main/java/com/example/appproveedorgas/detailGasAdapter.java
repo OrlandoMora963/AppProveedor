@@ -1,42 +1,27 @@
 package com.example.appproveedorgas;
 
-import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.appproveedorgas.util.ProductDetail;
-import com.example.appproveedorgas.util.VolleySingleton;
+import com.example.appproveedorgas.util.Product;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class detailGasAdapter extends RecyclerView.Adapter<detailGasAdapter.viewHolder> implements View.OnClickListener {
 
 
     private View.OnClickListener listener;
 
-    List<ProductDetail> Product_list;
+    List<Product> Product_list;
 
-    public detailGasAdapter(List<ProductDetail> product_list) {
+    public detailGasAdapter(List<Product> product_list) {
         this.Product_list = product_list;
     }
 
@@ -81,7 +66,7 @@ public class detailGasAdapter extends RecyclerView.Adapter<detailGasAdapter.view
             product_name=itemView.findViewById(R.id.name_product_gas);
         }
 
-        void bind(final ProductDetail products) {
+        void bind(final Product products) {
 
             product_name.setText(products.getMarke_id().getName());
             Picasso.get().load(products.getImage()).into(image_product);
