@@ -121,6 +121,7 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
                         btneditar.setText("Editar");
                         btnguardar.setVisibility(v.INVISIBLE);
                         etxtPrecioUnitario.setEnabled(false);
+                        etxtPrecioUnitario.setText(products.getRegister().getPrice());
                     }
                 }
             });
