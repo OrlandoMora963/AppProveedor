@@ -134,7 +134,7 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
                         JSONObject object = new JSONObject();
                         try {
                             object.put("id", products.getRegister().getID());
-                            object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()));
+                            object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()+1));
                             object.put("status", "active");
                         } catch (JSONException e) {
                             e.printStackTrace();

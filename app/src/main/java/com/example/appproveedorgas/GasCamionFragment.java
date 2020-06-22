@@ -101,7 +101,7 @@ public class GasCamionFragment extends Fragment {
 
 
     }
-    private void Listar() {
+    public void Listar() {
         RequestQueue queue = Volley.newRequestQueue(getContext());
         StringBuilder sb = new StringBuilder();
         sb.append("http://34.71.251.155/api/product/gas/gas-cisterna");
@@ -116,7 +116,7 @@ public class GasCamionFragment extends Fragment {
                         Gson gson = new Gson();
                         productDetails_list = gson.fromJson(response.substring(34,response.length()-1).trim(), new TypeToken<ArrayList<Product>>() {
                         }.getType());
-                        camionGasAdapter = new CamionGasAdapter(productDetails_list);
+                        camionGasAdapter = new CamionGasAdapter(productDetails_list,GasCamionFragment.this);
                         for (Product item : productDetails_list) {
                             item.setImage("http://34.71.251.155/"+item.getImage());
                         }

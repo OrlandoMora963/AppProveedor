@@ -105,7 +105,7 @@ public class detailproductAdapter extends RecyclerView.Adapter<detailproductAdap
                         JSONObject object = new JSONObject();
                         try {
                             object.put("product_id", products.getId());
-                            object.put("price", etxtPrecioUnitario.getText().toString());
+                            object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()+1));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
