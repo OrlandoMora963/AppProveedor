@@ -97,7 +97,7 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
         }
 
         void bind(final ProductRegister products) {
-            product_name.setText(products.getProduct().getDescription());
+            product_name.setText(products.getProduct().getDescription().replace("Ã±","ñ"));
             txtPeso.setText(products.getProduct().getMeasurement() + " " + products.getProduct().getUnit_measurement_id().getName());
             etxtPrecioUnitario.setText(String.valueOf(products.getRegister().getPrice()));
             Picasso.get().load(products.getProduct().getImage()).into(image_product);

@@ -91,7 +91,7 @@ public class detailproductAdapter extends RecyclerView.Adapter<detailproductAdap
 
         void bind(final Product products) {
 
-            product_name.setText(products.getDescription());
+            product_name.setText(products.getDescription().replace("Ã±","ñ"));
             txtMarca.setText(products.getMarke_id().getName());
             txtUnidadMedida.setText(" "+products.getUnit_measurement_id().getName());
             etxtPrecioUnitario.setText("0.00");
