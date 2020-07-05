@@ -66,7 +66,7 @@ public class CamionGasAdapter extends RecyclerView.Adapter<CamionGasAdapter.view
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             product_name=itemView.findViewById(R.id.gas_camion_name);
-            image_product=itemView.findViewById(R.id.image_product);
+            image_product=itemView.findViewById(R.id.marcas_product);
             editar_precio_misproductos=itemView.findViewById(R.id.editar_precio_misproductos);
         }
 

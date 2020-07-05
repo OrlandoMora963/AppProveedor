@@ -22,7 +22,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/image_product"
+                android:id="@+id/marcas_product"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:src="@drawable/avatar"
@@ -44,7 +44,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/textView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_product" />
+                app:layout_constraintTop_toBottomOf="@+id/marcas_product" />
 
             <TextView
                 android:id="@+id/textView"
