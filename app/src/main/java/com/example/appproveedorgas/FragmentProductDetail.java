@@ -52,7 +52,7 @@ public class FragmentProductDetail extends Fragment {
     private ArrayList<Product> productDetails;
     private detailproductAdapter detailproductAdapter;
 
-    public String MarcasId = "";
+    public String MarcasId = "3";
 
     /**
      * Use this factory method to create a new instance of

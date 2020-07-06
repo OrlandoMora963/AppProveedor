@@ -18,7 +18,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.appproveedorgas.util.Product;
 import com.example.appproveedorgas.util.ProductRegister;
 import com.example.appproveedorgas.util.VolleySingleton;
 import com.squareup.picasso.Picasso;
@@ -92,7 +91,7 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
             btneditar = itemView.findViewById(R.id.editar_misproductos);
             btnguardar = itemView.findViewById(R.id.guardar_misproductos);
             etxtPrecioUnitario = itemView.findViewById(R.id.etxtPrecioUnitario);
-            image_product = itemView.findViewById(R.id.image_product);
+            image_product = itemView.findViewById(R.id.marcas_product);
             btnEstado = itemView.findViewById(R.id.btnEstado);
         }
 

@@ -14,14 +14,14 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class detailGasAdapter extends RecyclerView.Adapter<detailGasAdapter.viewHolder> implements View.OnClickListener {
+public class MarcasAdapter extends RecyclerView.Adapter<MarcasAdapter.viewHolder> implements View.OnClickListener {
 
 
     private View.OnClickListener listener;
 
     List<Product> Product_list;
 
-    public detailGasAdapter(List<Product> product_list) {
+    public MarcasAdapter(List<Product> product_list) {
         this.Product_list = product_list;
     }
 
@@ -35,7 +35,7 @@ public class detailGasAdapter extends RecyclerView.Adapter<detailGasAdapter.view
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_product_gas,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_marcas_product,parent,false);
         view.setOnClickListener(this);
         return new viewHolder(view);
     }
@@ -47,7 +47,7 @@ public class detailGasAdapter extends RecyclerView.Adapter<detailGasAdapter.view
     }
 
     @Override
-    public void onBindViewHolder(@NonNull detailGasAdapter.viewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MarcasAdapter.viewHolder holder, int position) {
         holder.bind(Product_list.get(position));
     }
 
@@ -62,14 +62,14 @@ public class detailGasAdapter extends RecyclerView.Adapter<detailGasAdapter.view
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
-            image_product=itemView.findViewById(R.id.marcas_product);
-            product_name=itemView.findViewById(R.id.marcas_name_product);
+            //product_name=itemView.findViewById(R.id.marcas_name_product);
+            //product_name=itemView.findViewById(R.id.marcas_name_product);
         }
 
         void bind(final Product products) {
 
-            product_name.setText(products.getMarke_id().getName());
-            Picasso.get().load(products.getImage()).into(image_product);
+            //product_name.setText(products.getMarke_id().getName());
+            //Picasso.get().load(products.getImage()).into(image_product);
 
         }
     }

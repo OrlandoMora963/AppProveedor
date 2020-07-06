@@ -91,7 +91,7 @@ public class GasKilosAdapter extends RecyclerView.Adapter<GasKilosAdapter.viewHo
             txtPesoGas=itemView.findViewById(R.id.txtPesoGas);
             etxtPrecioUnitario=itemView.findViewById(R.id.editar_precio_misproductos);
             btnguardar_misproductos=itemView.findViewById(R.id.guardar_misproductos);
-            image_product=itemView.findViewById(R.id.image_product);
+            image_product=itemView.findViewById(R.id.marcas_product);
         }
 
         void bind(final Product products) {

@@ -20,7 +20,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/image_product"
+                android:id="@+id/marcas_product"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
 
@@ -40,7 +40,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/textView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/image_product"
+                app:layout_constraintStart_toEndOf="@+id/marcas_product"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -52,7 +52,7 @@
                 android:textSize="10sp"
                 app:layout_constraintBottom_toTopOf="@+id/textView9"
                 app:layout_constraintEnd_toStartOf="@+id/txtMarca"
-                app:layout_constraintStart_toEndOf="@+id/image_product"
+                app:layout_constraintStart_toEndOf="@+id/marcas_product"
                 app:layout_constraintTop_toBottomOf="@+id/gas_camion_name" />
 
             <TextView
@@ -76,7 +76,7 @@
                 android:textSize="10sp"
                 app:layout_constraintBottom_toTopOf="@+id/etxtPrecioUnitario"
                 app:layout_constraintEnd_toStartOf="@+id/txtUnidadMedida"
-                app:layout_constraintStart_toEndOf="@+id/image_product"
+                app:layout_constraintStart_toEndOf="@+id/marcas_product"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <TextView
@@ -99,7 +99,7 @@
                 android:textSize="10sp"
                 app:layout_constraintBottom_toTopOf="@+id/textView13"
                 app:layout_constraintEnd_toStartOf="@+id/etxtPrecioUnitario"
-                app:layout_constraintStart_toEndOf="@+id/image_product"
+                app:layout_constraintStart_toEndOf="@+id/marcas_product"
                 app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
             <EditText
@@ -124,12 +124,12 @@
                 android:layout_marginTop="1dp"
                 android:layout_marginEnd="4dp"
                 android:layout_marginBottom="2dp"
-                android:background="@color/warning"
+
                 android:text="La comisión por usar la aplicacion es de S/. 1.00"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/guardar_misproductos"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/image_product"
+                app:layout_constraintStart_toEndOf="@+id/marcas_product"
                 app:layout_constraintTop_toBottomOf="@+id/etxtPrecioUnitario" />
 
             <Button
@@ -144,7 +144,7 @@
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/image_product"
+                app:layout_constraintStart_toEndOf="@+id/marcas_product"
                 app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

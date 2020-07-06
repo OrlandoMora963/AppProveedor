@@ -85,7 +85,7 @@ public class detailproductAdapter extends RecyclerView.Adapter<detailproductAdap
             txtMarca=itemView.findViewById(R.id.txtMarca);
             txtUnidadMedida=itemView.findViewById(R.id.txtUnidadMedida);
             etxtPrecioUnitario=itemView.findViewById(R.id.etxtPrecioUnitario);
-            image_product=itemView.findViewById(R.id.image_product);
+            image_product=itemView.findViewById(R.id.marcas_product);
             btnguardar_misproductos=itemView.findViewById(R.id.guardar_misproductos);
         }
 

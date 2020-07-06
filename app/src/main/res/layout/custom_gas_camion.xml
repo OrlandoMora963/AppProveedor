@@ -22,7 +22,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/image_product"
+                android:id="@+id/marcas_product"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:src="@drawable/avatar"
@@ -43,7 +43,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/textView11"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/image_product"
+                app:layout_constraintStart_toEndOf="@+id/marcas_product"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -54,7 +54,7 @@
                 android:text="Precio Unitario: "
                 android:textSize="10sp"
                 app:layout_constraintBottom_toTopOf="@+id/textView13"
-                app:layout_constraintStart_toEndOf="@+id/image_product"
+                app:layout_constraintStart_toEndOf="@+id/marcas_product"
                 app:layout_constraintTop_toBottomOf="@+id/gas_camion_name" />
 
             <EditText
@@ -82,7 +82,7 @@
                 android:text="La comisión por usar la aplicacion es de S/. 1.00"
                 app:layout_constraintBottom_toTopOf="@+id/guardar_misproductos"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/image_product"
+                app:layout_constraintStart_toEndOf="@+id/marcas_product"
                 app:layout_constraintTop_toBottomOf="@+id/editar_precio_misproductos" />
 
             <Button
@@ -97,7 +97,7 @@
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/image_product"
+                app:layout_constraintStart_toEndOf="@+id/marcas_product"
                 app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

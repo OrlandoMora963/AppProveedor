@@ -23,18 +23,18 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/image_product"
+                android:id="@+id/marcas_product"
                 android:layout_width="80dp"
                 android:layout_height="50dp"
                 android:padding="3dp"
                 android:src="@drawable/avatar"
-                app:layout_constraintBottom_toTopOf="@+id/name_product_gas"
+                app:layout_constraintBottom_toTopOf="@+id/marcas_name_product"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/name_product_gas"
+                android:id="@+id/marcas_name_product"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
@@ -45,7 +45,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_product" />
+                app:layout_constraintTop_toBottomOf="@+id/marcas_product" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
