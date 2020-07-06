@@ -10,8 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appproveedorgas.util.Product;
+import com.example.appproveedorgas.util.product_marcas;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MarcasAdapter extends RecyclerView.Adapter<MarcasAdapter.viewHolder> implements View.OnClickListener {
@@ -19,9 +21,9 @@ public class MarcasAdapter extends RecyclerView.Adapter<MarcasAdapter.viewHolder
 
     private View.OnClickListener listener;
 
-    List<Product> Product_list;
+    ArrayList<product_marcas> Product_list;
 
-    public MarcasAdapter(List<Product> product_list) {
+    public MarcasAdapter(ArrayList<product_marcas> product_list) {
         this.Product_list = product_list;
     }
 
@@ -62,14 +64,14 @@ public class MarcasAdapter extends RecyclerView.Adapter<MarcasAdapter.viewHolder
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
-            //product_name=itemView.findViewById(R.id.marcas_name_product);
-            //product_name=itemView.findViewById(R.id.marcas_name_product);
+         //   product_name=itemView.findViewById(R.id.marcas_name_product);
+            image_product=itemView.findViewById(R.id.marcas_product);
         }
 
-        void bind(final Product products) {
+        void bind(final product_marcas products) {
 
             //product_name.setText(products.getMarke_id().getName());
-            //Picasso.get().load(products.getImage()).into(image_product);
+            Picasso.get().load(products.getImage()).into(image_product);
 
         }
     }

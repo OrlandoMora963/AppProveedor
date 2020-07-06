@@ -123,7 +123,7 @@ public class ProductFragment extends Fragment {
                 }
                 else{
                     Intent intent =new Intent(getContext(),ProductActivity.class);
-                    intent.putExtra("MarcasId",String.valueOf(product_marcas.get(recyclerView.getChildAdapterPosition(v)).getId()));
+                    intent.putExtra("CategoriaId",String.valueOf(product_marcas.get(recyclerView.getChildAdapterPosition(v)).getId()));
                     startActivity(intent);
                 }
 
@@ -136,7 +136,6 @@ public class ProductFragment extends Fragment {
         StringBuilder sb = new StringBuilder();
         sb.append("http://34.71.251.155/api/categories");
         String url = sb.toString();
-
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override

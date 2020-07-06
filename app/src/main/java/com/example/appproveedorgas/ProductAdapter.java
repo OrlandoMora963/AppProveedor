@@ -71,8 +71,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.viewHold
 
         void bind(final product_marcas marcas) {
 
-
-                title.setText(marcas.getName());
+             title.setText(marcas.getName());
             new LoadImage(image_product).execute(marcas.getImage());
             Picasso.get().load(marcas.getImage()).into(image_product);
         }

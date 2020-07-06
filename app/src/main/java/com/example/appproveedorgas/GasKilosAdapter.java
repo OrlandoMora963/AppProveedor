@@ -109,7 +109,7 @@ public class GasKilosAdapter extends RecyclerView.Adapter<GasKilosAdapter.viewHo
                         JSONObject object = new JSONObject();
                         try {
                             object.put("product_id", products.getId());
-                            object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()+1));
+                            object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString())+1);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -118,7 +118,7 @@ public class GasKilosAdapter extends RecyclerView.Adapter<GasKilosAdapter.viewHo
                             @Override
                             public void onResponse(JSONObject response) {
                                 try {
-                                         Toast.makeText(context, "Se agrego el producto "+products.getDescription(), Toast.LENGTH_LONG).show();
+                                         Toast.makeText(context, "Se agrego el producto "+product_name.getText(), Toast.LENGTH_LONG).show();
                                     // Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
                                     oGasdetailFragment.Listar();
                                 } catch (Exception e) {

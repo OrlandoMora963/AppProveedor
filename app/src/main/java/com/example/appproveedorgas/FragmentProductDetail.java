@@ -104,9 +104,8 @@ public class FragmentProductDetail extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(getContext());
         final DatabaseHelper db=  new DatabaseHelper(getContext());
         StringBuilder sb = new StringBuilder();
-        sb.append("http://34.71.251.155/api/product/staff/categories/" + MarcasId);
+        sb.append("http://34.71.251.155/api/product/staff/markes/" + MarcasId);
         String url = sb.toString();
-
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override

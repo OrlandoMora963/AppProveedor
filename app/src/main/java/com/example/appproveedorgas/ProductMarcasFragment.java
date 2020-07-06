@@ -13,11 +13,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.appproveedorgas.util.Marke_id;
 import com.example.appproveedorgas.util.Product;
+import com.example.appproveedorgas.util.SortMarkbyName;
+import com.example.appproveedorgas.util.SortbyProductRegister;
 import com.example.appproveedorgas.util.product_marcas;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 /**
@@ -41,9 +54,9 @@ public class ProductMarcasFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private RecyclerView recyclerView;
-    private ArrayList<Product> product_marcas;
+    private ArrayList<product_marcas> product_marcas;
     private MarcasAdapter marcasAdapter;
-
+    public String CategoriaId = "";
     public ProductMarcasFragment() {
         // Required empty public constructor
     }
@@ -84,7 +97,7 @@ public class ProductMarcasFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
 
-        product_marcas=new ArrayList<>();
+/*        product_marcas=new ArrayList<>();
         product_marcas.add(new Product());
         product_marcas.add(new Product());
         product_marcas.add(new Product());
@@ -103,13 +116,61 @@ public class ProductMarcasFragment extends Fragment {
                 transaction.addToBackStack(null);
 
             }
-        });
-
+        });*/
+        Listar();
+      //  AsignarBotones();
 
 
         return view;
     }
+    private void AsignarBotones()
+    {
+        marcasAdapter.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+
+                FragmentProductDetail oFragmentProductDetail=  new FragmentProductDetail();
+                oFragmentProductDetail.MarcasId=String.valueOf(product_marcas.get(recyclerView.getChildAdapterPosition(v)).getId());
+                FragmentManager manager=getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction=manager.beginTransaction();
+                transaction.replace(R.id.main_container,oFragmentProductDetail);
+                transaction.commit();
+                transaction.addToBackStack(null);
+            }
+        });
+    }
+    private void Listar()
+    {
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        StringBuilder sb = new StringBuilder();
+        sb.append("http://34.71.251.155/api/markes/"+ CategoriaId);
+        String url = sb.toString();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        recyclerView.setAdapter(null);
+                        Gson gson = new Gson();
+                        product_marcas = gson.fromJson(response, new TypeToken<ArrayList<product_marcas>>() {
+                        }.getType());
+                        for (product_marcas item : product_marcas) {
+                            item.setImage("http://34.71.251.155/"+item.getImage());
+                        }
+                   //     Collections.sort(product_marcas, new SortMarkbyName());
+                        marcasAdapter=new MarcasAdapter(product_marcas);
+                        recyclerView.setAdapter(marcasAdapter);
+                        AsignarBotones();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "That didn't work!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        queue.add(stringRequest);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

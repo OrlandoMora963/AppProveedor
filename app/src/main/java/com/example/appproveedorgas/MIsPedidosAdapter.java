@@ -133,7 +133,10 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
                         JSONObject object = new JSONObject();
                         try {
                             object.put("id", products.getRegister().getID());
-                            object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()+1));
+                            if (Double.valueOf(etxtPrecioUnitario.getText().toString())!=Double.valueOf(products.getRegister().getPrice()))
+                                object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString())+1);
+                            else
+                                object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()));
                             object.put("status", "active");
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -176,7 +179,7 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
                     JSONObject object = new JSONObject();
                     try {
                         object.put("id", products.getRegister().getID());
-                        object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()));
+                            object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()));
                         if (btnEstado.getText().toString().equals("Habilitado"))
                             object.put("status", "disable");
                         else
