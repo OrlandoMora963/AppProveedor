@@ -129,7 +129,6 @@ public class GasdetailFragment extends Fragment {
 
                         for (int i = 0; i < products.size(); i++) {
                             String ProductTypeGas = products.get(i).getDetail_measurement_id().getName().split(" ")[1];
-             ;
                             if (! TypeGas.equals(ProductTypeGas)) {
                                 products.remove(i);
                                 i--;

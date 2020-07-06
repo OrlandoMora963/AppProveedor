@@ -102,7 +102,7 @@ public class GasKilosAdapter extends RecyclerView.Adapter<GasKilosAdapter.viewHo
             Picasso.get().load(products.getImage()).into(image_product);
             btnguardar_misproductos.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    if (Double.valueOf(etxtPrecioUnitario.getText().toString()) < 1)
+                    if (etxtPrecioUnitario.getText().toString().equals("")||Double.valueOf(etxtPrecioUnitario.getText().toString()) < 1)
                         Toast.makeText(context, "El precio debe ser mayor a 0", Toast.LENGTH_SHORT).show();
                     else
                     {
