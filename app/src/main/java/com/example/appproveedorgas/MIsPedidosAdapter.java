@@ -96,7 +96,7 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
         }
 
         void bind(final ProductRegister products) {
-            product_name.setText(products.getProduct().getDescription());
+            product_name.setText(products.getProduct().getDescription().replace("Ã±","ñ"));
             txtPeso.setText(products.getProduct().getMeasurement() + " " + products.getProduct().getUnit_measurement_id().getName());
             etxtPrecioUnitario.setText(String.valueOf(products.getRegister().getPrice()));
             Picasso.get().load(products.getProduct().getImage()).into(image_product);
@@ -120,6 +120,7 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
                         btneditar.setText("Editar");
                         btnguardar.setVisibility(v.INVISIBLE);
                         etxtPrecioUnitario.setEnabled(false);
+                        etxtPrecioUnitario.setText(products.getRegister().getPrice());
                     }
                 }
             });
@@ -132,7 +133,10 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
                         JSONObject object = new JSONObject();
                         try {
                             object.put("id", products.getRegister().getID());
-                            object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()));
+                            if (Double.valueOf(etxtPrecioUnitario.getText().toString())!=Double.valueOf(products.getRegister().getPrice()))
+                                object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString())+1);
+                            else
+                                object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()));
                             object.put("status", "active");
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -175,7 +179,7 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
                     JSONObject object = new JSONObject();
                     try {
                         object.put("id", products.getRegister().getID());
-                        object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()));
+                            object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()));
                         if (btnEstado.getText().toString().equals("Habilitado"))
                             object.put("status", "disable");
                         else

@@ -39,7 +39,7 @@ public class GasActivity extends AppCompatActivity implements GasFragment.OnFrag
             FragmentManager manager = getSupportFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
 
-            Intent intent;
+
             GasFragment oGasFragment=  new GasFragment();
             FragmentProductDetail oFragmentProductDetail =new FragmentProductDetail();
             oFragmentProductDetail.MarcasId="2";

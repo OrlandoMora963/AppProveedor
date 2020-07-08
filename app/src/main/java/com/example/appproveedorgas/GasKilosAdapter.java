@@ -102,14 +102,14 @@ public class GasKilosAdapter extends RecyclerView.Adapter<GasKilosAdapter.viewHo
             Picasso.get().load(products.getImage()).into(image_product);
             btnguardar_misproductos.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    if (Double.valueOf(etxtPrecioUnitario.getText().toString()) < 1)
+                    if (etxtPrecioUnitario.getText().toString().equals("")||Double.valueOf(etxtPrecioUnitario.getText().toString()) < 1)
                         Toast.makeText(context, "El precio debe ser mayor a 0", Toast.LENGTH_SHORT).show();
                     else
                     {
                         JSONObject object = new JSONObject();
                         try {
                             object.put("product_id", products.getId());
-                            object.put("price", etxtPrecioUnitario.getText().toString());
+                            object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString())+1);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -118,7 +118,7 @@ public class GasKilosAdapter extends RecyclerView.Adapter<GasKilosAdapter.viewHo
                             @Override
                             public void onResponse(JSONObject response) {
                                 try {
-                                         Toast.makeText(context, "Se agrego el producto "+products.getDescription(), Toast.LENGTH_LONG).show();
+                                         Toast.makeText(context, "Se agrego el producto "+product_name.getText(), Toast.LENGTH_LONG).show();
                                     // Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
                                     oGasdetailFragment.Listar();
                                 } catch (Exception e) {
