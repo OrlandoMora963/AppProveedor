@@ -8,7 +8,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 public class ProductActivity extends AppCompatActivity implements
-        FragmentProductDetail.OnFragmentInteractionListener,ProductMarcasFragment.OnFragmentInteractionListener {
+        FragmentProductDetail.OnFragmentInteractionListener,
+        ProductMarcasFragment.OnFragmentInteractionListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
