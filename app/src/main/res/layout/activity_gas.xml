@@ -35,7 +35,6 @@
             android:backgroundTint="@color/frii_Background"
             app:itemTextColor="@color/white"
             app:menu="@menu/bottom_navigation"
-
             />
     </LinearLayout>
 
