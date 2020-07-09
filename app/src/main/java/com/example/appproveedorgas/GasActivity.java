@@ -61,19 +61,26 @@ public class GasActivity extends AppCompatActivity implements GasFragment.OnFrag
             sPremiumActive.setSpan(new ForegroundColorSpan(Color.parseColor("#008000")), 0, sPremiumActive.length(), 0);
             SpannableString sNormalActive = new SpannableString("Normal");
             sNormalActive.setSpan(new ForegroundColorSpan(Color.parseColor("#008000")), 0, sNormalActive.length(), 0);
+            SpannableString sCamionActive = new SpannableString("Camión");
+            sCamionActive.setSpan(new ForegroundColorSpan(Color.parseColor("#008000")), 0, sCamionActive.length(), 0);
             SpannableString sPremiumInactive = new SpannableString("Premium");
             sPremiumInactive.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, sPremiumInactive.length(), 0);
             SpannableString sNormalInactive = new SpannableString("Normal");
             sNormalInactive.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, sNormalInactive.length(), 0);
-            BottomNavigationItemView oMenuItem;
+            SpannableString  sCamionInactive = new SpannableString("Camión");
+            sCamionInactive.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, sCamionInactive.length(), 0);
+            BottomNavigationItemView oMenuItem1;
+            BottomNavigationItemView oMenuItem2;
             switch (menuItem.getItemId()) {
                 case R.id.Gas_Premium:
                     menuItem.setIcon(R.drawable.gasgreen);
                         menuItem.setTitle(sPremiumActive);
-                     oMenuItem = findViewById(R.id.Gas_Normal);
-
-                    oMenuItem.setIcon(ContextCompat.getDrawable(getBaseContext(), R.drawable.gaswhite));
-                    oMenuItem.setTitle(sNormalInactive);
+                    oMenuItem1 = findViewById(R.id.Gas_Normal);
+                    oMenuItem1.setIcon(ContextCompat.getDrawable(getBaseContext(), R.drawable.gaswhite));
+                    oMenuItem1.setTitle(sNormalInactive);
+                    oMenuItem2 = findViewById(R.id.Camion);
+                    oMenuItem2.setIcon(ContextCompat.getDrawable(getBaseContext(), R.drawable.camionwhite));
+                    oMenuItem2.setTitle(sCamionInactive);
                     oGasFragment.TipoGas="gas-premium";
                     transaction.replace(R.id.gas_container,oGasFragment);
                     transaction.commit();
@@ -84,10 +91,12 @@ public class GasActivity extends AppCompatActivity implements GasFragment.OnFrag
 
                     menuItem.setIcon(R.drawable.gasgreen);
                     menuItem.setTitle(sNormalActive);
-                    oMenuItem = findViewById(R.id.Gas_Premium);
-
-                    oMenuItem.setIcon(ContextCompat.getDrawable(getBaseContext(), R.drawable.gaswhite));
-                    oMenuItem.setTitle(sPremiumInactive);
+                    oMenuItem1 = findViewById(R.id.Gas_Premium);
+                    oMenuItem1.setIcon(ContextCompat.getDrawable(getBaseContext(), R.drawable.gaswhite));
+                    oMenuItem1.setTitle(sPremiumInactive);
+                    oMenuItem2 = findViewById(R.id.Camion);
+                    oMenuItem2.setIcon(ContextCompat.getDrawable(getBaseContext(), R.drawable.camionwhite));
+                    oMenuItem2.setTitle(sCamionInactive);
                     oGasFragment.TipoGas="gas-normal";
                     transaction.replace(R.id.gas_container,oGasFragment);
                     transaction.commit();
@@ -95,6 +104,14 @@ public class GasActivity extends AppCompatActivity implements GasFragment.OnFrag
                     Toast.makeText(getBaseContext(), "Gas Normal", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.Camion:
+                    menuItem.setIcon(R.drawable.camiongreen);
+                    menuItem.setTitle(sCamionActive);
+                    oMenuItem1 = findViewById(R.id.Gas_Premium);
+                    oMenuItem1.setIcon(ContextCompat.getDrawable(getBaseContext(), R.drawable.gaswhite));
+                    oMenuItem1.setTitle(sPremiumInactive);
+                    oMenuItem2 = findViewById(R.id.Gas_Normal);
+                    oMenuItem2.setIcon(ContextCompat.getDrawable(getBaseContext(), R.drawable.gaswhite));
+                    oMenuItem2.setTitle(sNormalInactive);
                     transaction.replace(R.id.gas_container,new GasCamionFragment() );
                     transaction.commit();
                     transaction.addToBackStack(null);
