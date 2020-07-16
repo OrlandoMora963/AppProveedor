@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/Gas_Premium"
-        android:icon="@drawable/gas"
-        android:title="Premium"
-        />
+    <item
+        android:id="@+id/Gas_Premium"
+        android:icon="@drawable/gaswhite"
+        android:title="Premium" />
 
     <item android:id="@+id/Gas_Normal"
-                android:icon="@drawable/gas"
+                android:icon="@drawable/gaswhite"
                 android:title="Normal"
         />
 
 
     <item android:id="@+id/Camion"
-        android:icon="@drawable/gas"
         android:title=" Camión"
 
         />
