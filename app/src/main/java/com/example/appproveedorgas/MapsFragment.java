@@ -417,7 +417,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                                 JSONArray data = response.getJSONArray("data");
                                 stopAnimation = true;
                                 pedidos.clear();
-                                mMap.clear();
+                               // mMap.clear();
                                 cargarPedido();
                                 for (int i = 0; i < data.length(); i++) {
                                     JSONObject pe = data.getJSONObject(i);

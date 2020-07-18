@@ -364,15 +364,35 @@
         android:textColorHint="@color/white"
         android:textSize="16sp" />
 
-    <CheckBox
-        android:id="@+id/terms_conditions"
-        android:layout_width="wrap_content"
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:buttonTint="@color/colorAccent"
-        android:text="@string/terms_conditions"
-        android:textColor="@color/white"
-        android:textSize="14sp" />
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/terms_conditions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:buttonTint="@color/colorAccent"
+            android:text="@string/terms_conditions"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/terminos_condiciones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/terms_conditions2"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:layout_marginTop="7dp"
+            />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/signUpBtn"

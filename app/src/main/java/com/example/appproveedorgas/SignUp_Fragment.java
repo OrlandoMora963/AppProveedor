@@ -100,6 +100,9 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
     private Toast toastGps;
     private int nroCheckGps;
 
+
+    private TextView terminos_condiciones;
+
     //--
     public SignUp_Fragment(String type_proveedor) {
         this.type_proveedor = type_proveedor;
@@ -147,6 +150,18 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
         if (getActivity() != null)
             mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
         getDeviceLocation();
+
+
+        terminos_condiciones=view.findViewById(R.id.terminos_condiciones);
+
+        terminos_condiciones.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(),Terminos_Condiciones_Activity.class);
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 
