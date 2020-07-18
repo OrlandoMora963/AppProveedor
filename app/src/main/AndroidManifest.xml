@@ -19,11 +19,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ActulizarPocicionActivity"></activity>
+        <activity android:name=".Terminos_Condiciones_Activity"></activity>
+        <activity android:name=".ActulizarPocicionActivity" />
         <activity android:name=".CreateUserActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".PedidoActivity" />
-        <activity android:name=".MisProductosActivity"></activity>
+        <activity android:name=".MisProductosActivity" />
         <activity android:name=".GasActivity" />
         <activity android:name=".ProductActivity" />
 

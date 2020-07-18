@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Terminos_Condiciones_Activity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Términos y condiciones"
+        android:layout_marginTop="7dp"
+        android:textStyle="bold"
+        android:textSize="14dp"
+        android:gravity="center"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Accedemos primero a Google Play Console, luego de ello nos dirigimos a seleccionar la aplicación sobre la que trabajaremos. En el menú lateral seleccionamos «Presencia en Google Play Store» y luego «Ficha de Play Store». Ya en la ficha nos dirigimos a la parte inferior en donde deberemos colocar la URL en donde estará alojada nuestra Política de Privacidad tal y como se ve en la imagen a continuación.
+
+
+
+Otra recomendación es incluir también la Política de Privacidad dentro del propio aplicativo móvil como una medida de refuerzo hacia Google en nuestra intención de mantener siempre al usuario informado. En estos casos lo más idóneo es que la política de privacidad sea un enlace o un Webview ya que es propio que las actualicemos permanentemente sin necesidad de que el aplicativo en si mismo se deba actualizar. Podemos ver a continuación el ejemplo de la implementación que realiza Uber."
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="9dp"
+        />
+
+</LinearLayout>

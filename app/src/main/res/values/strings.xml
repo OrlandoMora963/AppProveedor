@@ -16,7 +16,8 @@
     <string name="mobileNumber">Celular</string>
     <string name="location">Direccion</string>
     <string name="confirmPassword">Confirma Password</string>
-    <string name="terms_conditions">Acepto los terminos y condiciones</string>
+    <string name="terms_conditions">Acepto los </string>
+    <string name="terms_conditions2"> <u>terminos y condiciones</u> </string>
     <string name="signUp">Crear Cuenta</string>
     <string name="already_user">Ya tengo un cuenta</string>
     <string name="registered_emailid">Ingreso el correo con el que creo la cuenta</string>
