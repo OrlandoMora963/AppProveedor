@@ -330,7 +330,7 @@ public class Service extends android.app.Service {
                         JSONObject d = detalle.getJSONObject(i);
                         Mpedido_detalle ped = new Mpedido_detalle(
                                 d.getInt("quantity"),
-                                d.getString("description"),
+                                d.getJSONObject("product_id").getString("description"),
                                 d.getDouble("unit_price")
                         );
                         det.add(ped);

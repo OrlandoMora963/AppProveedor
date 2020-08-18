@@ -417,7 +417,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                                 JSONArray data = response.getJSONArray("data");
                                 stopAnimation = true;
                                 pedidos.clear();
-                               // mMap.clear();
+                                // mMap.clear();
                                 cargarPedido();
                                 for (int i = 0; i < data.length(); i++) {
                                     JSONObject pe = data.getJSONObject(i);
@@ -692,7 +692,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         // Output format
         String output = "json";
         // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + getString(R.string.map_key);
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + getString(R.string.google_maps_key);
         return url;
     }
 

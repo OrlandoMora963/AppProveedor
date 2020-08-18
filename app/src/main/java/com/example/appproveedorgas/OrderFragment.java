@@ -172,7 +172,8 @@ public class OrderFragment extends Fragment {
                                     List<Mpedido_detalle> l_detalle = new ArrayList<>();
                                     for (int j = 0; j < jorder_de.length(); j++) {
                                         JSONObject detail = jorder_de.getJSONObject(j);
-                                        Mpedido_detalle detalle = new Mpedido_detalle(detail.getInt("quantity"), detail.getString("description"), detail.getDouble("unit_price"));
+                                        Mpedido_detalle detalle = new Mpedido_detalle(detail.getInt("quantity"),
+                                                detail.getJSONObject("product_id").getString("description"), detail.getDouble("unit_price"));
                                         l_detalle.add(detalle);
                                     }
                                     Mpedido order = new Mpedido(jorder.getInt("id"),

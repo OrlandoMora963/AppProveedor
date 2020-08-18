@@ -26,7 +26,7 @@
     <string name="title_activity_maps">Map</string>
 
     <!--<string name="map_key" translatable="false">AIzaSyA_oRFtjaMQf1jFGAGTTTL2XxBqefUBzKw</string>-->
-    <string name="map_key" translatable="false">AIzaSyBI2Vi-qI0muLVtbHGCQR7t5KkkBRoav5I</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCbX3R_7RbFddPx2IZHGKse-KMpnswsHsk</string>
     <string-array name="personal_type">
         <item>Propietario</item>
         <item>Distribuidor</item>

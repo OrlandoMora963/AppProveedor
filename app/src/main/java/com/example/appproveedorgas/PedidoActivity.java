@@ -376,8 +376,13 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
         DecimalFormat df = new DecimalFormat("#.00");
         double preciou = jsonObject.getDouble("preciou");
         double subtotal = jsonObject.getDouble("subtotal");
-        addColumnToTableAtD(nro_filas, df.format(preciou), false);
-        addColumnToTableAtD(nro_filas, df.format(subtotal), false);
+        if (preciou <= 0 && subtotal <= 0) {
+            addColumnToTableAtD(nro_filas, "", false);
+            addColumnToTableAtD(nro_filas, "", false);
+        } else {
+            addColumnToTableAtD(nro_filas, df.format(preciou), false);
+            addColumnToTableAtD(nro_filas, df.format(subtotal), false);
+        }
         nro_filas++;
     }
 
@@ -696,7 +701,7 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
                             for (int i = 0; i < data.length(); i++) {
                                 JSONObject obj = data.getJSONObject(i);
                                 JSONObject prod = new JSONObject();
-                                prod.put("producto", obj.getString("description"));
+                                prod.put("producto", obj.getJSONObject("product_id").getString("description"));
                                 prod.put("cantidad", obj.getInt("quantity"));
                                 prod.put("preciou", obj.getDouble("unit_price"));
                                 prod.put("subtotal", (obj.getInt("quantity") * obj.getDouble("unit_price")));
@@ -988,7 +993,7 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
             data.put("order_id", id_pedido);
             Log.d("Confirm Pedido", data.toString());
 
-            SOCKET.emit("confirm order provider",data);
+            SOCKET.emit("confirm order provider", data);
 
             sendDataService("confirm order provider", data);
             runOnUiThread(new Runnable() {
