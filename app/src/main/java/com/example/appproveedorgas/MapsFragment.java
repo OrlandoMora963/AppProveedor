@@ -427,16 +427,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                                     final int id = pe.getInt("id");
                                     boolean espera = false;
                                     if (pe.getString("status").equals("wait"))
+                                    {
                                         espera = true;
-
-                                    final boolean finalEspera = espera;
-                                    getActivity().runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            agregarPedido(latLng, id, finalEspera);
-                                        }
-                                    });
-
+                                        final boolean finalEspera = espera;
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                agregarPedido(latLng, id, finalEspera);
+                                            }
+                                        });
+                                    }
                                 }
                             }
 
