@@ -137,8 +137,8 @@ public class Service extends android.app.Service {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Log.i(TAG, "restarting foreground");
             try {
-                // Notification notification = new Notification();
-                // startForeground(NOTIFICATION_ID, notification.setNotification(this, "Service socket", "This is the service's notification connection", R.drawable.ic_directions_bike_wihte_24dp));
+                Notification notification = new Notification();
+                startForeground(NOTIFICATION_ID, notification.setNotification(this, "Service socket", "This is the service's notification connection", R.drawable.ic_directions_bike_wihte_24dp));
                 Log.i(TAG, "restarting foreground successful");
                 if (SOCKET == null)
                     InitSocketIO();
