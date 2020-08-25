@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -342,13 +344,36 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             Toast.makeText(getContext(), marker.getTag().toString(), Toast.LENGTH_SHORT).show();
             Intent myIntent = new Intent(getContext(), PedidoActivity.class);
             myIntent.putExtra("id_pedido", marker.getTag().toString());
+            myIntent.putExtra("referencia", "Referencia : "+getStringAddress(marker.getPosition().latitude,marker.getPosition().longitude).split(",")[0]);
             startActivityForResult(myIntent, 1);
         } else {
             Toast.makeText(getContext(), "Marker null", Toast.LENGTH_SHORT).show();
         }
         return false;
     }
+    private String getStringAddress(Double lat, Double lng) {
+        String strAdd = "";
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            if (addresses != null) {
+                Address returnedAddress = addresses.get(0);
+                StringBuilder strReturnedAddress = new StringBuilder("");
 
+                for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
+                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
+                }
+                strAdd = strReturnedAddress.toString();
+                Log.w(TAG, strReturnedAddress.toString());
+            } else {
+                Log.w(TAG, "No Address returned!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.w(TAG, "Canont get Address!");
+        }
+        return strAdd;
+    }
     //----
     private void setMarkerBounce(final Marker marker) {
         if (!stopAnimation) {

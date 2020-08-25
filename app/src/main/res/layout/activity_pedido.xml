@@ -63,7 +63,8 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dirección: "
+                    android:id="@+id/txtReferencia"
+                    android:text="Referencia: "
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:gravity="start"/>

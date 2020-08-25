@@ -510,15 +510,13 @@ public class Service extends android.app.Service {
         activityIntent.putExtra("id", String.valueOf(id));
         activityIntent.putExtra("lat", String.valueOf(lat));
         activityIntent.putExtra("lng", String.valueOf(lng));
-        activityIntent.putExtra("lng", String.valueOf(lng));
         PendingIntent contentIntent = PendingIntent.getActivity(this, 1, activityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
         Intent broadcastIn = new Intent(this, NotificationReceiver.class);
         broadcastIn.putExtra("id_pedido", String.valueOf(id));
         PendingIntent actionIntent = PendingIntent.getBroadcast(this, 0, broadcastIn, PendingIntent.FLAG_UPDATE_CURRENT);
-
         Intent broadcastIn2 = new Intent(this, PedidoActivity.class);
         broadcastIn2.putExtra("id_pedido", String.valueOf(id));
+        broadcastIn2.putExtra("referencia", "Referencia : "+getStringAddress(lat,lng).split(",")[0]);
         Log.d("Services Alert", String.valueOf(id));
         PendingIntent actionIntent2 = PendingIntent.getActivity(this, 1, broadcastIn2, PendingIntent.FLAG_UPDATE_CURRENT);
         android.app.Notification notification = new NotificationCompat.Builder(this, apli.CHANNEL_1_ID)

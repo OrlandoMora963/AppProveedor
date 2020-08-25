@@ -134,6 +134,7 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
         //--
         tv_espera = findViewById(R.id.tv_espera);
         progressBarCon = findViewById(R.id.pb_pedido);
+
         ocultarProgressConf();
         //--
         //et_tiempo = findViewById(R.id.txt_tiempo);
@@ -141,6 +142,8 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
         Intent intent = getIntent();
         if (intent.getExtras() != null) {
             id_pedido = Integer.parseInt(intent.getStringExtra("id_pedido"));
+            TextView txtReferencia = findViewById(R.id.txtReferencia);
+            txtReferencia.setText(intent.getStringExtra("referencia"));
             postOrderDetail(id_pedido);
 
         }
