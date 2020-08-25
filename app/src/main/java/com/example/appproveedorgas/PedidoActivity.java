@@ -698,6 +698,7 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
                     @Override
                     public void onResponse(JSONObject response) {
 
+
                         Log.d("Volley get", response.toString());
                         try {
                             JSONArray data = response.getJSONArray("data");

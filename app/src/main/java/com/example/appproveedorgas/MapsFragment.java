@@ -344,7 +344,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             Toast.makeText(getContext(), marker.getTag().toString(), Toast.LENGTH_SHORT).show();
             Intent myIntent = new Intent(getContext(), PedidoActivity.class);
             myIntent.putExtra("id_pedido", marker.getTag().toString());
-            myIntent.putExtra("referencia", "Referencia : "+getStringAddress(marker.getPosition().latitude,marker.getPosition().longitude).split(",")[0]);
+            myIntent.putExtra("referencia", "Referencia : "+getStringAddress(marker.getPosition().latitude,marker.getPosition().longitude));
             startActivityForResult(myIntent, 1);
         } else {
             Toast.makeText(getContext(), "Marker null", Toast.LENGTH_SHORT).show();
@@ -363,7 +363,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
                 }
-                strAdd = strReturnedAddress.toString();
+                strAdd = strReturnedAddress.toString().substring(0,strReturnedAddress.toString().lastIndexOf(",")-1);
                 Log.w(TAG, strReturnedAddress.toString());
             } else {
                 Log.w(TAG, "No Address returned!");
@@ -372,7 +372,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             e.printStackTrace();
             Log.w(TAG, "Canont get Address!");
         }
-        return strAdd;
+        return strAdd.substring(0, strAdd.lastIndexOf(","));
     }
     //----
     private void setMarkerBounce(final Marker marker) {

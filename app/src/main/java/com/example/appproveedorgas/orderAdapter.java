@@ -73,14 +73,14 @@ public class orderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
                 }
-                strAdd = strReturnedAddress.toString();
+                strAdd = strReturnedAddress.toString().substring(0,strReturnedAddress.toString().lastIndexOf(","));
 
             }
         } catch (Exception e) {
             e.printStackTrace();
 
         }
-        return strAdd;
+        return strAdd.substring(0,strAdd.lastIndexOf(","));
     }
     public orderAdapter(RecyclerView recyclerView, Activity activity, List<Mpedido> pedidos) {
         this.activity = activity;
@@ -153,7 +153,7 @@ public class orderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 public void onClick(View view) {
                     Intent myIntentPro = new Intent(mpedido.getContext(), PedidoActivity.class);
                     myIntentPro.putExtra("id_pedido", String.valueOf(mpedido.getIdPedido()));
-                    myIntentPro.putExtra("referencia", "Referencia : "+getStringAddress(mpedido.getLatitud(),mpedido.getLongitud()).split(",")[0]);
+                    myIntentPro.putExtra("referencia", "Referencia : "+getStringAddress(mpedido.getLatitud(),mpedido.getLongitud()));
                     activity.startActivity(myIntentPro);
                 }
             });
