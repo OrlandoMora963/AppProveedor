@@ -245,7 +245,7 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
                             }
                             if (st_co == 400) {
                                 disabledAllFab();
-                                Toast.makeText(getApplicationContext(), "Ocurrio un error", Toast.LENGTH_SHORT).show();
+                          //      Toast.makeText(getApplicationContext(), "Ocurrio un error", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -885,7 +885,6 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
                 try {
 
                     final int sts = jsonObject.getInt("status");
-
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -895,7 +894,7 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
                             }
                             if (sts == 400) {
                                 disabledAllFab();
-                                Toast.makeText(getApplicationContext(), "Ocurrio un error", Toast.LENGTH_SHORT);
+                               // Toast.makeText(getApplicationContext(), "Ocurrio un error", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -993,6 +992,9 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
             data.put("order_id", id_pedido);
             Log.d("Confirm Pedido", data.toString());
 
+            Intent NxtAct = new Intent(this, HomeActivity.class);
+            NxtAct.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(NxtAct);
             SOCKET.emit("confirm order provider", data);
 
             sendDataService("confirm order provider", data);
@@ -1002,7 +1004,7 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
                     mostrarProgressConf();
                 }
             });
-
+            finish();
         } catch (JSONException e) {
             e.printStackTrace();
         }

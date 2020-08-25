@@ -106,7 +106,15 @@ public class HomeActivity extends AppCompatActivity implements TaskLoadedCallbac
         //----
 
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+        TabLayout.Tab tab = tabLayout.getTabAt(0);
+        tab.select();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_principal, menu);
@@ -145,14 +153,7 @@ public class HomeActivity extends AppCompatActivity implements TaskLoadedCallbac
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //----
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancelAll();
-        //-----
-    }
+
 
     @Override
     public void onTaskDone(Object... values) {
