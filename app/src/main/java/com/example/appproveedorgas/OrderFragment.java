@@ -105,6 +105,7 @@ public class OrderFragment extends Fragment {
                                     adapter.notifyItemRemoved(orders.size());
                                     Log.d("Data", "Page " + pagination);
                                     postGetDataOrders(pagination);
+
                                 }
                             },
                             1000);
@@ -160,6 +161,7 @@ public class OrderFragment extends Fragment {
                     public void onResponse(JSONObject response) {
                         Log.d("Volley get", response.toString());
                         try {
+
                             int st = response.getInt("status");
                             if (st == 200) {
                                 JSONArray lista = response.getJSONArray("data");
@@ -182,7 +184,10 @@ public class OrderFragment extends Fragment {
                                             jorder.getString("status"),
                                             l_detalle,
                                             jclient.getString("phone1"),
-                                            getContext());
+                                            getContext(),
+                                            jorder.getDouble("latitude"),
+                                            jorder.getDouble("longitude")
+                                         );
                                     orders.add(order);
                                 }
                                 adapter.notifyDataSetChanged();

@@ -132,6 +132,7 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
         //--
         tv_espera = findViewById(R.id.tv_espera);
         progressBarCon = findViewById(R.id.pb_pedido);
+
         ocultarProgressConf();
         //--
         //et_tiempo = findViewById(R.id.txt_tiempo);
@@ -139,6 +140,8 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
         Intent intent = getIntent();
         if (intent.getExtras() != null) {
             id_pedido = Integer.parseInt(intent.getStringExtra("id_pedido"));
+            TextView txtReferencia = findViewById(R.id.txtReferencia);
+            txtReferencia.setText(intent.getStringExtra("referencia"));
             postOrderDetail(id_pedido);
 
         }
@@ -243,7 +246,7 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
                             }
                             if (st_co == 400) {
                                 disabledAllFab();
-                                Toast.makeText(getApplicationContext(), "Ocurrio un error", Toast.LENGTH_SHORT).show();
+                          //      Toast.makeText(getApplicationContext(), "Ocurrio un error", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -688,10 +691,12 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
         }
         // Enter the correct url for your api service site
         String url = this.baseUrl + "/orderdetail/distributor/";
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+
 
                         Log.d("Volley get", response.toString());
                         try {
@@ -883,7 +888,6 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
                 try {
 
                     final int sts = jsonObject.getInt("status");
-
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -893,7 +897,7 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
                             }
                             if (sts == 400) {
                                 disabledAllFab();
-                                Toast.makeText(getApplicationContext(), "Ocurrio un error", Toast.LENGTH_SHORT);
+                               // Toast.makeText(getApplicationContext(), "Ocurrio un error", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -991,6 +995,9 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
             data.put("order_id", id_pedido);
             Log.d("Confirm Pedido", data.toString());
 
+            Intent NxtAct = new Intent(this, HomeActivity.class);
+            NxtAct.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(NxtAct);
             SOCKET.emit("confirm order provider", data);
 
             sendDataService("confirm order provider", data);
@@ -1000,7 +1007,7 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
                     mostrarProgressConf();
                 }
             });
-
+            finish();
         } catch (JSONException e) {
             e.printStackTrace();
         }
