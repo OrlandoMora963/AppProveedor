@@ -517,7 +517,7 @@ public class Service extends android.app.Service {
         Log.d("Services Alert", String.valueOf(id));
         PendingIntent actionIntent2 = PendingIntent.getActivity(this, 1, broadcastIn2, PendingIntent.FLAG_UPDATE_CURRENT);
         android.app.Notification notification = new NotificationCompat.Builder(this, apli.CHANNEL_1_ID)
-                .setSmallIcon(R.drawable.ic_mayorista_foreground)
+                .setSmallIcon(R.drawable.ic_directions_bike_wihte_24dp)
                 .setContentTitle(title)
                 .setContentText("Tiempo Aprox " + time + " Min")
                 .setStyle(dataNotification(detail)
@@ -555,7 +555,7 @@ public class Service extends android.app.Service {
                 for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
                 }
-                strAdd = strReturnedAddress.toString().substring(0,strReturnedAddress.toString().lastIndexOf(",")-1);
+                strAdd = strReturnedAddress.toString().substring(0,strReturnedAddress.toString().lastIndexOf(","));
                 Log.w(TAG, strReturnedAddress.toString());
             } else {
                 Log.w(TAG, "No Address returned!");
@@ -564,6 +564,7 @@ public class Service extends android.app.Service {
             e.printStackTrace();
             Log.w(TAG, "Canont get Address!");
         }
-        return strAdd.substring(0,strAdd.lastIndexOf(","));
+         return strAdd.substring(0,strAdd.lastIndexOf(","));
+
     }
 }
