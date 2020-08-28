@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -16,7 +15,6 @@ import androidx.core.app.NotificationManagerCompat;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
-import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,8 +24,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Service extends android.app.Service {
     //--
@@ -540,8 +536,8 @@ public class Service extends android.app.Service {
 
     private NotificationCompat.InboxStyle dataNotification(List<Mpedido_detalle> detail) {
         NotificationCompat.InboxStyle notiImbox = new NotificationCompat.InboxStyle();
-        for (int i = 0; i < detail.size(); i++) {
-            notiImbox.addLine(detail.get(i).getCantidad() + " " + detail.get(i).getDescripcion());
+        for (Mpedido_detalle mpedido_detalle : detail) {
+            notiImbox.addLine(mpedido_detalle.getCantidad() + " " + mpedido_detalle.getDescripcion());
         }
         return notiImbox;
     }
