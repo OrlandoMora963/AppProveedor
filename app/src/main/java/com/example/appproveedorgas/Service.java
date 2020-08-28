@@ -3,6 +3,8 @@ package com.example.appproveedorgas;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.IBinder;
 import android.provider.Settings;
@@ -26,6 +28,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -496,7 +499,7 @@ public class Service extends android.app.Service {
 
     //--------
     private void showAlert(double lat, double lng, int id, int time, int distance, List<Mpedido_detalle> detail) {
-        String title = "Pedido a " + distance + " metros";
+        String title = "Pedido a " + distance + " metros\nReferencia "+getStringAddress(lat,lng);
         Intent activityIntent = new Intent(this, HomeActivity.class);
         activityIntent.putExtra("id", String.valueOf(id));
         activityIntent.putExtra("lat", String.valueOf(lat));
@@ -510,6 +513,7 @@ public class Service extends android.app.Service {
 
         Intent broadcastIn2 = new Intent(this, PedidoActivity.class);
         broadcastIn2.putExtra("id_pedido", String.valueOf(id));
+        broadcastIn2.putExtra("referencia", "Referencia : "+getStringAddress(lat,lng));
         Log.d("Services Alert", String.valueOf(id));
         PendingIntent actionIntent2 = PendingIntent.getActivity(this, 1, broadcastIn2, PendingIntent.FLAG_UPDATE_CURRENT);
         android.app.Notification notification = new NotificationCompat.Builder(this, apli.CHANNEL_1_ID)
@@ -538,5 +542,28 @@ public class Service extends android.app.Service {
             notiImbox.addLine(detail.get(i).getCantidad() + " " + detail.get(i).getDescripcion());
         }
         return notiImbox;
+    }
+    private String getStringAddress(Double lat, Double lng) {
+        String strAdd = "";
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            if (addresses != null) {
+                Address returnedAddress = addresses.get(0);
+                StringBuilder strReturnedAddress = new StringBuilder("");
+
+                for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
+                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
+                }
+                strAdd = strReturnedAddress.toString().substring(0,strReturnedAddress.toString().lastIndexOf(",")-1);
+                Log.w(TAG, strReturnedAddress.toString());
+            } else {
+                Log.w(TAG, "No Address returned!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.w(TAG, "Canont get Address!");
+        }
+        return strAdd.substring(0,strAdd.lastIndexOf(","));
     }
 }
