@@ -517,7 +517,7 @@ public class Service extends android.app.Service {
         Log.d("Services Alert", String.valueOf(id));
         PendingIntent actionIntent2 = PendingIntent.getActivity(this, 1, broadcastIn2, PendingIntent.FLAG_UPDATE_CURRENT);
         android.app.Notification notification = new NotificationCompat.Builder(this, apli.CHANNEL_1_ID)
-                .setSmallIcon(R.drawable.ic_directions_bike_wihte_24dp)
+                .setSmallIcon(R.drawable.ic_mayorista_foreground)
                 .setContentTitle(title)
                 .setContentText("Tiempo Aprox " + time + " Min")
                 .setStyle(dataNotification(detail)

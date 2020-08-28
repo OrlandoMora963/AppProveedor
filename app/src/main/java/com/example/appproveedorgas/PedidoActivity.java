@@ -114,7 +114,7 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
     //----- dimens is pixel
     int WidhFirstHeader = 150;
     int WidhHeaderA = 50;
-    int WidhHeaderProduct = 300;
+    int WidhHeaderProduct = 500;
     //---------
     BroadcastReceiver updateUIReciver;
 
