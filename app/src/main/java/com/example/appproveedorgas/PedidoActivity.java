@@ -693,6 +693,7 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
         }
         // Enter the correct url for your api service site
         String url = this.baseUrl + "/orderdetail/distributor/";
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {
                     @Override
