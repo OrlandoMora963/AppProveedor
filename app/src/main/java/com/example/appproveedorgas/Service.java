@@ -502,6 +502,7 @@ public class Service extends android.app.Service {
     //--------
     private void showAlert(double lat, double lng, int id, int time, int distance, List<Mpedido_detalle> detail) {
         String title = "Pedido a " + distance + " metros\nReferencia " + getStringAddress(lat, lng);
+
         Intent activityIntent = new Intent(this, HomeActivity.class);
         activityIntent.putExtra("id", String.valueOf(id));
         activityIntent.putExtra("lat", String.valueOf(lat));
@@ -516,8 +517,10 @@ public class Service extends android.app.Service {
         Intent broadcastIn2 = new Intent(this, PedidoActivity.class);
         broadcastIn2.putExtra("id_pedido", String.valueOf(id));
         broadcastIn2.putExtra("referencia", "Referencia : " + getStringAddress(lat, lng));
+
         Log.d("Services Alert", String.valueOf(id));
         PendingIntent actionIntent2 = PendingIntent.getActivity(this, 1, broadcastIn2, PendingIntent.FLAG_UPDATE_CURRENT);
+
         android.app.Notification notification = new NotificationCompat.Builder(this, apli.CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.ic_directions_bike_wihte_24dp)
                 .setContentTitle(title)
@@ -530,7 +533,7 @@ public class Service extends android.app.Service {
                 .setLights(Color.WHITE, 3000, 3000)
                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
                 .setColor(Color.BLUE)
-                .setContentIntent(contentIntent)
+                .setContentIntent(actionIntent2)
                 .setAutoCancel(true)
                 .addAction(R.drawable.ic_playlist_add_check_white_24dp, "Ver Detalle", actionIntent2)
                 .addAction(R.drawable.ic_check_white_24dp, "Confirmar", actionIntent)
