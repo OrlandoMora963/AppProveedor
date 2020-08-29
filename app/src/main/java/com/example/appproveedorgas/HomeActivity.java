@@ -167,7 +167,7 @@ public class HomeActivity extends AppCompatActivity implements TaskLoadedCallbac
     private void EnviarToMaps(Object... values) {
         com.example.appproveedorgas.ViewPageAdapter viewPageAdapter = (ViewPageAdapter) viewPager.getAdapter();
         MapsFragment maps = (MapsFragment) viewPageAdapter.getItem(0);
-        maps.DibujarRuta(values);
+        // maps.DibujarRuta(values);
     }
 
 
