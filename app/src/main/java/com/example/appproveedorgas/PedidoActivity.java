@@ -62,6 +62,7 @@ public class PedidoActivity extends AppCompatActivity {
     //--
     ProgressBar progressBar;
     TextView tv_total;
+    TextView textViewProducto;
     FloatingActionButton fab_accept;
     FloatingActionButton fab_denied;
     FloatingActionButton fab_notification;
@@ -189,6 +190,7 @@ public class PedidoActivity extends AppCompatActivity {
         recyclerDetailOrderList = findViewById(R.id.recyclerDetailOrder);
         recyclerDetailOrderList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
      //   recyclerDetailOrderList.setLayoutManager(new LinearLayoutManager(this));
+        textViewProducto=findViewById(R.id.textViewProducto);
         fab_accept = findViewById(R.id.fab_accept);
         fab_accept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -727,7 +729,7 @@ public class PedidoActivity extends AppCompatActivity {
                                 ListDetailOrder.add(oDetailOrder);
                             }
                             recyclerDetailOrderList.setAdapter(null);
-                            DetailOrderAdapter adapterDetailOrder = new DetailOrderAdapter(ListDetailOrder);
+                            DetailOrderAdapter adapterDetailOrder = new DetailOrderAdapter(ListDetailOrder,textViewProducto.getWidth());
                             recyclerDetailOrderList.setAdapter(adapterDetailOrder);
                             calculateTotal();
                             ocultarProgress();

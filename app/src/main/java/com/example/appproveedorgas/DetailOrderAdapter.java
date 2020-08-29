@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,16 +22,17 @@ import java.util.ArrayList;
 
 public class DetailOrderAdapter extends RecyclerView.Adapter<DetailOrderAdapter.ViewHolderDatos> {
     ArrayList<DetailOrder> DetailOrderList;
-    private Context getContext;
-    public DetailOrderAdapter(ArrayList<DetailOrder> DetailOrderList) {
+    int widthTxtProducto;
+    public DetailOrderAdapter(ArrayList<DetailOrder> DetailOrderList,int widthTxtProducto) {
         this.DetailOrderList = DetailOrderList;
+        this.widthTxtProducto=widthTxtProducto;
     }
 
     @NonNull
     @Override
     public ViewHolderDatos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_detail_order, null, false);
-        getContext = parent.getContext();
+
         return new ViewHolderDatos(view);
     }
 
@@ -59,6 +62,8 @@ public class DetailOrderAdapter extends RecyclerView.Adapter<DetailOrderAdapter.
 
         public void getList(DetailOrder oDetailOrder) {
             txtProducto.setText(oDetailOrder.getProducto());
+            LinearLayout.LayoutParams btnparams = new LinearLayout.LayoutParams(widthTxtProducto, ViewGroup.LayoutParams.WRAP_CONTENT);
+            txtProducto.setLayoutParams(btnparams);
             txtCantidad.setText(String.valueOf(oDetailOrder.getCantidad()));
             DecimalFormat df = new DecimalFormat("#.00");
             double preciou = oDetailOrder.getPrecioU();
