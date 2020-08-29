@@ -3,6 +3,8 @@ package com.example.appproveedorgas;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -35,6 +37,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.appproveedorgas.pojo.DetailOrder;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
@@ -55,7 +58,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class PedidoActivity extends AppCompatActivity implements HorizontalScroll.ScrollViewListener, VerticalScroll.ScrollViewListener {
+public class PedidoActivity extends AppCompatActivity {
     //--
     ProgressBar progressBar;
     TextView tv_total;
@@ -64,6 +67,8 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
     FloatingActionButton fab_notification;
     FloatingActionButton fab_delibered;
     //--
+
+    RecyclerView recyclerDetailOrderList;
     TextView tv_espera;
     ProgressBar progressBarCon;
     //----
@@ -86,7 +91,7 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
     //-------------
     private static int SCREEN_HEIGHT;
     private static int SCREEN_WIDTH;
-    RelativeLayout relativeLayoutMain;
+  /*  RelativeLayout relativeLayoutMain;
 
     RelativeLayout relativeLayoutA;
     RelativeLayout relativeLayoutB;
@@ -112,7 +117,7 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
     //----- dimens is pixel
     int WidhFirstHeader = 150;
     int WidhHeaderA = 50;
-    int WidhHeaderProduct = 300;
+    int WidhHeaderProduct = 300;*/
     //---------
     BroadcastReceiver updateUIReciver;
 
@@ -154,7 +159,7 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
         /*
             Mandatory Content
          */
-        relativeLayoutMain = (RelativeLayout) findViewById(R.id.relativeLayoutMain);
+    /*    relativeLayoutMain = (RelativeLayout) findViewById(R.id.relativeLayoutMain);
         getScreenDimension();
         initializeRelativeLayout();
         initializeScrollers();
@@ -181,6 +186,8 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
         }
          */
         //---
+        recyclerDetailOrderList = findViewById(R.id.recyclerDetailOrder);
+        recyclerDetailOrderList.setLayoutManager(new LinearLayoutManager(this));
         fab_accept = findViewById(R.id.fab_accept);
         fab_accept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -367,26 +374,8 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
 
     //---
 
-    private void agregar_fila_tabla(JSONObject jsonObject) throws JSONException {
 
-        initializeRowForTableD(nro_filas);
-        //addRowToTableC(String.valueOf(nro_filas+1));
-        addRowToTableC(String.valueOf(jsonObject.getInt("cantidad")));
-        addColumnToTableAtD(nro_filas, jsonObject.getString("producto"), true);
-        //addColumnToTableAtD(nro_filas, );
-        DecimalFormat df = new DecimalFormat("#.00");
-        double preciou = jsonObject.getDouble("preciou");
-        double subtotal = jsonObject.getDouble("subtotal");
-        if (preciou <= 0 && subtotal <= 0) {
-            addColumnToTableAtD(nro_filas, "", false);
-            addColumnToTableAtD(nro_filas, "", false);
-        } else {
-            addColumnToTableAtD(nro_filas, df.format(preciou), false);
-            addColumnToTableAtD(nro_filas, df.format(subtotal), false);
-        }
-        nro_filas++;
-    }
-
+/*
     private void getScreenDimension() {
         WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
@@ -589,13 +578,31 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
         tableRowB.setLayoutParams(layoutParamsTableRow);
         this.tableLayoutD.addView(tableRowB, pos);
     }
+    private void agregar_fila_tabla(JSONObject jsonObject) throws JSONException {
 
+        initializeRowForTableD(nro_filas);
+        //addRowToTableC(String.valueOf(nro_filas+1));
+        addRowToTableC(String.valueOf(jsonObject.getInt("cantidad")));
+        addColumnToTableAtD(nro_filas, jsonObject.getString("producto"), true);
+        //addColumnToTableAtD(nro_filas, );
+        DecimalFormat df = new DecimalFormat("#.00");
+        double preciou = jsonObject.getDouble("preciou");
+        double subtotal = jsonObject.getDouble("subtotal");
+        if (preciou <= 0 && subtotal <= 0) {
+            addColumnToTableAtD(nro_filas, "", false);
+            addColumnToTableAtD(nro_filas, "", false);
+        } else {
+            addColumnToTableAtD(nro_filas, df.format(preciou), false);
+            addColumnToTableAtD(nro_filas, df.format(subtotal), false);
+        }
+        nro_filas++;
+    }
     private synchronized void addColumnToTableAtD(final int rowPos, String text, boolean product) {
         TableRow tableRowAdd = (TableRow) this.tableLayoutD.getChildAt(rowPos);
         tableRow = new TableRow(getApplicationContext());
         //TableRow.LayoutParams layoutParamsTableRow= new TableRow.LayoutParams(SCREEN_WIDTH/5, SCREEN_HEIGHT/20);
-        TableRow.LayoutParams layoutParamsTableRow = new TableRow.LayoutParams(WidhFirstHeader, SCREEN_HEIGHT / 20);
-        TableRow.LayoutParams layoutParamsTableRowProduct = new TableRow.LayoutParams(WidhHeaderProduct, SCREEN_HEIGHT / 20);
+        TableRow.LayoutParams layoutParamsTableRow = new TableRow.LayoutParams(WidhFirstHeader, TableRow.LayoutParams.WRAP_CONTENT);
+        TableRow.LayoutParams layoutParamsTableRowProduct = new TableRow.LayoutParams(WidhHeaderProduct, TableRow.LayoutParams.WRAP_CONTENT);
         tableRow.setPadding(3, 3, 3, 4);
         if (nro_filas == 0)
             tableRow.setBackground(getResources().getDrawable(R.drawable.border_set));
@@ -611,9 +618,9 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
         label_date.setTextSize(getResources().getDimension(R.dimen.cell_text_size));
         tableRow.setTag(label_date);
         this.tableRow.addView(label_date);
-        tableRowAdd.addView(tableRow);
+     tableRowAdd.addView(tableRow);
     }
-
+*/
     /*
     private void createCompleteColumn(String value){
         int i=0;
@@ -700,6 +707,7 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
 
                         Log.d("Volley get", response.toString());
                         try {
+                            ArrayList<DetailOrder> ListDetailOrder = new ArrayList<>();
                             JSONArray data = response.getJSONArray("data");
                             for (int i = 0; i < data.length(); i++) {
                                 JSONObject obj = data.getJSONObject(i);
@@ -710,8 +718,16 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
                                 prod.put("subtotal", (obj.getInt("quantity") * obj.getDouble("unit_price")));
                                 prod.put("id", obj.getInt("id"));
                                 productos.add(prod);
-                                agregar_fila_tabla(prod);
+                                DetailOrder oDetailOrder =new  DetailOrder();
+                                oDetailOrder.setProducto(obj.getJSONObject("product_id").getString("description"));
+                                oDetailOrder.setCantidad(obj.getInt("quantity"));
+                                oDetailOrder.setPrecioU(obj.getDouble("unit_price"));
+                                oDetailOrder.setSubTotal(obj.getInt("quantity") * obj.getDouble("unit_price"));
+                                ListDetailOrder.add(oDetailOrder);
                             }
+                            recyclerDetailOrderList.setAdapter(null);
+                            DetailOrderAdapter adapterDetailOrder = new DetailOrderAdapter(ListDetailOrder);
+                            recyclerDetailOrderList.setAdapter(adapterDetailOrder);
                             calculateTotal();
                             ocultarProgress();
                             if (data.length() > 0) {

@@ -80,7 +80,10 @@ public class orderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             e.printStackTrace();
 
         }
-        return strAdd.substring(0,strAdd.lastIndexOf(","));
+        if(strAdd.contains(","))
+            return strAdd.substring(0, strAdd.lastIndexOf(","));
+        else
+            return "";
     }
     public orderAdapter(RecyclerView recyclerView, Activity activity, List<Mpedido> pedidos) {
         this.activity = activity;

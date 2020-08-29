@@ -589,7 +589,9 @@ public class Service extends android.app.Service {
             e.printStackTrace();
             Log.w(TAG, "Canont get Address!");
         }
-        return strAdd.substring(0, strAdd.lastIndexOf(","));
-
+        if(strAdd.contains(","))
+            return strAdd.substring(0, strAdd.lastIndexOf(","));
+        else
+            return "";
     }
 }

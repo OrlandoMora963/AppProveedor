@@ -376,7 +376,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             e.printStackTrace();
             Log.w(TAG, "Canont get Address!");
         }
+        if(strAdd.contains(","))
         return strAdd.substring(0, strAdd.lastIndexOf(","));
+        else
+            return "";
     }
 
     //----
