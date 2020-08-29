@@ -187,7 +187,8 @@ public class PedidoActivity extends AppCompatActivity {
          */
         //---
         recyclerDetailOrderList = findViewById(R.id.recyclerDetailOrder);
-        recyclerDetailOrderList.setLayoutManager(new LinearLayoutManager(this));
+        recyclerDetailOrderList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+     //   recyclerDetailOrderList.setLayoutManager(new LinearLayoutManager(this));
         fab_accept = findViewById(R.id.fab_accept);
         fab_accept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -718,7 +719,7 @@ public class PedidoActivity extends AppCompatActivity {
                                 prod.put("subtotal", (obj.getInt("quantity") * obj.getDouble("unit_price")));
                                 prod.put("id", obj.getInt("id"));
                                 productos.add(prod);
-                                DetailOrder oDetailOrder =new  DetailOrder();
+                                DetailOrder oDetailOrder = new  DetailOrder();
                                 oDetailOrder.setProducto(obj.getJSONObject("product_id").getString("description"));
                                 oDetailOrder.setCantidad(obj.getInt("quantity"));
                                 oDetailOrder.setPrecioU(obj.getDouble("unit_price"));
