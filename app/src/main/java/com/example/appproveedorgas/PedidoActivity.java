@@ -541,7 +541,7 @@ public class PedidoActivity extends AppCompatActivity implements HorizontalScrol
     private synchronized void addColumnsToTableB(String text, final int id, boolean product) {
         tableRow = new TableRow(getApplicationContext());
         TableRow.LayoutParams layoutParamsTableRow = new TableRow.LayoutParams(WidhFirstHeader, SCREEN_HEIGHT / 20);
-        TableRow.LayoutParams layoutParamsTableRowProduct = new TableRow.LayoutParams(WidhHeaderProduct, SCREEN_HEIGHT / 20);
+        TableRow.LayoutParams layoutParamsTableRowProduct = new TableRow.LayoutParams(WidhHeaderProduct, SCREEN_HEIGHT / 17);
         tableRow.setPadding(3, 3, 3, 4);
         if (product)
             tableRow.setLayoutParams(layoutParamsTableRowProduct);

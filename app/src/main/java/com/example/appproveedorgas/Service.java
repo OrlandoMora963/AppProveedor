@@ -553,7 +553,7 @@ public class Service extends android.app.Service {
                 for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
                 }
-                strAdd = strReturnedAddress.toString().substring(0,strReturnedAddress.toString().lastIndexOf(",")-1);
+                strAdd = strReturnedAddress.toString().substring(0,strReturnedAddress.toString().lastIndexOf(","));
                 Log.w(TAG, strReturnedAddress.toString());
             } else {
                 Log.w(TAG, "No Address returned!");
@@ -562,6 +562,7 @@ public class Service extends android.app.Service {
             e.printStackTrace();
             Log.w(TAG, "Canont get Address!");
         }
-        return strAdd.substring(0,strAdd.lastIndexOf(","));
+         return strAdd.substring(0,strAdd.lastIndexOf(","));
+
     }
 }

@@ -363,7 +363,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
                 }
-                strAdd = strReturnedAddress.toString().substring(0,strReturnedAddress.toString().lastIndexOf(",")-1);
+
+                strAdd = strReturnedAddress.toString().substring(0,strReturnedAddress.toString().lastIndexOf(","));
                 Log.w(TAG, strReturnedAddress.toString());
             } else {
                 Log.w(TAG, "No Address returned!");
@@ -372,7 +373,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             e.printStackTrace();
             Log.w(TAG, "Canont get Address!");
         }
-        return strAdd.substring(0, strAdd.lastIndexOf(","));
+        return strAdd.substring(0,strAdd.lastIndexOf(","));
     }
     //----
     private void setMarkerBounce(final Marker marker) {
@@ -693,12 +694,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 marcador = mMap.addMarker(new MarkerOptions().position(latLng).title("Pedido: " + id).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                 marcador.setTag(id);
                 setMarkerBounce(marcador);
-                pedidos.add(marcador);
             } else {
                 marcador = mMap.addMarker(new MarkerOptions().position(latLng).title("Pedido: " + id).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
                 marcador.setTag(id);
-                pedidos.add(marcador);
             }
+            pedidos.add(marcador);
             new FetchURL(getActivity()).execute(getUrl(location_company, latLng, "driving"), "driving");
         }
 
