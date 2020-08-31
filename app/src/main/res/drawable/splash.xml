@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
-    >
-    <item
-        android:drawable="@color/white" />
-    <item
-        android:drawable="@drawable/ic_mayorista_foreground"
-        android:gravity="center"
-        android:left="150dp"
-        android:right="150dp"
-        android:top="300dp"
-        android:bottom="300dp"
-        />
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/white" />
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/logoazulletras" /> <!-- imagen centrada -->
+    </item>
 </layer-list>
