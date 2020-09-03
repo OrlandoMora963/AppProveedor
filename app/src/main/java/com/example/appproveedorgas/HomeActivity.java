@@ -2,37 +2,20 @@ package com.example.appproveedorgas;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.appproveedorgas.routes.TaskLoadedCallback;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class HomeActivity extends AppCompatActivity implements TaskLoadedCallback {
     private TabLayout tabLayout;
@@ -136,7 +119,7 @@ public class HomeActivity extends AppCompatActivity implements TaskLoadedCallbac
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_pocicion:
-                Intent intent1 = new Intent(this, ActulizarPocicionActivity.class);
+                Intent intent1 = new Intent(this, ActualizarPosicionActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.item_perfil:

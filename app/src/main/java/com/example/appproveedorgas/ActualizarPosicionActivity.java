@@ -1,23 +1,18 @@
 package com.example.appproveedorgas;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.content.Context;
-import android.content.DialogInterface;
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,25 +22,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ActulizarPocicionActivity extends AppCompatActivity {
+public class ActualizarPosicionActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
@@ -78,7 +66,17 @@ public class ActulizarPocicionActivity extends AppCompatActivity {
     }
 
     private void getDeviceLocation() {
+
+        final account cuenta = db.getAcountToken();
+
         if (mLocationPermissionGranted) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                return;
+            }
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                         @Override
@@ -90,6 +88,7 @@ public class ActulizarPocicionActivity extends AppCompatActivity {
                                 try {
                                     data.put("latitude", location.getLatitude());
                                     data.put("longitude", location.getLongitude());
+                                    data.put("company_id", cuenta.getCompany_id());
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -102,6 +101,11 @@ public class ActulizarPocicionActivity extends AppCompatActivity {
                                                     int status = response.getInt("status");
                                                     if (status == 200) {
                                                         String message = response.getString("message");
+                                                        if (db.actualizarPosicion(cuenta.getCompany_id(), location.getLatitude(), location.getLongitude())) {
+                                                            Log.i("Business", "Actualizado posicion sqllite");
+                                                        } else {
+                                                            Log.i("Business", "No se actualizo la pocicion sqllite");
+                                                        }
                                                         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                                                     }
                                                 } catch (JSONException e) {
@@ -132,7 +136,7 @@ public class ActulizarPocicionActivity extends AppCompatActivity {
                                     }
                                 }) {
                                     @Override
-                                    public Map<String, String> getHeaders() throws AuthFailureError {
+                                    public Map<String, String> getHeaders() {
                                         Map<String, String> headers = new HashMap<>();
                                         String token = db.getToken();
                                         Log.d("Voley get", token);
@@ -151,10 +155,8 @@ public class ActulizarPocicionActivity extends AppCompatActivity {
     private boolean mLocationPermissionGranted;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private FusedLocationProviderClient fusedLocationClient;
-    private static final String TAG = "Business";
     private DatabaseHelper db;
 
     //--
-    private String HOST_NODEJS = "http://34.71.251.155:9000";
     private String baseUrl = "http://34.71.251.155/api";
 }

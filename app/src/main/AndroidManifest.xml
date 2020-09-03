@@ -20,7 +20,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".Terminos_Condiciones_Activity"></activity>
-        <activity android:name=".ActulizarPocicionActivity" />
+        <activity android:name=".ActualizarPosicionActivity" />
         <activity android:name=".CreateUserActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".PedidoActivity" />
