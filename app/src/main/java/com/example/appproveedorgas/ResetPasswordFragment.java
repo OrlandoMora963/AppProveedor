@@ -24,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -73,7 +74,7 @@ public class ResetPasswordFragment extends Fragment implements View.OnClickListe
         switch (v.getId()) {
             case R.id.backToLoginBtn:
                 Objects.requireNonNull(getActivity()).onBackPressed();
-                Objects.requireNonNull(getActivity()).finish();
+                //Objects.requireNonNull(getActivity()).finish();
                 break;
 
             case R.id.btnResetearPassword:
@@ -138,6 +139,21 @@ public class ResetPasswordFragment extends Fragment implements View.OnClickListe
                                 try {
                                     String res = new String(response.data, HttpHeaderParser.parseCharset(response.headers, "utf-8"));
                                     System.out.println(res);
+                                    JSONObject obj = new JSONObject(res);
+                                    Log.i("Bussiness", obj.toString());
+                                    StringBuilder mensajes = new StringBuilder();
+                                    if (!obj.isNull("password")) {
+                                        JSONArray messages = obj.getJSONArray("password");
+                                        for (int i = 0; i < messages.length(); i++) {
+                                            mensajes.append(messages.get(i)).append("\n");
+                                        }
+                                    }
+
+                                    if (!obj.isNull("status")) {
+                                        new CustomToast().Show_Toast(Objects.requireNonNull(getActivity()), view,
+                                                "El código ingresado es incorrecto :(");
+                                    }
+
 
                                 } catch (Exception e) {
                                     e.printStackTrace();

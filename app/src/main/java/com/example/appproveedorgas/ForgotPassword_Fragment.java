@@ -34,125 +34,129 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ForgotPassword_Fragment extends Fragment implements
-		OnClickListener {
-	private View view;
-	private FragmentManager fragmentManager;
-	private EditText emailId;
-	private TextView submit, back;
+        OnClickListener {
+    private View view;
+    private FragmentManager fragmentManager;
+    private EditText emailId;
+    private TextView submit, btnCodigo;
 
-	public ForgotPassword_Fragment() {
+    public ForgotPassword_Fragment() {
 
-	}
+    }
 
-	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
-		view = inflater.inflate(R.layout.forgotpassword_layout, container,
-				false);
-		initViews();
-		setListeners();
-		return view;
-	}
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.forgotpassword_layout, container,
+                false);
+        initViews();
+        setListeners();
+        return view;
+    }
 
-	// Initialize the views
-	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
-	private void initViews() {
-		emailId = (EditText) view.findViewById(R.id.registered_emailid);
-		submit = (TextView) view.findViewById(R.id.forgot_button);
-		back = (TextView) view.findViewById(R.id.backToLoginBtn);
-		fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-	}
+    // Initialize the views
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void initViews() {
+        emailId = (EditText) view.findViewById(R.id.registered_emailid);
+        submit = (TextView) view.findViewById(R.id.forgot_button);
+        btnCodigo = (TextView) view.findViewById(R.id.btncodigo);
+        fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+    }
 
-	// Set Listeners over buttons
-	private void setListeners() {
-		back.setOnClickListener(this);
-		submit.setOnClickListener(this);
-	}
+    // Set Listeners over buttons
+    private void setListeners() {
+        btnCodigo.setOnClickListener(this);
+        submit.setOnClickListener(this);
+    }
 
-	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-			case R.id.backToLoginBtn:
-				new MainActivity().replaceLoginFragment();
-				break;
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btncodigo:
+                fragmentManager
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
+                        .replace(R.id.frameContainer,
+                                new ResetPasswordFragment()).commit();
+                break;
 
-			case R.id.forgot_button:
-				submitButtonTask();
-				break;
+            case R.id.forgot_button:
+                submitButtonTask();
+                break;
 
-		}
+        }
 
-	}
+    }
 
-	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
-	private void submitButtonTask() {
-		String getEmailId = emailId.getText().toString();
-		Pattern p = Pattern.compile(Utils.regEx);
-		Matcher m = p.matcher(getEmailId);
-		if (getEmailId.equals("") || getEmailId.length() == 0) {
-			new CustomToast().Show_Toast(Objects.requireNonNull(getActivity()), view,
-					"Ingrese su correo.");
-		} else if (!m.find()) {
-			new CustomToast().Show_Toast(Objects.requireNonNull(getActivity()), view,
-					"Tu correo es inválido.");
-		} else {
-			RequestQueue queue = Volley.newRequestQueue(Objects.requireNonNull(getContext()));
-			JSONObject jsonObject = new JSONObject();
-			try {
-				jsonObject.put("email", getEmailId);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void submitButtonTask() {
+        String getEmailId = emailId.getText().toString();
+        Pattern p = Pattern.compile(Utils.regEx);
+        Matcher m = p.matcher(getEmailId);
+        if (getEmailId.equals("") || getEmailId.length() == 0) {
+            new CustomToast().Show_Toast(Objects.requireNonNull(getActivity()), view,
+                    "Ingrese su correo.");
+        } else if (!m.find()) {
+            new CustomToast().Show_Toast(Objects.requireNonNull(getActivity()), view,
+                    "Tu correo es inválido.");
+        } else {
+            RequestQueue queue = Volley.newRequestQueue(Objects.requireNonNull(getContext()));
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("email", getEmailId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-			String urlBase = "http://34.71.251.155";
-			String url = urlBase + "/api/password_reset/";
-			JsonObjectRequest jsonObjectRequest =
-					new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
-						@Override
-						public void onResponse(JSONObject response) {
-							try {
-								String status = response.getString("status");
-								if (status.equals("OK")) {
-									fragmentManager
-											.beginTransaction()
-											.setCustomAnimations(R.anim.right_enter, R.anim.left_out)
-											.replace(R.id.frameContainer,
-													new ResetPasswordFragment()).commit();
-									Toast.makeText(getContext(), "Por favor revise su bandeja de entrada o spam", Toast.LENGTH_LONG)
-											.show();
-								}
-							} catch (JSONException e) {
-								e.printStackTrace();
-							}
-						}
-					}, new Response.ErrorListener() {
-						@Override
-						public void onErrorResponse(VolleyError error) {
-							Log.d("Volley get", "error voley" + error.toString());
-							NetworkResponse response = error.networkResponse;
-							if (error instanceof ServerError && response != null) {
-								try {
-									String res = new String(response.data, HttpHeaderParser.parseCharset(response.headers, "utf-8"));
-									// Now you can use any deserializer to make sense of data
-									JSONObject obj = new JSONObject(res);
-									Log.d("Voley post", obj.toString());
+            String urlBase = "http://34.71.251.155";
+            String url = urlBase + "/api/password_reset/";
+            JsonObjectRequest jsonObjectRequest =
+                    new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                String status = response.getString("status");
+                                if (status.equals("OK")) {
+                                    fragmentManager
+                                            .beginTransaction()
+                                            .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
+                                            .replace(R.id.frameContainer,
+                                                    new ResetPasswordFragment()).commit();
+                                    Toast.makeText(getContext(), "Por favor revise su bandeja de entrada o spam", Toast.LENGTH_LONG)
+                                            .show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("Volley get", "error voley" + error.toString());
+                            NetworkResponse response = error.networkResponse;
+                            if (error instanceof ServerError && response != null) {
+                                try {
+                                    String res = new String(response.data, HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                                    // Now you can use any deserializer to make sense of data
+                                    JSONObject obj = new JSONObject(res);
+                                    Log.d("Voley post", obj.toString());
 
-									if (!obj.getString("email").equals("")) {
-										Toast.makeText(getContext(),
-												obj.getJSONArray("email")
-														.getString(0), Toast.LENGTH_SHORT)
-												.show();
-									}
+                                    if (!obj.getString("email").equals("")) {
+                                        Toast.makeText(getContext(),
+                                                obj.getJSONArray("email")
+                                                        .getString(0), Toast.LENGTH_SHORT)
+                                                .show();
+                                    }
 
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-							}
-						}
-					});
-			queue.add(jsonObjectRequest);
-		}
-	}
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    });
+            queue.add(jsonObjectRequest);
+        }
+    }
 }

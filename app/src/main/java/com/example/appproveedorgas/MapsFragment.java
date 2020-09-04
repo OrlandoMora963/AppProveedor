@@ -224,6 +224,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         //Ubicar a cusco por pocicion default
         LatLng cusco = new LatLng(-13.5179145, -71.9771895);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(cusco));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-13.5179145, -71.9771895), 16));
 
         getLocationPermission();
         updateLocationUI();
@@ -376,8 +377,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             e.printStackTrace();
             Log.w(TAG, "Canont get Address!");
         }
-        if(strAdd.contains(","))
-        return strAdd.substring(0, strAdd.lastIndexOf(","));
+        if (strAdd.contains(","))
+            return strAdd.substring(0, strAdd.lastIndexOf(","));
         else
             return "";
     }
