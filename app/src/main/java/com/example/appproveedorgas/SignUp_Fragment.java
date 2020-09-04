@@ -388,7 +388,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
     }
 
 
-    public void postDataRegistro(String username, final String password, final String email,
+    public void postDataRegistro(final String username, final String password, final String email,
                                  final String client_id, final String phone,
                                  final String address, final String companyId, final String name) {
 
@@ -425,7 +425,9 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
                                 JSONObject companyJS = response.getJSONObject("data");
                                 if (db.insertData(new account(0, client_id, email, phone, address, password, "-1", 2, companyId, companyJS.getString("name"), companyJS.getString("phone"), companyJS.getString("address"), String.valueOf(companyJS.getDouble("latitude")), String.valueOf(companyJS.getDouble("longitude")), name, companyJS.getString("ruc")))) {
                                     Toast.makeText(getContext(), msj, Toast.LENGTH_SHORT).show();
-                                    new MainActivity().replaceLoginFragment();
+                                   // new MainActivity().replaceLoginFragment();
+
+                                    postDataLogin(  username,password);
                                 } else {
                                     Toast.makeText(getContext(), "Error en base de datos", Toast.LENGTH_SHORT).show();
                                 }
@@ -465,6 +467,83 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
         requestQueue.add(jsonObjectRequest);
     }
 
+    private void postDataLogin(final String username, final String password) {
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        JSONObject object = new JSONObject();
+        try {
+            //input your API parameters
+            object.put("username", username);
+            object.put("password", password);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        // Enter the correct url for your api service site
+        String url = "http://34.71.251.155/api/auth/obtain_token/";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Voley post", "login: " + response.toString());
+                        String tok = "";
+                        try {
+
+                            tok = response.getString("token");
+                            account cuenta = db.getCuentaUserPass(username, password);
+
+                                cuenta.setToken(tok);
+                                db.clearToken();
+                                db.updateData(cuenta);
+
+                                    Intent myIntent = new Intent(getContext(), HomeActivity.class);
+                                    startActivity(myIntent);
+                                getActivity().finish();
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Volley post", "error voley" + error.toString());
+                NetworkResponse response = error.networkResponse;
+                if (error instanceof ServerError && response != null) {
+                    try {
+                        String res = new String(response.data,
+                                HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                        // Now you can use any deserializer to make sense of data
+                        JSONObject obj = new JSONObject(res);
+                        Log.d("Voley post", obj.toString());
+                        //String msj = obj.getString("message");
+
+
+                        new CustomToast().Show_Toast(getActivity(), view, "Error en usuario o contraseña");
+
+
+                    } catch (UnsupportedEncodingException e1) {
+                        // Couldn't properly decode data to string
+                        Toast.makeText(getContext(), "Error en operacion", Toast.LENGTH_SHORT).show();
+                        e1.printStackTrace();
+                    } catch (JSONException e2) {
+                        // returned data is not JSONObject?
+                        e2.printStackTrace();
+                    }
+                }
+            }
+
+        }) {
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                statusCode = response.statusCode;
+                return super.parseNetworkResponse(response);
+            }
+        };
+        requestQueue.add(jsonObjectRequest);
+    }
     //-------- propietario
     // Check Validation Method
     private void checkValidation_propietario() {
@@ -533,7 +612,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
     }
 
     public void postDataRegistro_propietario(final String companyName, final String companyPhone, final String ComapnyAddress,
-                                             String username, final String password, final String email, final String client_id, final String phone, final String address,
+                                             final String username, final String password, final String email, final String client_id, final String phone, final String address,
                                              final String name, final String companyRuc) {
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
@@ -577,7 +656,9 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
                                         password, "-1", 1, data.getString("company_id"), companyName, companyPhone,
                                         ComapnyAddress, String.valueOf(latitude), String.valueOf(longitude), name, companyRuc))) {
                                     Toast.makeText(getContext(), msj, Toast.LENGTH_SHORT).show();
-                                    new MainActivity().replaceLoginFragment();
+                                    // new MainActivity().replaceLoginFragment();
+
+                                    postDataLogin(  username,password);
                                 } else {
                                     Toast.makeText(getContext(), "Error en base de datos", Toast.LENGTH_SHORT).show();
                                 }

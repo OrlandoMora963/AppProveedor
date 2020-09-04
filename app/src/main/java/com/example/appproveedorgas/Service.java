@@ -3,11 +3,12 @@ package com.example.appproveedorgas;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -16,7 +17,6 @@ import androidx.core.app.NotificationManagerCompat;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
-import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,8 +26,8 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.Locale;
+
 
 public class Service extends android.app.Service {
     //--
@@ -189,19 +189,15 @@ public class Service extends android.app.Service {
     /*
     public void startTimer() {
         Log.i(TAG, "Starting timer");
-
         //set a new Timer - if one is already running, cancel it to avoid two running at the same time
         stoptimertask();
         timer = new Timer();
-
         //initialize the TimerTask's job
         initializeTimerTask();
-
         Log.i(TAG, "Scheduling...");
         //schedule the timer, to wake up every 1 second
         timer.schedule(timerTask, 1000, 1000); //
     }
-
      */
 
     /**
@@ -216,7 +212,6 @@ public class Service extends android.app.Service {
             }
         };
     }
-
      */
 
     //------- socket
@@ -350,7 +345,6 @@ public class Service extends android.app.Service {
                         });
                     }
                     else{
-
                     }
                     */
                 } catch (JSONException e) {
@@ -390,6 +384,11 @@ public class Service extends android.app.Service {
                     int status = jsonObject.getInt("status");
                     cancel_order(status);
                     sentDataToast("Pedido cancelado");
+                    mostrarAlertaCancelado(
+                            jsonObject
+                                    .getJSONObject("data")
+                                    .getJSONObject("order_id")
+                                    .getInt("id"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -502,7 +501,8 @@ public class Service extends android.app.Service {
 
     //--------
     private void showAlert(double lat, double lng, int id, int time, int distance, List<Mpedido_detalle> detail) {
-        String title = "Pedido a " + distance + " metros";
+        String title = "Pedido a " + distance + " metros\nReferencia " + getStringAddress(lat, lng);
+
         Intent activityIntent = new Intent(this, HomeActivity.class);
         activityIntent.putExtra("id", String.valueOf(id));
         activityIntent.putExtra("lat", String.valueOf(lat));
@@ -516,8 +516,11 @@ public class Service extends android.app.Service {
 
         Intent broadcastIn2 = new Intent(this, PedidoActivity.class);
         broadcastIn2.putExtra("id_pedido", String.valueOf(id));
+        broadcastIn2.putExtra("referencia", "Referencia : " + getStringAddress(lat, lng));
+
         Log.d("Services Alert", String.valueOf(id));
         PendingIntent actionIntent2 = PendingIntent.getActivity(this, 1, broadcastIn2, PendingIntent.FLAG_UPDATE_CURRENT);
+
         android.app.Notification notification = new NotificationCompat.Builder(this, apli.CHANNEL_1_ID)
                 .setSmallIcon(R.drawable.ic_directions_bike_wihte_24dp)
                 .setContentTitle(title)
@@ -530,7 +533,7 @@ public class Service extends android.app.Service {
                 .setLights(Color.WHITE, 3000, 3000)
                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
                 .setColor(Color.BLUE)
-                .setContentIntent(contentIntent)
+                .setContentIntent(actionIntent2)
                 .setAutoCancel(true)
                 .addAction(R.drawable.ic_playlist_add_check_white_24dp, "Ver Detalle", actionIntent2)
                 .addAction(R.drawable.ic_check_white_24dp, "Confirmar", actionIntent)
@@ -538,11 +541,57 @@ public class Service extends android.app.Service {
         notificationManager.notify(1, notification);
     }
 
+
+    private void mostrarAlertaCancelado(int id) {
+        String title = "Se cancelo un pedido";
+
+        Intent intent = new Intent(this, HomeActivity.class);
+        PendingIntent actionIntent2 = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        android.app.Notification notification = new NotificationCompat.Builder(this, apli.CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.ic_directions_bike_wihte_24dp)
+                .setContentTitle(title)
+                .setContentText("Se cancelo el pedido con el ID: " + id)
+                .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                .setLights(Color.WHITE, 3000, 3000)
+                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+                .setColor(Color.BLUE)
+                .addAction(R.drawable.ic_playlist_add_check_white_24dp, "Ver detalle", actionIntent2)
+                .build();
+        notificationManager.notify(1, notification);
+    }
+
     private NotificationCompat.InboxStyle dataNotification(List<Mpedido_detalle> detail) {
         NotificationCompat.InboxStyle notiImbox = new NotificationCompat.InboxStyle();
-        for (int i = 0; i < detail.size(); i++) {
-            notiImbox.addLine(detail.get(i).getCantidad() + " " + detail.get(i).getDescripcion());
+        for (Mpedido_detalle mpedido_detalle : detail) {
+            notiImbox.addLine(mpedido_detalle.getCantidad() + " " + mpedido_detalle.getDescripcion());
         }
         return notiImbox;
+    }
+
+    private String getStringAddress(Double lat, Double lng) {
+        String strAdd = "";
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            if (addresses != null) {
+                Address returnedAddress = addresses.get(0);
+                StringBuilder strReturnedAddress = new StringBuilder("");
+
+                for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
+                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
+                }
+                strAdd = strReturnedAddress.toString().substring(0, strReturnedAddress.toString().lastIndexOf(","));
+                Log.w(TAG, strReturnedAddress.toString());
+            } else {
+                Log.w(TAG, "No Address returned!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.w(TAG, "Canont get Address!");
+        }
+        if(strAdd.contains(","))
+            return strAdd.substring(0, strAdd.lastIndexOf(","));
+        else
+            return "";
     }
 }

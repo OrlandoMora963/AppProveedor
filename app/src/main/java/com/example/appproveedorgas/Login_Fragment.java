@@ -266,7 +266,6 @@ public class Login_Fragment extends Fragment implements OnClickListener {
     }
 
     private void postDataLogin(final String username, final String password) {
-
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         JSONObject object = new JSONObject();
         try {

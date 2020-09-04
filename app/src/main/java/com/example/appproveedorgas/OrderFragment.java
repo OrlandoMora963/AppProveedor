@@ -70,7 +70,7 @@ public class OrderFragment extends Fragment {
         pagination = 1;
         onData = true;
         //---
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+       swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -79,9 +79,9 @@ public class OrderFragment extends Fragment {
             }
         });
         //--- cargar datos
-        cargarDatos();
+     //   cargarDatos();
         //---- InitView
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_orders);
+        recyclerView = view.findViewById(R.id.recycler_orders);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new orderAdapter(recyclerView, getActivity(), orders);
         recyclerView.setAdapter(adapter);
@@ -90,10 +90,11 @@ public class OrderFragment extends Fragment {
             @Override
             public void onLoadMore() {
                 if (onData) {
-                    orders.add(null);
-                    //adapter.notifyItemInserted(orders.size()-1);
+
+
                     recyclerView.post(new Runnable() {
                         public void run() {
+                            orders.add(null);
                             adapter.notifyItemInserted(orders.size() - 1);
                         }
                     });
@@ -105,18 +106,11 @@ public class OrderFragment extends Fragment {
                                     adapter.notifyItemRemoved(orders.size());
                                     Log.d("Data", "Page " + pagination);
                                     postGetDataOrders(pagination);
+
                                 }
                             },
                             1000);
-                    //mas datos
-                    /*
-                    int index = orders.size();
-                    int end = index+10;
-                    for(int i = index;i<end;i++){
-                        Mpedido order = new Mpedido(i,"12/11/19","70.50","Espera");
-                        orders.add(order);
-                    }
-                     */
+
                 } else {
                     if (getActivity() != null)
                         Toast.makeText(getActivity(), "No hay mas datos", Toast.LENGTH_SHORT).show();
@@ -160,6 +154,7 @@ public class OrderFragment extends Fragment {
                     public void onResponse(JSONObject response) {
                         Log.d("Volley get", response.toString());
                         try {
+
                             int st = response.getInt("status");
                             if (st == 200) {
                                 JSONArray lista = response.getJSONArray("data");
@@ -177,12 +172,15 @@ public class OrderFragment extends Fragment {
                                         l_detalle.add(detalle);
                                     }
                                     Mpedido order = new Mpedido(jorder.getInt("id"),
-                                            jorder.getString("date"),
+                                            jorder.getString("voucher").toUpperCase(),
                                             "0",
                                             jorder.getString("status"),
                                             l_detalle,
                                             jclient.getString("phone1"),
-                                            getContext());
+                                            getContext(),
+                                            jorder.getDouble("latitude"),
+                                            jorder.getDouble("longitude")
+                                         );
                                     orders.add(order);
                                 }
                                 adapter.notifyDataSetChanged();

@@ -22,21 +22,64 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_marginTop="-7dp"/>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:id="@+id/relativeLayoutMain"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp">
+
+                <TextView
+                    android:id="@+id/textViewProducto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:text="Producto" />
+                <TextView
+
+                    android:layout_width="65dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:text="Cantidad"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="3dp"
+                    />
+                <TextView
+
+                    android:layout_width="65dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:text="Precio U"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="3dp"
+                    />
+
+                <TextView
+
+                    android:layout_width="65dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:text="Subtotal"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="3dp"
+                    />
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerDetailOrder"
+            android:layout_width="match_parent"
+            android:layout_height="290dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical|end">
-
-
-
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -63,7 +106,8 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dirección: "
+                    android:id="@+id/txtReferencia"
+                    android:text="Referencia: "
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:gravity="start"/>

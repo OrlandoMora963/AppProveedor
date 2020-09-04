@@ -5,7 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -39,6 +43,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appproveedorgas.routes.FetchURL;
 import com.example.appproveedorgas.routes.TaskLoadedCallback;
+import com.example.appproveedorgas.util.DirectionJSONParser;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
@@ -63,19 +68,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.*;
-import java.util.concurrent.Executor;
 
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     //---
     private DatabaseHelper db;
-    //---
-    RequestQueue requestQueue;
-    int statusCode;
-    //String baseUrl = "http://134.209.37.205:8000/api";
     String baseUrl = "http://34.71.251.155/api";
     //---
     public static Socket SOCKET;
@@ -83,10 +90,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     //--
     private ArrayList<Marker> pedidos = new ArrayList<>();
     //--
-    private static final String TAG = "GAS";
+    private static final String TAG = "Friibusiness";
     private Marker marcador;
-    private Marker marcador_carro;
     private GoogleMap mMap;
+    private Polyline mPolyline;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
     private LatLng posicion;
@@ -101,13 +108,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     //---
     BroadcastReceiver updateUIReciver;
     //---
-    private Polyline currentPolyline;
-    //---
     private boolean isNoti2;
     private int noti_id2;
     private double noti_lat2, noti_lng2;
 
-    //--
     //---
     public MapsFragment(int id, double lat, double lng) {
         noti_id2 = id;
@@ -138,6 +142,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         //--
         FloatingActionButton fab_refresh = view.findViewById(R.id.fab_refresh);
         fab_refresh.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(), "Consultando pedidos", Toast.LENGTH_SHORT).show();
@@ -186,12 +191,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         getProductCategory();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onResume() {
         super.onResume();
@@ -213,16 +220,28 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
-        // Prompt the user for permission.
+
+        //Ubicar a cusco por pocicion default
+        LatLng cusco = new LatLng(-13.5179145, -71.9771895);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(cusco));
 
         getLocationPermission();
-
         updateLocationUI();
-
-        // Get the current location of the device and set the position of the map.
         getDeviceLocation();
+    }
 
-
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        if (marker != null && marker.getTag() != null) {
+            Toast.makeText(getContext(), marker.getTag().toString(), Toast.LENGTH_SHORT).show();
+            Intent myIntent = new Intent(getContext(), PedidoActivity.class);
+            myIntent.putExtra("id_pedido", marker.getTag().toString());
+            myIntent.putExtra("referencia", "Referencia : " + getStringAddress(marker.getPosition().latitude, marker.getPosition().longitude));
+            startActivityForResult(myIntent, 1);
+        } else {
+            Toast.makeText(getContext(), "Marker null", Toast.LENGTH_SHORT).show();
+        }
+        return false;
     }
 
     private void getDeviceLocation() {
@@ -234,6 +253,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             if (mLocationPermissionGranted) {
                 Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
                 locationResult.addOnCompleteListener(getActivity(), new OnCompleteListener<Location>() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful()) {
@@ -301,16 +321,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
+                                           @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         mLocationPermissionGranted = false;
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mLocationPermissionGranted = true;
-                }
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mLocationPermissionGranted = true;
             }
         }
         updateLocationUI();
@@ -336,17 +353,33 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         }
     }
 
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        if (marker != null && marker.getTag() != null) {
-            Toast.makeText(getContext(), marker.getTag().toString(), Toast.LENGTH_SHORT).show();
-            Intent myIntent = new Intent(getContext(), PedidoActivity.class);
-            myIntent.putExtra("id_pedido", marker.getTag().toString());
-            startActivityForResult(myIntent, 1);
-        } else {
-            Toast.makeText(getContext(), "Marker null", Toast.LENGTH_SHORT).show();
+
+    private String getStringAddress(Double lat, Double lng) {
+        String strAdd = "";
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            if (addresses != null) {
+                Address returnedAddress = addresses.get(0);
+                StringBuilder strReturnedAddress = new StringBuilder("");
+
+                for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
+                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
+                }
+
+                strAdd = strReturnedAddress.toString().substring(0, strReturnedAddress.toString().lastIndexOf(","));
+                Log.w(TAG, strReturnedAddress.toString());
+            } else {
+                Log.w(TAG, "No Address returned!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.w(TAG, "Canont get Address!");
         }
-        return false;
+        if(strAdd.contains(","))
+        return strAdd.substring(0, strAdd.lastIndexOf(","));
+        else
+            return "";
     }
 
     //----
@@ -410,14 +443,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("Volley get", response.toString());
+                        Log.d(TAG, response.toString());
                         try {
                             int st = response.getInt("status");
                             if (st == 200) {
                                 JSONArray data = response.getJSONArray("data");
                                 stopAnimation = true;
                                 pedidos.clear();
-                                // mMap.clear();
+                                mMap.clear();
                                 cargarPedido();
                                 for (int i = 0; i < data.length(); i++) {
                                     JSONObject pe = data.getJSONObject(i);
@@ -426,17 +459,22 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                                     final LatLng latLng = new LatLng(lat, lng);
                                     final int id = pe.getInt("id");
                                     boolean espera = false;
-                                    if (pe.getString("status").equals("wait"))
-                                    {
-                                        espera = true;
-                                        final boolean finalEspera = espera;
-                                        getActivity().runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                agregarPedido(latLng, id, finalEspera);
-                                            }
-                                        });
+                                    switch (pe.getString("status")) {
+                                        case "wait":
+                                            espera = true;
+                                            break;
+                                        case "confirm":
+                                            espera = false;
+                                            break;
                                     }
+
+                                    final boolean finalEspera = espera;
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            agregarPedido(latLng, id, finalEspera);
+                                        }
+                                    });
                                 }
                             }
 
@@ -559,34 +597,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                     Log.d(TAG, jsonObject.toString());
                     if (msg.equals("ok")) {
                         Log.d(TAG, "AUTH ok");
-                        // Snackbar.make(getWindow().getDecorView().findViewById(R.id.container), "Conexión Exitosa", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                        /*
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getContext(), "Realizando pedido", Toast.LENGTH_SHORT).show();
-
-                            }
-                        });
-
-                         */
                     } else {
                         Log.e(TAG, "AUTH error");
-                        /*
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getContext(), "Verifique Conexión", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                         */
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
+
         SOCKET.on("send order", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -618,6 +637,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 }
             }
         });
+
         SOCKET.on("cancel order provider", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -625,7 +645,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                     return;
                 }
                 JSONObject jsonObject = (JSONObject) args[0];
-                Log.d(TAG, "Cancel Order: " + jsonObject.toString());
+                Log.d(TAG, jsonObject.toString());
             }
         });
     }
@@ -668,12 +688,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 marcador = mMap.addMarker(new MarkerOptions().position(latLng).title("Pedido: " + id).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                 marcador.setTag(id);
                 setMarkerBounce(marcador);
-                pedidos.add(marcador);
             } else {
                 marcador = mMap.addMarker(new MarkerOptions().position(latLng).title("Pedido: " + id).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
                 marcador.setTag(id);
-                pedidos.add(marcador);
+                drawRoute(location_company, latLng);
             }
+            pedidos.add(marcador);
             new FetchURL(getActivity()).execute(getUrl(location_company, latLng, "driving"), "driving");
         }
 
@@ -697,8 +717,135 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     //-----
-    public void DibujarRuta(Object... values) {
-        //Log.d("Maps FRagment",data);
+    /*public void DibujarRuta(Object... values) {
+        Log.d("Maps FRagment", String.valueOf(values[0]));
         currentPolyline = mMap.addPolyline((PolylineOptions) values[0]);
+    }*/
+
+    private void drawRoute(LatLng mOrigin, LatLng mDestination) {
+
+        String url = getURL(mOrigin, mDestination);
+        DownloadTask downloadTask = new DownloadTask();
+        downloadTask.execute(url);
+    }
+
+
+    // Obtener la ruta
+    private String getURL(LatLng origin, LatLng destination) {
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+        String str_dest = "destination=" + destination.latitude + "," + destination.longitude;
+        String key = "key=" + getString(R.string.google_maps_key);
+        String parameters = str_origin + "&" + str_dest + "&" + key;
+        String output = "json";
+        return "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
+    }
+
+    private String downloadURL(String URL) throws IOException {
+        String data = "";
+        InputStream iStream = null;
+        HttpURLConnection urlConnection = null;
+        try {
+            java.net.URL url = new URL(URL);
+
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.connect();
+
+            iStream = urlConnection.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
+            StringBuffer sb = new StringBuffer();
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+            data = sb.toString();
+            br.close();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } finally {
+            iStream.close();
+            urlConnection.disconnect();
+
+        }
+
+        return data;
+    }
+
+    private class DownloadTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... url) {
+            String data = "";
+            try {
+                data = downloadURL(url[0]);
+                Log.d("Download Task", "DownloadTask: " + data);
+            } catch (IOException e) {
+                Log.d("Background Task ", e.toString());
+            }
+
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            ParserTask parserTask = new ParserTask();
+            parserTask.execute(result);
+        }
+    }
+
+    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
+
+        @Override
+        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
+            JSONObject object;
+            List<List<HashMap<String, String>>> routes = null;
+            try {
+                object = new JSONObject(jsonData[0]);
+                DirectionJSONParser parser = new DirectionJSONParser();
+                routes = parser.parse(object);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return routes;
+        }
+
+        @Override
+        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+            ArrayList<LatLng> points;
+            PolylineOptions lineOptions = null;
+
+            for (int i = 0; i < result.size(); i++) {
+                points = new ArrayList<LatLng>();
+                lineOptions = new PolylineOptions();
+                List<HashMap<String, String>> path = result.get(i);
+
+                // Fetching all the points in i-th route
+                for (int j = 0; j < path.size(); j++) {
+                    HashMap<String, String> point = path.get(j);
+
+                    double lat = Double.parseDouble(point.get("lat"));
+                    double lng = Double.parseDouble(point.get("lng"));
+                    LatLng position = new LatLng(lat, lng);
+
+                    points.add(position);
+                }
+
+                lineOptions.addAll(points);
+                lineOptions.width(8);
+                lineOptions.color(Color.RED);
+            }
+
+            if (lineOptions != null) {
+                if (mPolyline != null) {
+                    mPolyline.remove();
+                }
+                mPolyline = mMap.addPolyline(lineOptions);
+
+            } else
+                Toast.makeText(getContext(), "No route is found", Toast.LENGTH_LONG).show();
+        }
     }
 }

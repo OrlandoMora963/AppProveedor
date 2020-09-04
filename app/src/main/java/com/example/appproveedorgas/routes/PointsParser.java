@@ -40,12 +40,7 @@ public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<S
             Log.d(TAG, jsonData[0].toString());
             DataParser parser = new DataParser();
             Log.d(TAG, parser.toString());
-
-            // Starts parsing data
             routes = parser.parse(jObject);
-            Log.d(TAG, "Executing routes");
-            Log.d(TAG, routes.toString());
-
         } catch (Exception e) {
             Log.d(TAG, e.toString());
             e.printStackTrace();

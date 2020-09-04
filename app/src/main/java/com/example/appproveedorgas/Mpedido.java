@@ -11,6 +11,8 @@ public class Mpedido {
     private String precioTotal;
     private String estado;
     private List<Mpedido_detalle> detalle = new ArrayList<>();
+    private Double Latitud;
+    private Double Longitud;
     private String phone;
     private Context context;
 
@@ -22,7 +24,8 @@ public class Mpedido {
 
     }
 
-    public Mpedido(int idPedido, String fecha, String precioTotal, String estado, List<Mpedido_detalle> detalle, String phone, Context context) {
+    public Mpedido(int idPedido, String fecha, String precioTotal, String estado, List<Mpedido_detalle> detalle, String phone, Context context,
+                   Double Latitud,Double Longitud) {
         this.idPedido = idPedido;
         this.fecha = fecha;
         this.precioTotal = precioTotal;
@@ -30,6 +33,8 @@ public class Mpedido {
         this.detalle = detalle;
         this.context = context;
         this.phone = phone;
+        this.Latitud=Latitud;
+        this.Longitud=Longitud;
         if (estado.equals("cancel"))
             this.estado = "Cancelado";
         if (estado.equals("delivered"))
@@ -38,6 +43,22 @@ public class Mpedido {
             this.estado = "En espera";
         if (estado.equals("confirm"))
             this.estado = "Confirmado";
+    }
+
+    public Double getLatitud() {
+        return Latitud;
+    }
+
+    public void setLatitud(Double latitud) {
+        Latitud = latitud;
+    }
+
+    public Double getLongitud() {
+        return Longitud;
+    }
+
+    public void setLongitud(Double longitud) {
+        Longitud = longitud;
     }
 
     public int getIdPedido() {

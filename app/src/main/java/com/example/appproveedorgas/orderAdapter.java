@@ -3,7 +3,10 @@ package com.example.appproveedorgas;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Locale;
 
 
 class LoadingViewHolder extends RecyclerView.ViewHolder {
@@ -57,7 +61,30 @@ public class orderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     List<Mpedido> pedidos;
     int visibleThreshold = 5;
     int lastVisible, totalItemCount;
+    private String getStringAddress(Double lat, Double lng) {
+        String strAdd = "";
+        Geocoder geocoder = new Geocoder(activity, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            if (addresses != null) {
+                Address returnedAddress = addresses.get(0);
+                StringBuilder strReturnedAddress = new StringBuilder("");
 
+                for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
+                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
+                }
+                strAdd = strReturnedAddress.toString().substring(0,strReturnedAddress.toString().lastIndexOf(","));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        if(strAdd.contains(","))
+            return strAdd.substring(0, strAdd.lastIndexOf(","));
+        else
+            return "";
+    }
     public orderAdapter(RecyclerView recyclerView, Activity activity, List<Mpedido> pedidos) {
         this.activity = activity;
         this.pedidos = pedidos;
@@ -129,6 +156,7 @@ public class orderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 public void onClick(View view) {
                     Intent myIntentPro = new Intent(mpedido.getContext(), PedidoActivity.class);
                     myIntentPro.putExtra("id_pedido", String.valueOf(mpedido.getIdPedido()));
+                    myIntentPro.putExtra("referencia", "Referencia : "+getStringAddress(mpedido.getLatitud(),mpedido.getLongitud()));
                     activity.startActivity(myIntentPro);
                 }
             });
