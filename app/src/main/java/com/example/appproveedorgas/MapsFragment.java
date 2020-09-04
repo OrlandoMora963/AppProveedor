@@ -149,6 +149,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 getProductCategory();
             }
         });
+        FloatingActionButton position = view.findViewById(R.id.position);
+        position.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(getContext(), ActualizarPosicionActivity.class);
+                startActivity(intent1);
+            }
+        });
         // Inflate the layout for this fragment
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()

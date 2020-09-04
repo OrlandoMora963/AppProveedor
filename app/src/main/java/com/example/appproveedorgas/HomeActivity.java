@@ -119,10 +119,10 @@ public class HomeActivity extends AppCompatActivity implements TaskLoadedCallbac
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.item_pocicion:
+          /*  case R.id.item_pocicion:
                 Intent intent1 = new Intent(this, ActualizarPosicionActivity.class);
                 startActivity(intent1);
-                break;
+                break;*/
             case R.id.item_perfil:
                 Toast.makeText(getApplicationContext(), "Perfil", Toast.LENGTH_SHORT).show();
                 Intent myIntentPro = new Intent(getBaseContext(), ProfileActivity.class);

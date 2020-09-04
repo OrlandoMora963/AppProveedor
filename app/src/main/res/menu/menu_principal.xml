@@ -6,28 +6,28 @@
         android:icon="@drawable/ic_library_books_white_24dp"
         android:title="Guardar Ruta"
         app:showAsAction = "ifRoom"/>
-    -->
-
-    <item
-        android:id="@+id/item_pocicion"
-        android:title="Actualizar Posición"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/item_perfil"
-        android:title="Perfil"
-        app:showAsAction="never" />
 
 
-    <item
-        android:id="@+id/item_usuarios"
-        android:title="Usuarios"
-        app:showAsAction="never" />
+        <item
+            android:id="@+id/item_pocicion"
+            android:title="Actualizar Posición"
+            app:showAsAction="never" />
+        -->
+        <item
+            android:id="@+id/item_perfil"
+            android:title="Perfil"
+            app:showAsAction="never" />
 
-    <view />
 
-    <item
-        android:id="@+id/item_session"
-        android:title="Cerrar sesión"
-        app:showAsAction="never" />
-</menu>
+        <item
+            android:id="@+id/item_usuarios"
+            android:title="Usuarios"
+            app:showAsAction="never" />
+
+        <view />
+
+        <item
+            android:id="@+id/item_session"
+            android:title="Cerrar sesión"
+            app:showAsAction="never" />
+    </menu>
