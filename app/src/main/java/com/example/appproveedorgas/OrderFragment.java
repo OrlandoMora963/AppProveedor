@@ -172,7 +172,9 @@ public class OrderFragment extends Fragment {
                                         l_detalle.add(detalle);
                                     }
                                     Mpedido order = new Mpedido(jorder.getInt("id"),
-                                            jorder.getString("voucher").toUpperCase(),
+                                            jorder.getString("voucher")+
+                                                 " "+   jorder.getString("date")+
+                                            " "+   jorder.getString("time").substring(0,8),
                                             "0",
                                             jorder.getString("status"),
                                             l_detalle,

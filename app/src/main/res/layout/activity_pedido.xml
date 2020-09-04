@@ -36,37 +36,35 @@
                     android:layout_weight="1"
                     android:textSize="16sp"
                     android:textColor="@color/black"
-                    android:text="Producto" />
+                    android:text="Producto"
+              />
                 <TextView
 
-                    android:layout_width="65dp"
+                    android:layout_width="68dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:text="Cantidad"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="3dp"
                     />
                 <TextView
 
-                    android:layout_width="65dp"
+                    android:layout_width="68dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:text="Precio U"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="3dp"
+
+                    android:layout_marginEnd="5dp"
                     />
 
                 <TextView
 
-                    android:layout_width="65dp"
+                    android:layout_width="68dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:text="Subtotal"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="3dp"
+
                     />
             </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView
