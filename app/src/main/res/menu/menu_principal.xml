@@ -8,16 +8,26 @@
         app:showAsAction = "ifRoom"/>
     -->
 
-    <item android:id="@+id/item_pocicion"
-        android:title="Actualizar Pocición"
-        app:showAsAction = "never"/>
+    <item
+        android:id="@+id/item_pocicion"
+        android:title="Actualizar Posición"
+        app:showAsAction="never" />
 
-    <item android:id="@+id/item_perfil"
+    <item
+        android:id="@+id/item_perfil"
         android:title="Perfil"
-        app:showAsAction = "never"/>
+        app:showAsAction="never" />
 
 
-    <item android:id="@+id/item_usuarios"
+    <item
+        android:id="@+id/item_usuarios"
         android:title="Usuarios"
-        app:showAsAction = "never"/>
+        app:showAsAction="never" />
+
+    <view />
+
+    <item
+        android:id="@+id/item_session"
+        android:title="Cerrar sesión"
+        app:showAsAction="never" />
 </menu>

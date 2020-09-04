@@ -25,7 +25,7 @@ public class HomeActivity extends AppCompatActivity implements TaskLoadedCallbac
     private double noti_lat, noti_lng;
     //--
     private DatabaseHelper db;
-
+    account cuenta;
 
     //--
     private MenuItem usuarioItem;
@@ -40,7 +40,6 @@ public class HomeActivity extends AppCompatActivity implements TaskLoadedCallbac
         //-----
         this.db = new DatabaseHelper(getApplicationContext());
         setContentView(R.layout.activity_home);
-
 
 
         //------
@@ -68,7 +67,7 @@ public class HomeActivity extends AppCompatActivity implements TaskLoadedCallbac
             adapter.AddFragment(new MapsFragment(), "Map");
 
         adapter.AddFragment(new OrderFragment(), "Pedidos");
-        account cuenta = db.getAcountToken();
+        cuenta = db.getAcountToken();
         if (cuenta.getType() == 1)
             adapter.AddFragment(new ProductFragment(), "Productos");
 
@@ -89,6 +88,7 @@ public class HomeActivity extends AppCompatActivity implements TaskLoadedCallbac
         //----
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -98,6 +98,7 @@ public class HomeActivity extends AppCompatActivity implements TaskLoadedCallbac
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_principal, menu);
@@ -132,10 +133,12 @@ public class HomeActivity extends AppCompatActivity implements TaskLoadedCallbac
                 Intent intent = new Intent(getBaseContext(), CreateUserActivity.class);
                 startActivity(intent);
                 return true;
+            case R.id.item_session:
+                db.clearToken();
+                finish();
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
     @Override
@@ -152,7 +155,6 @@ public class HomeActivity extends AppCompatActivity implements TaskLoadedCallbac
         MapsFragment maps = (MapsFragment) viewPageAdapter.getItem(0);
         // maps.DibujarRuta(values);
     }
-
 
 
 }
