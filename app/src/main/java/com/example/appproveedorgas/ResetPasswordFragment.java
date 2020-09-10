@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +41,10 @@ public class ResetPasswordFragment extends Fragment implements View.OnClickListe
     private EditText txtConfirmPassword;
     private TextView submit, back;
 
+    //--
+    private ProgressBar progressBar;
+    private TextView tv_espera;
+
     public ResetPasswordFragment() {
 
     }
@@ -49,6 +55,7 @@ public class ResetPasswordFragment extends Fragment implements View.OnClickListe
         view = inflater.inflate(R.layout.reset_password, container,
                 false);
         initViews();
+        ocultarProgress();
         setListeners();
         return view;
     }
@@ -60,6 +67,9 @@ public class ResetPasswordFragment extends Fragment implements View.OnClickListe
         txtConfirmPassword = view.findViewById(R.id.txtConfirmPassword);
         submit = view.findViewById(R.id.btnResetearPassword);
         back = view.findViewById(R.id.backToLoginBtn);
+
+        progressBar = view.findViewById(R.id.pbCambiarContraseña);
+        tv_espera = view.findViewById(R.id.tv_espera);
     }
 
     // Set Listeners over buttons
@@ -87,6 +97,7 @@ public class ResetPasswordFragment extends Fragment implements View.OnClickListe
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void submitButtonTask() {
+        mostrarProgress();
         String password = txtPassword.getText().toString();
         String codigo = txtCodigo.getText().toString();
         String confirmPassword = txtConfirmPassword.getText().toString();
@@ -120,6 +131,7 @@ public class ResetPasswordFragment extends Fragment implements View.OnClickListe
                             try {
                                 String status = response.getString("status");
                                 if (status.equals("OK")) {
+                                    ocultarProgress();
                                     Intent intent = new Intent(getContext(), MainActivity.class);
                                     startActivity(intent);
                                     Toast.makeText(getContext(), "Contraseña cambiada correctamente :)", Toast.LENGTH_LONG)
@@ -154,7 +166,7 @@ public class ResetPasswordFragment extends Fragment implements View.OnClickListe
                                                 "El código ingresado es incorrecto :(");
                                     }
 
-
+                                    ocultarProgress();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -163,5 +175,26 @@ public class ResetPasswordFragment extends Fragment implements View.OnClickListe
                     });
             queue.add(jsonObjectRequest);
         }
+    }
+
+
+    private void mostrarProgress() {
+        if (getActivity() == null) {
+            return;
+        }
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        progressBar.setVisibility(View.VISIBLE);
+        tv_espera.setVisibility(View.VISIBLE);
+
+    }
+
+    private void ocultarProgress() {
+        if (getActivity() == null) {
+            return;
+        }
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        progressBar.setVisibility(View.INVISIBLE);
+        tv_espera.setVisibility(View.INVISIBLE);
     }
 }

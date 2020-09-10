@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +42,10 @@ public class ForgotPassword_Fragment extends Fragment implements
     private EditText emailId;
     private TextView submit, btnCodigo;
 
+    //--
+    private ProgressBar progressBar;
+    private TextView tv_espera;
+
     public ForgotPassword_Fragment() {
 
     }
@@ -51,6 +57,7 @@ public class ForgotPassword_Fragment extends Fragment implements
         view = inflater.inflate(R.layout.forgotpassword_layout, container,
                 false);
         initViews();
+        ocultarProgress();
         setListeners();
         return view;
     }
@@ -62,6 +69,9 @@ public class ForgotPassword_Fragment extends Fragment implements
         submit = (TextView) view.findViewById(R.id.forgot_button);
         btnCodigo = (TextView) view.findViewById(R.id.btncodigo);
         fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+
+        progressBar = view.findViewById(R.id.pbCambiarContraseña);
+        tv_espera = view.findViewById(R.id.tv_espera);
     }
 
     // Set Listeners over buttons
@@ -92,6 +102,7 @@ public class ForgotPassword_Fragment extends Fragment implements
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void submitButtonTask() {
+        mostrarProgress();
         String getEmailId = emailId.getText().toString();
         Pattern p = Pattern.compile(Utils.regEx);
         Matcher m = p.matcher(getEmailId);
@@ -119,6 +130,7 @@ public class ForgotPassword_Fragment extends Fragment implements
                             try {
                                 String status = response.getString("status");
                                 if (status.equals("OK")) {
+                                    ocultarProgress();
                                     fragmentManager
                                             .beginTransaction()
                                             .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
@@ -142,7 +154,7 @@ public class ForgotPassword_Fragment extends Fragment implements
                                     // Now you can use any deserializer to make sense of data
                                     JSONObject obj = new JSONObject(res);
                                     Log.d("Voley post", obj.toString());
-
+                                    ocultarProgress();
                                     if (!obj.getString("email").equals("")) {
                                         Toast.makeText(getContext(),
                                                 obj.getJSONArray("email")
@@ -158,5 +170,25 @@ public class ForgotPassword_Fragment extends Fragment implements
                     });
             queue.add(jsonObjectRequest);
         }
+    }
+
+    private void mostrarProgress() {
+        if (getActivity() == null) {
+            return;
+        }
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        progressBar.setVisibility(View.VISIBLE);
+        tv_espera.setVisibility(View.VISIBLE);
+
+    }
+
+    private void ocultarProgress() {
+        if (getActivity() == null) {
+            return;
+        }
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        progressBar.setVisibility(View.INVISIBLE);
+        tv_espera.setVisibility(View.INVISIBLE);
     }
 }
