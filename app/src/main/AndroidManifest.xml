@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.appproveedorgas">
+    package="com.mayorista.appproveedorgas">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
-        android:name=".App"
+        android:name="com.mayorista.appproveedorgas.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -19,21 +19,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Terminos_Condiciones_Activity"></activity>
-        <activity android:name=".ActualizarPosicionActivity" />
-        <activity android:name=".CreateUserActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".PedidoActivity" />
-        <activity android:name=".MisProductosActivity" />
-        <activity android:name=".GasActivity" />
-        <activity android:name=".ProductActivity" />
+        <activity android:name="com.mayorista.appproveedorgas.Terminos_Condiciones_Activity"></activity>
+        <activity android:name="com.mayorista.appproveedorgas.ActualizarPosicionActivity" />
+        <activity android:name="com.mayorista.appproveedorgas.CreateUserActivity" />
+        <activity android:name="com.mayorista.appproveedorgas.ProfileActivity" />
+        <activity android:name="com.mayorista.appproveedorgas.PedidoActivity" />
+        <activity android:name="com.mayorista.appproveedorgas.MisProductosActivity" />
+        <activity android:name="com.mayorista.appproveedorgas.GasActivity" />
+        <activity android:name="com.mayorista.appproveedorgas.ProductActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".MainActivity"
+        <activity android:name="com.mayorista.appproveedorgas.HomeActivity" />
+        <activity
+            android:name="com.mayorista.appproveedorgas.MainActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,18 +44,18 @@
         </activity>
 
         <service
-            android:name=".JobService"
+            android:name="com.mayorista.appproveedorgas.JobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <service
-            android:name=".Service"
+            android:name="com.mayorista.appproveedorgas.Service"
             android:clearTaskOnLaunch="true"
             android:enabled="true"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance" />
 
         <receiver
-            android:name=".RestartServiceBroadcastReceiver"
+            android:name="com.mayorista.appproveedorgas.RestartServiceBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:label="StartMyServiceAtBootReceiver">
@@ -62,16 +63,16 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-                <action android:name="com.example.appproveedorgas.RestartServiceBroadcastReceiver" />
+                <action android:name="com.mayorista.appproveedorgas.RestartServiceBroadcastReceiver" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".NotificationReceiver" />
+        <receiver android:name="com.mayorista.appproveedorgas.NotificationReceiver" />
 
         <service
-            android:name=".addressLocation.FetchAddressIntentService"
+            android:name="com.mayorista.appproveedorgas.addressLocation.FetchAddressIntentService"
             android:exported="false" />
     </application>
 

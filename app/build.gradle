@@ -4,7 +4,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
     defaultConfig {
-        applicationId "com.example.appproveedorgas"
+        applicationId "com.mayorista.appproveedorgas"
         minSdkVersion 17
         targetSdkVersion 29
         versionCode 1
@@ -13,6 +13,8 @@ android {
     }
     buildTypes {
         release {
+
+            crunchPngs false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
