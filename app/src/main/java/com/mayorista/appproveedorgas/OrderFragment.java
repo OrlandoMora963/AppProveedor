@@ -78,9 +78,6 @@ public class OrderFragment extends Fragment {
                 cargarDatos();
             }
         });
-        //--- cargar datos
-     //   cargarDatos();
-        //---- InitView
         recyclerView = view.findViewById(R.id.recycler_orders);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new orderAdapter(recyclerView, getActivity(), orders);
@@ -90,35 +87,31 @@ public class OrderFragment extends Fragment {
             @Override
             public void onLoadMore() {
                 if (onData) {
-
-
                     recyclerView.post(new Runnable() {
                         public void run() {
-                            orders.add(null);
-                            adapter.notifyItemInserted(orders.size() - 1);
+                          //  orders.add(null);
+                         //   adapter.notifyItemInserted(orders.size() - 1);
                         }
                     });
                     new android.os.Handler().postDelayed(
                             new Runnable() {
                                 public void run() {
                                     pagination++;
-                                    orders.remove(orders.size() - 1);
-                                    adapter.notifyItemRemoved(orders.size());
+                                  //  orders.remove(orders.size() - 1);
+                                //    adapter.notifyItemRemoved(orders.size());
                                     Log.d("Data", "Page " + pagination);
                                     postGetDataOrders(pagination);
-
                                 }
                             },
                             1000);
-
                 } else {
                     if (getActivity() != null)
                         Toast.makeText(getActivity(), "No hay mas datos", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
         // Inflate the layout for this fragment
+
         return view;
     }
 
@@ -141,7 +134,15 @@ public class OrderFragment extends Fragment {
         super.onResume();
         cargarDatos();
     }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser) {
+            cargarDatos();
+        } else {
 
+        }
+    }
     //----
     private void postGetDataOrders(int pg) {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
