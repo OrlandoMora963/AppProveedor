@@ -1,4 +1,4 @@
-package com.mayorista.appproveedorgas;
+package com.mayorista.appproveedorgas.pojo;
 
 import android.content.Context;
 

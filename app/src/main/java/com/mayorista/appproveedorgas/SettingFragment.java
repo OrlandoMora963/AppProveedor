@@ -42,20 +42,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.mayorista.appproveedorgas.pojo.Product;
 import com.squareup.picasso.Picasso;
-
-/**
- * A simple {@link Fragment} subclass.
- */
 
 public class SettingFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshSetting;
-    //----
-    RequestQueue requestQueue;  // This is our requests queue to process our HTTP requests.
-    int statusCode;
-    //String baseUrl = "http://134.209.37.205:8000/api";
-    String baseUrl = "http://34.71.251.155/api";
-    String url;  // This will hold the full URL which will include the username entered in the etGitHubUser.
     //----
     private DatabaseHelper db;
 
@@ -281,7 +272,7 @@ public class SettingFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         JSONObject object = new JSONObject();
         // Enter the correct url for your api service site
-        String url = this.baseUrl + "/product/register/";
+        String url = Variable.HOST + "/product/register/";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, object,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -398,56 +389,17 @@ public class SettingFragment extends Fragment {
             e.printStackTrace();
         }
         // Enter the correct url for your api service site
-        String url = this.baseUrl + "/product/register/";
+        String url = Variable.HOST + "/product/register/";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        /*
-                        Log.d("Volley get",response.toString());
-                        try {
-                            JSONArray data = response.getJSONArray("data");
-                            for(int i=0;i<data.length();i++){
-                                JSONObject obj = data.getJSONObject(i);
-                                CreateCardViewProgrammatically(new Product(obj.getInt("id"),
-                                        obj.getDouble("measurement"),
-                                        obj.getDouble("unit_price"),
-                                        obj.getString("image"),
-                                        obj.getJSONObject("category_id").getString("name"),
-                                        obj.getJSONObject("marke_id").getString("name"),
-                                        obj.getJSONObject("measurement_id").getString("name")));
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }*/
                         Toast.makeText(getContext(), "Producto Seleccionado", Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("Volley get", "error voley" + error.toString());
-                /*
-                NetworkResponse response = error.networkResponse;
-                if (error instanceof ServerError && response != null) {
-                    try {
-                        String res = new String(response.data,
-                                HttpHeaderParser.parseCharset(response.headers, "utf-8"));
-                        // Now you can use any deserializer to make sense of data
-                        JSONObject obj = new JSONObject(res);
-                        Log.d("Voley post",obj.toString());
-                        String msj = obj.getString("message");
-                        Toast.makeText(getContext(),msj , Toast.LENGTH_SHORT).show();
-
-                    } catch (UnsupportedEncodingException e1) {
-                        // Couldn't properly decode data to string
-                        e1.printStackTrace();
-                    } catch (JSONException e2) {
-                        // returned data is not JSONObject?
-                        e2.printStackTrace();
-                    }
-                }
-                */
             }
 
         }) {
@@ -469,7 +421,7 @@ public class SettingFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         JSONObject object = new JSONObject();
         // Enter the correct url for your api service site
-        String url = this.baseUrl + "/product/register/" + id + "/";
+        String url = Variable.HOST + "/product/register/" + id + "/";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, object,
                 new Response.Listener<JSONObject>() {
                     @Override

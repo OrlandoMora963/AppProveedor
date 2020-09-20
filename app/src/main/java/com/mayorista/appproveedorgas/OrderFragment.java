@@ -26,6 +26,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.mayorista.appproveedorgas.pojo.Mpedido;
+import com.mayorista.appproveedorgas.pojo.Mpedido_detalle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,10 +39,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class OrderFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     View view;
@@ -48,9 +46,7 @@ public class OrderFragment extends Fragment {
     RecyclerView recyclerView;
     List<Mpedido> orders = new ArrayList<>();
     orderAdapter adapter;
-    //-----
-    //String baseUrl = "http://134.209.37.205:8000/api";
-    String baseUrl = "http://34.71.251.155/api";
+
     private DatabaseHelper db;
     //-----
     private int pagination;
@@ -70,7 +66,7 @@ public class OrderFragment extends Fragment {
         pagination = 1;
         onData = true;
         //---
-       swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -148,7 +144,7 @@ public class OrderFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         JSONObject object = new JSONObject();
         // Enter the correct url for your api service site
-        String url = this.baseUrl + "/company/orders/" + pg + "/";
+        String url = Variable.HOST + "/company/orders/" + pg + "/";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, object,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -173,9 +169,9 @@ public class OrderFragment extends Fragment {
                                         l_detalle.add(detalle);
                                     }
                                     Mpedido order = new Mpedido(jorder.getInt("id"),
-                                            jorder.getString("voucher")+
-                                                 " "+   jorder.getString("date")+
-                                            " "+   jorder.getString("time").substring(0,8),
+                                            jorder.getString("voucher") +
+                                                    " " + jorder.getString("date") +
+                                                    " " + jorder.getString("time").substring(0, 8),
                                             "0",
                                             jorder.getString("status"),
                                             l_detalle,
@@ -183,7 +179,7 @@ public class OrderFragment extends Fragment {
                                             getContext(),
                                             jorder.getDouble("latitude"),
                                             jorder.getDouble("longitude")
-                                         );
+                                    );
                                     orders.add(order);
                                 }
                                 adapter.notifyDataSetChanged();

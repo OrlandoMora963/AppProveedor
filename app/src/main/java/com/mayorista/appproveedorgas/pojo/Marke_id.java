@@ -1,14 +1,15 @@
-package com.mayorista.appproveedorgas.util;
+package com.mayorista.appproveedorgas.pojo;
 
-public class Category_id {
+public class Marke_id {
     private int id;
     private String name;
     private String image;
+    private int category_id;
 
 
     // Getter Methods
 
-    public float getId() {
+    public int getId() {
         return id;
     }
 
@@ -18,6 +19,10 @@ public class Category_id {
 
     public String getImage() {
         return image;
+    }
+
+    public float getCategory_id() {
+        return category_id;
     }
 
     // Setter Methods
@@ -34,4 +39,7 @@ public class Category_id {
         this.image = image;
     }
 
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
+    }
 }

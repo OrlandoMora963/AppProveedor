@@ -1,5 +1,7 @@
 package com.mayorista.appproveedorgas.util;
 
+import com.mayorista.appproveedorgas.pojo.Register;
+
 public class ProductRegister {
     private Product product;
     private Register register;

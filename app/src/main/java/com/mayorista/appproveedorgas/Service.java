@@ -17,6 +17,8 @@ import androidx.core.app.NotificationManagerCompat;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import com.mayorista.appproveedorgas.pojo.Mpedido_detalle;
+import com.mayorista.appproveedorgas.pojo.account;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +46,6 @@ public class Service extends android.app.Service {
     private int id_order = 0;
     //---
     public static Socket SOCKET;
-    public String HOST_NODEJS = "http://34.71.251.155:9000";
 
     //-----
     public static final String ACTION = "com.mayorista.appproveedorgas.mapsfragment";
@@ -154,7 +155,7 @@ public class Service extends android.app.Service {
         super.onDestroy();
         Log.i(TAG, "onDestroy called");
         // restart the never ending service
-        Intent broadcastIntent = new Intent(Globals.RESTART_INTENT);
+        Intent broadcastIntent = new Intent(Variable.RESTART_INTENT);
         sendBroadcast(broadcastIntent);
         //stoptimertask();
     }
@@ -171,7 +172,7 @@ public class Service extends android.app.Service {
         super.onTaskRemoved(rootIntent);
         Log.i(TAG, "onTaskRemoved called");
         // restart the never ending service
-        Intent broadcastIntent = new Intent(Globals.RESTART_INTENT);
+        Intent broadcastIntent = new Intent(Variable.RESTART_INTENT);
         sendBroadcast(broadcastIntent);
         // do not call stoptimertask because on some phones it is called asynchronously
         // after you swipe out the app and therefore sometimes
@@ -229,7 +230,7 @@ public class Service extends android.app.Service {
         }
 
         try {
-            SOCKET = IO.socket(HOST_NODEJS, opts);
+            SOCKET = IO.socket(Variable.HOST_NODE, opts);
             SOCKET.connect();
             // SOCKET.io().reconnectionDelay(10000);
             Log.d(TAG, "Node connect ok");
@@ -589,7 +590,7 @@ public class Service extends android.app.Service {
             e.printStackTrace();
             Log.w(TAG, "Canont get Address!");
         }
-        if(strAdd.contains(","))
+        if (strAdd.contains(","))
             return strAdd.substring(0, strAdd.lastIndexOf(","));
         else
             return "";

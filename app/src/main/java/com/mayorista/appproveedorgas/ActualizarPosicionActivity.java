@@ -24,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.mayorista.appproveedorgas.pojo.account;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,7 +77,7 @@ public class ActualizarPosicionActivity extends AppCompatActivity {
                         public void onSuccess(final Location location) {
                             JSONObject data = new JSONObject();
                             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-                            String url = baseUrl + "/staff/coordinates/";
+                            String url = Variable.HOST + "/staff/coordinates/";
                             if (location != null) {
                                 try {
                                     data.put("latitude", location.getLatitude());
@@ -150,6 +151,4 @@ public class ActualizarPosicionActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     private DatabaseHelper db;
 
-    //--
-    private String baseUrl = "http://34.71.251.155/api";
 }

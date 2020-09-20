@@ -1,4 +1,4 @@
-package com.mayorista.appproveedorgas.util;
+package com.mayorista.appproveedorgas.pojo;
 
 public class product_marcas {
 

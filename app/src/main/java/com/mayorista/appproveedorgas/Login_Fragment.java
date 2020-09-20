@@ -45,6 +45,8 @@ import com.android.volley.toolbox.Volley;
 
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
+import com.mayorista.appproveedorgas.pojo.account;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -53,17 +55,13 @@ public class Login_Fragment extends Fragment implements OnClickListener {
     //----
     RequestQueue requestQueue;  // This is our requests queue to process our HTTP requests.
     int statusCode;
-    //String baseUrl = "http://134.209.37.205:8000/api/auth";
-    String baseUrl = "http://34.71.251.155/api/auth";
-    String url;  // This will hold the full URL which will include the username entered in the etGitHubUser.
-    //----
     private DatabaseHelper db;
     //---
     private static View view;
 
     private static EditText emailid, password;
     private static Button loginButton;
-    private static TextView forgotPassword, signUp;
+    private static TextView forgotPassword, signUp, btnValidarCuenta;
     private static CheckBox show_hide_password;
     private static LinearLayout loginLayout;
     private static Animation shakeAnimation;
@@ -123,6 +121,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
         password = (EditText) view.findViewById(R.id.login_password);
         loginButton = (Button) view.findViewById(R.id.loginBtn);
         forgotPassword = (TextView) view.findViewById(R.id.forgot_password);
+        btnValidarCuenta = (TextView) view.findViewById(R.id.btnValidarCuenta);
         signUp = (TextView) view.findViewById(R.id.createAccount);
         show_hide_password = (CheckBox) view
                 .findViewById(R.id.show_hide_password);
@@ -150,6 +149,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
         loginButton.setOnClickListener(this);
         forgotPassword.setOnClickListener(this);
         signUp.setOnClickListener(this);
+        btnValidarCuenta.setOnClickListener(this);
 
         // Set check listener over checkbox for showing and hiding password
         show_hide_password
@@ -201,7 +201,15 @@ public class Login_Fragment extends Fragment implements OnClickListener {
                         .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
                         .replace(R.id.frameContainer,
                                 new ForgotPassword_Fragment(),
-                                Utils.ForgotPassword_Fragment).commit();
+                                Variable.ForgotPassword_Fragment).commit();
+                break;
+
+            case R.id.btnValidarCuenta:
+                fragmentManager
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
+                        .replace(R.id.frameContainer, new ValidarCuentaFragment(), Variable.ForgotPassword_Fragment)
+                        .commit();
                 break;
             case R.id.createAccount:
                 // Replace signup frgament with animation
@@ -217,7 +225,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
                         .beginTransaction()
                         .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
                         .replace(R.id.frameContainer, new TipoProveedorFragment(),
-                                Utils.TipoProveedorFragment).commit();
+                                Variable.TipoProveedorFragment).commit();
                 break;
         }
 
@@ -230,7 +238,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
         String getPassword = password.getText().toString();
 
         // Check patter for email id
-        Pattern p = Pattern.compile(Utils.regEx);
+        Pattern p = Pattern.compile(Variable.regEx);
 
         Matcher m = p.matcher(getEmailId);
 
@@ -277,7 +285,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
             e.printStackTrace();
         }
         // Enter the correct url for your api service site
-        String url = this.baseUrl + "/obtain_token/";
+        String url = Variable.HOST + "/auth/obtain_token/";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -316,6 +324,7 @@ public class Login_Fragment extends Fragment implements OnClickListener {
                         String res = new String(response.data,
                                 HttpHeaderParser.parseCharset(response.headers, "utf-8"));
                         // Now you can use any deserializer to make sense of data
+                        Log.d("Voley post", res);
                         JSONObject obj = new JSONObject(res);
                         Log.d("Voley post", obj.toString());
                         //String msj = obj.getString("message");
@@ -347,11 +356,14 @@ public class Login_Fragment extends Fragment implements OnClickListener {
 
     // En caso de que la db este vacia y las credenciales son validas
     private void verificarSiExiteUsuario(final String token, final String email, final String contra) {
+        if (getContext() == null) {
+            return;
+        }
         JWT parseToken = new JWT(token);
         Claim subscriptionMetaData = parseToken.getClaim("user_id");
         final int id_user = subscriptionMetaData.asInt();
-        String url = "http://34.71.251.155/api/staff/" + id_user;
-        RequestQueue queue = Volley.newRequestQueue(Objects.requireNonNull(getContext()));
+        String url = Variable.HOST + "/staff/" + id_user;
+        RequestQueue queue = Volley.newRequestQueue(getContext());
         JSONObject object = new JSONObject();
         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET, url, object,
                 new Response.Listener<JSONObject>() {

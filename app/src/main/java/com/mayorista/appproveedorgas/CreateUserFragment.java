@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.mayorista.appproveedorgas.pojo.account;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +34,6 @@ public class CreateUserFragment extends Fragment {
     private View view;
     private TextView idempresa;
     private TextView txtDireccion, txtTelefono, txtNombre, txtCliente_id, txtPassword, txtUsuario, txtPasswordRepeat;
-    private String baseUrl = "http://34.71.251.155/api";
     private Button btnGuardar;
 
 
@@ -132,7 +132,7 @@ public class CreateUserFragment extends Fragment {
             e.printStackTrace();
         }
 
-        String url = this.baseUrl + "/company/distributor/";
+        String url = Variable.HOST + "/company/distributor/";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {
                     @Override

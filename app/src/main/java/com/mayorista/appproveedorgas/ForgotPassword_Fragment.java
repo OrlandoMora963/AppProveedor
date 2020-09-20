@@ -103,7 +103,7 @@ public class ForgotPassword_Fragment extends Fragment implements
     private void submitButtonTask() {
         mostrarProgress();
         String getEmailId = emailId.getText().toString();
-        Pattern p = Pattern.compile(Utils.regEx);
+        Pattern p = Pattern.compile(Variable.regEx);
         Matcher m = p.matcher(getEmailId);
         if (getEmailId.equals("") || getEmailId.length() == 0) {
             new CustomToast().Show_Toast(Objects.requireNonNull(getActivity()), view,
@@ -120,8 +120,7 @@ public class ForgotPassword_Fragment extends Fragment implements
                 e.printStackTrace();
             }
 
-            String urlBase = "http://34.71.251.155";
-            String url = urlBase + "/api/password_reset/";
+            String url = Variable.HOST + "/password_reset/";
             JsonObjectRequest jsonObjectRequest =
                     new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
                         @Override

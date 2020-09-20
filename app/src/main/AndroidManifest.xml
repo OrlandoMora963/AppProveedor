@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.mayorista.appproveedorgas">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,8 +19,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-        <activity android:name="com.mayorista.appproveedorgas.Terminos_Condiciones_Activity"></activity>
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m">
+
+        <!--Actividad principal-->
+        <activity
+            android:name="com.mayorista.appproveedorgas.MainActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.mayorista.appproveedorgas.Terminos_Condiciones_Activity" />
         <activity android:name="com.mayorista.appproveedorgas.ActualizarPosicionActivity" />
         <activity android:name="com.mayorista.appproveedorgas.CreateUserActivity" />
         <activity android:name="com.mayorista.appproveedorgas.ProfileActivity" />
@@ -33,15 +47,7 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name="com.mayorista.appproveedorgas.HomeActivity" />
-        <activity
-            android:name="com.mayorista.appproveedorgas.MainActivity"
-            android:theme="@style/SplashTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <service
             android:name="com.mayorista.appproveedorgas.JobService"

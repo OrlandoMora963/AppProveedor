@@ -41,6 +41,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.mayorista.appproveedorgas.pojo.account;
 import com.mayorista.appproveedorgas.routes.FetchURL;
 import com.mayorista.appproveedorgas.util.DirectionJSONParser;
 import com.github.nkzawa.emitter.Emitter;
@@ -82,10 +83,8 @@ import java.util.*;
 public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     //---
     private DatabaseHelper db;
-    String baseUrl = "http://34.71.251.155/api";
     //---
     public static Socket SOCKET;
-    public String HOST_NODEJS = "http://34.71.251.155:9000";
     //--
     private ArrayList<Marker> pedidos = new ArrayList<>();
     //--
@@ -447,7 +446,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             e.printStackTrace();
         }
         // Enter the correct url for your api service site
-        String url = this.baseUrl + "/orders/distributor/";
+        String url = Variable.HOST + "/orders/distributor/";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -544,7 +543,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         }
 
         try {
-            SOCKET = IO.socket(HOST_NODEJS, opts);
+            SOCKET = IO.socket(Variable.HOST_NODE, opts);
             SOCKET.connect();
             // SOCKET.io().reconnectionDelay(10000);
             Log.d(TAG, "Node connect ok");

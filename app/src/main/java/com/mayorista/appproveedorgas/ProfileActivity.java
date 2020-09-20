@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.mayorista.appproveedorgas.pojo.account;
 
 public class ProfileActivity extends AppCompatActivity {
     //---

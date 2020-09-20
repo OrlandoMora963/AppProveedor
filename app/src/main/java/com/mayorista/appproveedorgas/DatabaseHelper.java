@@ -9,6 +9,8 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.mayorista.appproveedorgas.pojo.account;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DaTABASE_NAME = "appgasProveedor.db";
     private static final String TABLE_NAME = "account_pro";
