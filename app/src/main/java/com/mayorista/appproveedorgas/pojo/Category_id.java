@@ -1,18 +1,23 @@
-package com.mayorista.appproveedorgas.util;
+package com.mayorista.appproveedorgas.pojo;
 
-public class Unit_measurement_id {
+public class Category_id {
     private int id;
     private String name;
+    private String image;
 
 
     // Getter Methods
 
-    public int getId() {
+    public float getId() {
         return id;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     // Setter Methods
@@ -24,4 +29,9 @@ public class Unit_measurement_id {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
 }

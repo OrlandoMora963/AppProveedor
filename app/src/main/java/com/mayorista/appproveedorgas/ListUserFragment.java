@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.mayorista.appproveedorgas.pojo.Usuario;
+import com.mayorista.appproveedorgas.pojo.account;
 import com.mayorista.appproveedorgas.util.AdaptadorUsuario;
 import com.mayorista.appproveedorgas.util.VolleySingleton;
 
@@ -29,9 +30,6 @@ import java.util.List;
 import java.util.Map;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ListUserFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -75,8 +73,7 @@ public class ListUserFragment extends Fragment {
 
         // Implementacion lista de usuarios
         JSONArray object = new JSONArray();
-        String baseUrl = "http://34.71.251.155/api";
-        String url = baseUrl + "/company/users/" + cuenta.getCompany_id();
+        String url = Variable.HOST + "/company/users/" + cuenta.getCompany_id();
         JsonArrayRequest objectRequest = new JsonArrayRequest(Request.Method.GET, url, object, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {

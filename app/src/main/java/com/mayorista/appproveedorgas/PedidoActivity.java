@@ -34,6 +34,7 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.mayorista.appproveedorgas.pojo.account;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,13 +66,9 @@ public class PedidoActivity extends AppCompatActivity {
     private int id_pedido = 0;
     //--
     public static Socket SOCKET;
-    public String HOST_NODEJS = "http://34.71.251.155:9000";
     private static final String TAG = "Confirm Pedido";
     //----
     RequestQueue requestQueue;  // This is our requests queue to process our HTTP requests.
-    int statusCode;
-    String baseUrl = "http://34.71.251.155/api";  // This is the API base URL (GitHub API)
-    String url;  // This will hold the full URL which will include the username entered in the etGitHubUser.
     //----
     private DatabaseHelper db;
     //--
@@ -141,40 +138,9 @@ public class PedidoActivity extends AppCompatActivity {
 
         }
 
-
+        // Inicializa el socket
         InitSocketIO();
-        //----
-        //--
-        //------ tabla---
-        /*
-            Mandatory Content
-         */
-    /*    relativeLayoutMain = (RelativeLayout) findViewById(R.id.relativeLayoutMain);
-        getScreenDimension();
-        initializeRelativeLayout();
-        initializeScrollers();
-        initializeTableLayout();
-        horizontalScrollViewB.setScrollViewListener(this);
-        horizontalScrollViewD.setScrollViewListener(this);
-        scrollViewC.setScrollViewListener(this);
-        scrollViewD.setScrollViewListener(this);
-        addRowToTableA();
-        initializeRowForTableB();
-        //inicialize header
-        addColumnsToTableB("Producto", 0, true);
-        //addColumnsToTableB("Cantidad", 1);
-        addColumnsToTableB("Precio U", 1, false);
-        addColumnsToTableB("Subtotal", 2, false);
 
-        /*
-        for(int i=0; i<20; i++){
-            initializeRowForTableD(i);
-            addRowToTableC(" "+ i);
-            for(int j=0; j<tableColumnCountB; j++){
-                addColumnToTableAtD(i, "D "+ i + " " + j);
-            }
-        }
-         */
         //---
         recyclerDetailOrderList = findViewById(R.id.recyclerDetailOrder);
         recyclerDetailOrderList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -366,273 +332,6 @@ public class PedidoActivity extends AppCompatActivity {
 
     //---
 
-
-/*
-    private void getScreenDimension() {
-        WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        SCREEN_WIDTH = size.x;
-        SCREEN_HEIGHT = size.y;
-        int wfh = (int) (size.x * 0.2);
-        if (wfh > WidhFirstHeader) {
-            WidhFirstHeader = (int) (size.x * 0.2);
-            WidhHeaderA = (int) (size.x * 0.1);
-            WidhHeaderProduct = (int) (size.x * 0.4);
-        }
-
-    }
-
-    private void initializeRelativeLayout() {
-        relativeLayoutA = new RelativeLayout(getApplicationContext());
-        relativeLayoutA.setId(R.id.relativeLayoutA);
-        relativeLayoutA.setPadding(0, 0, 0, 0);
-
-        relativeLayoutB = new RelativeLayout(getApplicationContext());
-        relativeLayoutB.setId(R.id.relativeLayoutB);
-        relativeLayoutB.setPadding(0, 0, 0, 0);
-
-        relativeLayoutC = new RelativeLayout(getApplicationContext());
-        relativeLayoutC.setId(R.id.relativeLayoutC);
-        relativeLayoutC.setPadding(0, 0, 0, 0);
-
-        relativeLayoutD = new RelativeLayout(getApplicationContext());
-        relativeLayoutD.setId(R.id.relativeLayoutD);
-        relativeLayoutD.setPadding(0, 0, 0, 0);
-
-        //relativeLayoutA.setLayoutParams(new RelativeLayout.LayoutParams(SCREEN_WIDTH/5,SCREEN_HEIGHT/20));
-        relativeLayoutA.setLayoutParams(new RelativeLayout.LayoutParams(WidhHeaderA, SCREEN_HEIGHT / 20));
-        this.relativeLayoutMain.addView(relativeLayoutA);
-
-        RelativeLayout.LayoutParams layoutParamsRelativeLayoutB = new RelativeLayout.LayoutParams(SCREEN_WIDTH - (SCREEN_WIDTH / 5), SCREEN_HEIGHT / 20);
-        layoutParamsRelativeLayoutB.addRule(RelativeLayout.RIGHT_OF, R.id.relativeLayoutA);
-        relativeLayoutB.setLayoutParams(layoutParamsRelativeLayoutB);
-        this.relativeLayoutMain.addView(relativeLayoutB);
-
-        //RelativeLayout.LayoutParams layoutParamsRelativeLayoutC= new RelativeLayout.LayoutParams(SCREEN_WIDTH/5, SCREEN_HEIGHT - (SCREEN_HEIGHT/20));
-        RelativeLayout.LayoutParams layoutParamsRelativeLayoutC = new RelativeLayout.LayoutParams(WidhHeaderA, SCREEN_HEIGHT - (SCREEN_HEIGHT / 20));
-        layoutParamsRelativeLayoutC.addRule(RelativeLayout.BELOW, R.id.relativeLayoutA);
-        relativeLayoutC.setLayoutParams(layoutParamsRelativeLayoutC);
-        this.relativeLayoutMain.addView(relativeLayoutC);
-
-        RelativeLayout.LayoutParams layoutParamsRelativeLayoutD = new RelativeLayout.LayoutParams(SCREEN_WIDTH - (SCREEN_WIDTH / 5), SCREEN_HEIGHT - (SCREEN_HEIGHT / 20));
-        layoutParamsRelativeLayoutD.addRule(RelativeLayout.BELOW, R.id.relativeLayoutB);
-        layoutParamsRelativeLayoutD.addRule(RelativeLayout.RIGHT_OF, R.id.relativeLayoutC);
-        relativeLayoutD.setLayoutParams(layoutParamsRelativeLayoutD);
-        this.relativeLayoutMain.addView(relativeLayoutD);
-
-    }
-
-    private void initializeScrollers() {
-        horizontalScrollViewB = new HorizontalScroll(getApplicationContext());
-        horizontalScrollViewB.setPadding(0, 0, 0, 0);
-
-        horizontalScrollViewD = new HorizontalScroll(getApplicationContext());
-        horizontalScrollViewD.setPadding(0, 0, 0, 0);
-
-        scrollViewC = new VerticalScroll(getApplicationContext());
-        scrollViewC.setPadding(0, 0, 0, 0);
-
-        scrollViewD = new VerticalScroll(getApplicationContext());
-        scrollViewD.setPadding(0, 0, 0, 0);
-
-        horizontalScrollViewB.setLayoutParams(new ViewGroup.LayoutParams(SCREEN_WIDTH - (SCREEN_WIDTH / 5), SCREEN_HEIGHT / 20));
-        scrollViewC.setLayoutParams(new ViewGroup.LayoutParams(SCREEN_WIDTH / 5, SCREEN_HEIGHT - (SCREEN_HEIGHT / 20)));
-        scrollViewD.setLayoutParams(new ViewGroup.LayoutParams(SCREEN_WIDTH - (SCREEN_WIDTH / 5), SCREEN_HEIGHT - (SCREEN_HEIGHT / 20)));
-        horizontalScrollViewD.setLayoutParams(new ViewGroup.LayoutParams(SCREEN_WIDTH - (SCREEN_WIDTH / 5), SCREEN_HEIGHT - (SCREEN_HEIGHT / 20)));
-
-        this.relativeLayoutB.addView(horizontalScrollViewB);
-        this.relativeLayoutC.addView(scrollViewC);
-        this.scrollViewD.addView(horizontalScrollViewD);
-        this.relativeLayoutD.addView(scrollViewD);
-
-    }
-
-    private void initializeTableLayout() {
-        tableLayoutA = new TableLayout(getApplicationContext());
-        tableLayoutA.setPadding(0, 0, 0, 0);
-        tableLayoutB = new TableLayout(getApplicationContext());
-        tableLayoutB.setPadding(0, 0, 0, 0);
-        tableLayoutB.setId(R.id.tableLayoutB);
-        tableLayoutC = new TableLayout(getApplicationContext());
-        tableLayoutC.setPadding(0, 0, 0, 0);
-        tableLayoutD = new TableLayout(getApplicationContext());
-        tableLayoutD.setPadding(0, 0, 0, 0);
-
-        //TableLayout.LayoutParams layoutParamsTableLayoutA= new TableLayout.LayoutParams(SCREEN_WIDTH/5, SCREEN_HEIGHT/20);
-        TableLayout.LayoutParams layoutParamsTableLayoutA = new TableLayout.LayoutParams(WidhHeaderA, SCREEN_HEIGHT / 20);
-        tableLayoutA.setLayoutParams(layoutParamsTableLayoutA);
-        tableLayoutA.setBackgroundColor(getResources().getColor(R.color.white));
-        this.relativeLayoutA.addView(tableLayoutA);
-
-        TableLayout.LayoutParams layoutParamsTableLayoutB = new TableLayout.LayoutParams(SCREEN_WIDTH - (SCREEN_WIDTH / 5), SCREEN_HEIGHT / 20);
-        tableLayoutB.setLayoutParams(layoutParamsTableLayoutB);
-        tableLayoutB.setBackgroundColor(getResources().getColor(R.color.white));
-        this.horizontalScrollViewB.addView(tableLayoutB);
-
-        TableLayout.LayoutParams layoutParamsTableLayoutC = new TableLayout.LayoutParams(WidhFirstHeader, SCREEN_HEIGHT - (SCREEN_HEIGHT / 20));
-        tableLayoutC.setLayoutParams(layoutParamsTableLayoutC);
-        tableLayoutC.setBackgroundColor(getResources().getColor(R.color.white));
-        this.scrollViewC.addView(tableLayoutC);
-
-        TableLayout.LayoutParams layoutParamsTableLayoutD = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT);
-        tableLayoutD.setLayoutParams(layoutParamsTableLayoutD);
-        this.horizontalScrollViewD.addView(tableLayoutD);
-    }
-
-
-    @Override
-    public void onScrollChanged(HorizontalScroll scrollView, int x, int y, int oldx, int oldy) {
-        if (scrollView == horizontalScrollViewB) {
-            horizontalScrollViewD.scrollTo(x, y);
-        } else if (scrollView == horizontalScrollViewD) {
-            horizontalScrollViewB.scrollTo(x, y);
-        }
-    }
-
-    @Override
-    public void onScrollChanged(VerticalScroll scrollView, int x, int y, int oldx, int oldy) {
-        if (scrollView == scrollViewC) {
-            scrollViewD.scrollTo(x, y);
-        } else if (scrollView == scrollViewD) {
-            scrollViewC.scrollTo(x, y);
-        }
-    }
-
-    private void addRowToTableA() {
-        tableRow = new TableRow(getApplicationContext());
-        TableRow.LayoutParams layoutParamsTableRow = new TableRow.LayoutParams(WidhHeaderA, SCREEN_HEIGHT / 20);
-        tableRow.setLayoutParams(layoutParamsTableRow);
-        TextView label_date = new TextView(getApplicationContext());
-        label_date.setText("");
-        label_date.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.table_header));
-        tableRow.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-        label_date.setTextSize(getResources().getDimension(R.dimen.cell_text_size));
-        tableRow.addView(label_date);
-        this.tableLayoutA.addView(tableRow);
-    }
-
-    private void initializeRowForTableB() {
-        tableRowB = new TableRow(getApplicationContext());
-        tableRow.setPadding(0, 0, 0, 0);
-        this.tableLayoutB.addView(tableRowB);
-    }
-
-    private synchronized void addColumnsToTableB(String text, final int id, boolean product) {
-        tableRow = new TableRow(getApplicationContext());
-        TableRow.LayoutParams layoutParamsTableRow = new TableRow.LayoutParams(WidhFirstHeader, SCREEN_HEIGHT / 20);
-        TableRow.LayoutParams layoutParamsTableRowProduct = new TableRow.LayoutParams(WidhHeaderProduct, SCREEN_HEIGHT / 17);
-        tableRow.setPadding(3, 3, 3, 4);
-        if (product)
-            tableRow.setLayoutParams(layoutParamsTableRowProduct);
-        else
-            tableRow.setLayoutParams(layoutParamsTableRow);
-        TextView label_date = new TextView(getApplicationContext());
-        label_date.setText(text);
-        label_date.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.table_header));
-        label_date.setTextSize(getResources().getDimension(R.dimen.cell_text_size));
-        this.tableRow.addView(label_date);
-        this.tableRow.setTag(id);
-        this.tableRowB.addView(tableRow);
-        tableColumnCountB++;
-    }
-
-    private synchronized void addRowToTableC(String text) {
-        TableRow tableRow1 = new TableRow(getApplicationContext());
-        //TableRow.LayoutParams layoutParamsTableRow1= new TableRow.LayoutParams(SCREEN_WIDTH/5, SCREEN_HEIGHT/20);
-        TableRow.LayoutParams layoutParamsTableRow1 = new TableRow.LayoutParams(WidhHeaderA, SCREEN_HEIGHT / 20);
-        tableRow1.setPadding(5, 3, 0, 4);
-        if (nro_filas == 0)
-            tableRow1.setBackground(getResources().getDrawable(R.drawable.border_set));
-        else
-            tableRow1.setBackground(getResources().getDrawable(R.drawable.border_bottom));
-        tableRow1.setLayoutParams(layoutParamsTableRow1);
-        TextView label_date = new TextView(getApplicationContext());
-        label_date.setText(text);
-        label_date.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.table_body));
-        label_date.setTextSize(getResources().getDimension(R.dimen.cell_text_size));
-        tableRow1.addView(label_date);
-
-        TableRow tableRow = new TableRow(getApplicationContext());
-        TableRow.LayoutParams layoutParamsTableRow = new TableRow.LayoutParams(WidhFirstHeader, SCREEN_HEIGHT / 20);
-        tableRow.setPadding(0, 0, 0, 0);
-        tableRow.setLayoutParams(layoutParamsTableRow);
-        tableRow.addView(tableRow1);
-        this.tableLayoutC.addView(tableRow, tableRowCountC);
-        tableRowCountC++;
-    }
-
-    private synchronized void initializeRowForTableD(int pos) {
-        TableRow tableRowB = new TableRow(getApplicationContext());
-        TableRow.LayoutParams layoutParamsTableRow = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, SCREEN_HEIGHT / 20);
-        tableRowB.setPadding(0, 0, 0, 0);
-        tableRowB.setLayoutParams(layoutParamsTableRow);
-        this.tableLayoutD.addView(tableRowB, pos);
-    }
-    private void agregar_fila_tabla(JSONObject jsonObject) throws JSONException {
-
-        initializeRowForTableD(nro_filas);
-        //addRowToTableC(String.valueOf(nro_filas+1));
-        addRowToTableC(String.valueOf(jsonObject.getInt("cantidad")));
-        addColumnToTableAtD(nro_filas, jsonObject.getString("producto"), true);
-        //addColumnToTableAtD(nro_filas, );
-        DecimalFormat df = new DecimalFormat("#.00");
-        double preciou = jsonObject.getDouble("preciou");
-        double subtotal = jsonObject.getDouble("subtotal");
-        if (preciou <= 0 && subtotal <= 0) {
-            addColumnToTableAtD(nro_filas, "", false);
-            addColumnToTableAtD(nro_filas, "", false);
-        } else {
-            addColumnToTableAtD(nro_filas, df.format(preciou), false);
-            addColumnToTableAtD(nro_filas, df.format(subtotal), false);
-        }
-        nro_filas++;
-    }
-    private synchronized void addColumnToTableAtD(final int rowPos, String text, boolean product) {
-        TableRow tableRowAdd = (TableRow) this.tableLayoutD.getChildAt(rowPos);
-        tableRow = new TableRow(getApplicationContext());
-        //TableRow.LayoutParams layoutParamsTableRow= new TableRow.LayoutParams(SCREEN_WIDTH/5, SCREEN_HEIGHT/20);
-        TableRow.LayoutParams layoutParamsTableRow = new TableRow.LayoutParams(WidhFirstHeader, TableRow.LayoutParams.WRAP_CONTENT);
-        TableRow.LayoutParams layoutParamsTableRowProduct = new TableRow.LayoutParams(WidhHeaderProduct, TableRow.LayoutParams.WRAP_CONTENT);
-        tableRow.setPadding(3, 3, 3, 4);
-        if (nro_filas == 0)
-            tableRow.setBackground(getResources().getDrawable(R.drawable.border_set));
-        else
-            tableRow.setBackground(getResources().getDrawable(R.drawable.border_bottom));
-        if (product)
-            tableRow.setLayoutParams(layoutParamsTableRowProduct);
-        else
-            tableRow.setLayoutParams(layoutParamsTableRow);
-        TextView label_date = new TextView(getApplicationContext());
-        label_date.setText(text);
-        label_date.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.table_body));
-        label_date.setTextSize(getResources().getDimension(R.dimen.cell_text_size));
-        tableRow.setTag(label_date);
-        this.tableRow.addView(label_date);
-     tableRowAdd.addView(tableRow);
-    }
-*/
-    /*
-    private void createCompleteColumn(String value){
-        int i=0;
-        int j=tableRowCountC-1;
-        for(int k=i; k<=j; k++){
-            addColumnToTableAtD(k, value);
-        }
-    }
-
-    private void createCompleteRow(String value){
-        initializeRowForTableD(0);
-        int i=0;
-        int j=tableColumnCountB-1;
-        int pos= tableRowCountC-1;
-        for(int k=i; k<=j; k++){
-            addColumnToTableAtD(pos, value);
-        }
-    }
-     */
-
     private void showDeliberedAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(PedidoActivity.this);
         //builder.setIcon(R.mipmap.ic_launcher);
@@ -689,7 +388,7 @@ public class PedidoActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         // Enter the correct url for your api service site
-        String url = this.baseUrl + "/orderdetail/distributor/";
+        String url = Variable.HOST + "/orderdetail/distributor/";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {
@@ -795,7 +494,7 @@ public class PedidoActivity extends AppCompatActivity {
         }
 
         try {
-            SOCKET = IO.socket(HOST_NODEJS, opts);
+            SOCKET = IO.socket(Variable.HOST_NODE, opts);
             SOCKET.connect();
             // SOCKET.io().reconnectionDelay(10000);
             Log.d(TAG, "Node connect ok");
@@ -1043,18 +742,6 @@ public class PedidoActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    @Override
-    public void OnBottomClicked(String text) {
-        Log.d("Mensaje",text);
-        sendNotification(text);
-    }
-
-    @Override
-    public void OnBottomClickedTime(String text) {
-        confirmOrder(Integer.parseInt(text));
-    }
-    */
     //---------
     private void sendDataService(String evento, JSONObject data) {
         ProcessMainClass bck = new ProcessMainClass();

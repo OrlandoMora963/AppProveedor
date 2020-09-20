@@ -74,7 +74,7 @@ public class RestartServiceBroadcastReceiver extends BroadcastReceiver {
     public static void reStartTracker(Context context) {
         // restart the never ending service
         Log.i(TAG, "Restarting tracker");
-        Intent broadcastIntent = new Intent(Globals.RESTART_INTENT);
+        Intent broadcastIntent = new Intent(Variable.RESTART_INTENT);
         context.sendBroadcast(broadcastIntent);
     }
 
@@ -99,7 +99,7 @@ public class RestartServiceBroadcastReceiver extends BroadcastReceiver {
                 // we register the  receiver that will restart the background service if it is killed
                 // see onDestroy of Service
                 IntentFilter filter = new IntentFilter();
-                filter.addAction(Globals.RESTART_INTENT);
+                filter.addAction(Variable.RESTART_INTENT);
                 try {
                     context.registerReceiver(restartSensorServiceReceiver, filter);
                 } catch (Exception e) {

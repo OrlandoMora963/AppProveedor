@@ -18,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mayorista.appproveedorgas.pojo.Mpedido;
+
 import java.util.List;
 import java.util.Locale;
 

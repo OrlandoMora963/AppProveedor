@@ -96,7 +96,7 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
         }
 
         void bind(final ProductRegister products) {
-            product_name.setText(products.getProduct().getDescription().replace("Ã±","ñ"));
+            product_name.setText(products.getProduct().getDescription().replace("Ã±", "ñ"));
             txtPeso.setText(products.getProduct().getMeasurement() + " " + products.getProduct().getUnit_measurement_id().getName());
             etxtPrecioUnitario.setText(String.valueOf(products.getRegister().getPrice()));
             Picasso.get().load(products.getProduct().getImage()).into(image_product);
@@ -133,15 +133,15 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
                         JSONObject object = new JSONObject();
                         try {
                             object.put("id", products.getRegister().getID());
-                            if (Double.valueOf(etxtPrecioUnitario.getText().toString())!=Double.valueOf(products.getRegister().getPrice()))
-                                object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString())+1);
+                            if (Double.valueOf(etxtPrecioUnitario.getText().toString()) != Double.valueOf(products.getRegister().getPrice()))
+                                object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()) + 1);
                             else
                                 object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()));
                             object.put("status", "active");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        String url = "http://34.71.251.155/api/product/staff/register/";
+                        String url = Variable.HOST + "/product/staff/register/";
                         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.PUT, url, object, new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -179,7 +179,7 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
                     JSONObject object = new JSONObject();
                     try {
                         object.put("id", products.getRegister().getID());
-                            object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()));
+                        object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()));
                         if (btnEstado.getText().toString().equals("Habilitado"))
                             object.put("status", "disable");
                         else
@@ -187,7 +187,7 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    String url = "http://34.71.251.155/api/product/staff/register/";
+                    String url = Variable.HOST + "/product/staff/register/";
                     JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.PUT, url, object, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {

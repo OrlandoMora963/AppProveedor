@@ -30,6 +30,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
@@ -47,16 +48,13 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.mayorista.appproveedorgas.pojo.account;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SignUp_Fragment extends Fragment implements OnClickListener {
-    //----
-    RequestQueue requestQueue;  // This is our requests queue to process our HTTP requests.
 
-    String baseUrl = "http://34.71.251.155/api";
-    String url;  // This will hold the full URL which will include the username entered in the etGitHubUser.
     int statusCode;
     //----
     private DatabaseHelper db;
@@ -89,7 +87,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
     private Toast toastGps;
     private int nroCheckGps;
 
-
+    private FragmentManager fragmentManager;
     private TextView terminos_condiciones;
 
     //--
@@ -102,6 +100,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.signup_layout, container, false);
         mResultReceiver = new AddressResultReceiver(new Handler());
+        fragmentManager = getActivity().getSupportFragmentManager();
         boolean pro = false;
         latitude = 0;
         longitude = 0;
@@ -141,12 +140,12 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
         getDeviceLocation();
 
 
-        terminos_condiciones=view.findViewById(R.id.terminos_condiciones);
+        terminos_condiciones = view.findViewById(R.id.terminos_condiciones);
 
         terminos_condiciones.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getContext(),Terminos_Condiciones_Activity.class);
+                Intent intent = new Intent(getContext(), Terminos_Condiciones_Activity.class);
                 startActivity(intent);
             }
         });
@@ -332,7 +331,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
         String getCompanyID = company_id.getText().toString();
         //String getType = spinner_type.getSelectedItem().toString();
         // Pattern match for email id
-        Pattern p = Pattern.compile(Utils.regEx);
+        Pattern p = Pattern.compile(Variable.regEx);
         Matcher m = p.matcher(getEmailId);
 
         // Check if all strings are null or not
@@ -400,7 +399,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
             e.printStackTrace();
         }
         // Enter the correct url for your api service site
-        String url = this.baseUrl + "/company/distributor/";
+        String url = Variable.HOST + "/company/distributor/";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -414,9 +413,9 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
                                 JSONObject companyJS = response.getJSONObject("data");
                                 if (db.insertData(new account(0, client_id, email, phone, address, password, "-1", 2, companyId, companyJS.getString("name"), companyJS.getString("phone"), companyJS.getString("address"), String.valueOf(companyJS.getDouble("latitude")), String.valueOf(companyJS.getDouble("longitude")), name, companyJS.getString("ruc")))) {
                                     Toast.makeText(getContext(), msj, Toast.LENGTH_SHORT).show();
-                                   // new MainActivity().replaceLoginFragment();
+                                    // new MainActivity().replaceLoginFragment();
 
-                                    postDataLogin(  username,password);
+                                    postDataLogin(username, password);
                                 } else {
                                     Toast.makeText(getContext(), "Error en base de datos", Toast.LENGTH_SHORT).show();
                                 }
@@ -469,7 +468,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
             e.printStackTrace();
         }
         // Enter the correct url for your api service site
-        String url = "http://34.71.251.155/api/auth/obtain_token/";
+        String url = Variable.HOST + "/auth/obtain_token/";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -481,15 +480,19 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
                             tok = response.getString("token");
                             account cuenta = db.getCuentaUserPass(username, password);
 
-                                cuenta.setToken(tok);
-                                db.clearToken();
-                                db.updateData(cuenta);
+                            cuenta.setToken(tok);
+                            db.clearToken();
+                            db.updateData(cuenta);
 
-                                    Intent myIntent = new Intent(getContext(), HomeActivity.class);
-                                    startActivity(myIntent);
-                                getActivity().finish();
+                            /*Intent myIntent = new Intent(getContext(), HomeActivity.class);
+                            startActivity(myIntent);
+                            getActivity().finish();*/
 
-
+                            fragmentManager
+                                    .beginTransaction()
+                                    .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
+                                    .replace(R.id.frameContainer, new ValidarCuentaFragment(), Variable.TipoProveedorFragment)
+                                    .commit();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -533,6 +536,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
         };
         requestQueue.add(jsonObjectRequest);
     }
+
     //-------- propietario
     // Check Validation Method
     private void checkValidation_propietario() {
@@ -552,7 +556,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
 
         //String getType = spinner_type.getSelectedItem().toString();
         // Pattern match for email id
-        Pattern p = Pattern.compile(Utils.regEx);
+        Pattern p = Pattern.compile(Variable.regEx);
         Matcher m = p.matcher(getEmailId);
         // Check if all strings are null or not
         if (getFullName.equals("") || getFullName.length() == 0
@@ -630,7 +634,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
             e.printStackTrace();
         }
         // Enter the correct url for your api service site
-        String url = this.baseUrl + "/company/owner/";
+        String url = Variable.HOST + "/company/owner/";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -647,7 +651,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
                                     Toast.makeText(getContext(), msj, Toast.LENGTH_SHORT).show();
                                     // new MainActivity().replaceLoginFragment();
 
-                                    postDataLogin(  username,password);
+                                    postDataLogin(username, password);
                                 } else {
                                     Toast.makeText(getContext(), "Error en base de datos", Toast.LENGTH_SHORT).show();
                                 }

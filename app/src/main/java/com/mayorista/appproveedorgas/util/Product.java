@@ -1,5 +1,10 @@
 package com.mayorista.appproveedorgas.util;
 
+import com.mayorista.appproveedorgas.pojo.Category_id;
+import com.mayorista.appproveedorgas.pojo.Detail_measurement_id;
+import com.mayorista.appproveedorgas.pojo.Marke_id;
+import com.mayorista.appproveedorgas.pojo.Unit_measurement_id;
+
 public class Product {
     private int id;
     private String description;

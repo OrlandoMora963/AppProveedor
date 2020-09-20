@@ -49,7 +49,7 @@ public class JobService extends android.app.job.JobService {
                 // we register the  receiver that will restart the background service if it is killed
                 // see onDestroy of Service
                 IntentFilter filter = new IntentFilter();
-                filter.addAction(Globals.RESTART_INTENT);
+                filter.addAction(Variable.RESTART_INTENT);
                 try {
                     registerReceiver(restartSensorServiceReceiver, filter);
                 } catch (Exception e) {
@@ -64,15 +64,10 @@ public class JobService extends android.app.job.JobService {
 
     }
 
-    /**
-     * called if Android kills the job service
-     * @param jobParameters
-     * @return
-     */
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
         Log.i(TAG, "Stopping job");
-        Intent broadcastIntent = new Intent(Globals.RESTART_INTENT);
+        Intent broadcastIntent = new Intent(Variable.RESTART_INTENT);
         sendBroadcast(broadcastIntent);
         // give the time to run
         new Handler().postDelayed(new Runnable() {
@@ -85,11 +80,6 @@ public class JobService extends android.app.job.JobService {
         return false;
     }
 
-
-    /**
-     * called when the tracker is stopped for whatever reason
-     * @param context
-     */
     public static void stopJob(Context context) {
         if (instance!=null && jobParameters!=null) {
             try{

@@ -22,7 +22,7 @@ public class ProcessMainClass {
     }
 
     /**
-     * launching the service
+     * Lanza el servicio
      */
     public void launchService(Context context) {
         if (context == null) {
@@ -57,7 +57,6 @@ public class ProcessMainClass {
         } else {
             context.startService(serviceIntent);
         }
-
 
         Log.d(TAG, "ProcessMainClass: start service go data!!!!");
     }

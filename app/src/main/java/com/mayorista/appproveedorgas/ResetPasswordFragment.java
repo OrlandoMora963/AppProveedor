@@ -122,8 +122,7 @@ public class ResetPasswordFragment extends Fragment implements View.OnClickListe
                 e.printStackTrace();
             }
 
-            String urlBase = "http://34.71.251.155";
-            String url = urlBase + "/api/password_reset/confirm/";
+            String url = Variable.HOST + "/password_reset/confirm/";
             JsonObjectRequest jsonObjectRequest =
                     new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
                         @Override

@@ -36,10 +36,11 @@ public class detailproductAdapter extends RecyclerView.Adapter<detailproductAdap
     private Context context;
     private DatabaseHelper db;
     List<Product> Product_list;
-     FragmentProductDetail oFragmentProductDetail;
+    FragmentProductDetail oFragmentProductDetail;
+
     public detailproductAdapter(List<Product> product_list, FragmentProductDetail oFragmentProductDetail) {
         this.Product_list = product_list;
-        this.oFragmentProductDetail= oFragmentProductDetail;
+        this.oFragmentProductDetail = oFragmentProductDetail;
     }
 
     @Override
@@ -52,7 +53,7 @@ public class detailproductAdapter extends RecyclerView.Adapter<detailproductAdap
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_try,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_try, parent, false);
         view.setOnClickListener(this);
         context = parent.getContext();
         this.db = new DatabaseHelper(context);
@@ -72,50 +73,51 @@ public class detailproductAdapter extends RecyclerView.Adapter<detailproductAdap
     public int getItemCount() {
         return Product_list.size();
     }
-    public class viewHolder extends RecyclerView.ViewHolder{
+
+    public class viewHolder extends RecyclerView.ViewHolder {
         TextView product_name;
         TextView txtMarca;
         TextView txtUnidadMedida;
         EditText etxtPrecioUnitario;
         ImageView image_product;
         Button btnguardar_misproductos;
+
         public viewHolder(@NonNull View itemView) {
             super(itemView);
-            product_name=itemView.findViewById(R.id.gas_camion_name);
-            txtMarca=itemView.findViewById(R.id.txtMarca);
-            txtUnidadMedida=itemView.findViewById(R.id.txtUnidadMedida);
-            etxtPrecioUnitario=itemView.findViewById(R.id.etxtPrecioUnitario);
-            image_product=itemView.findViewById(R.id.marcas_product);
-            btnguardar_misproductos=itemView.findViewById(R.id.guardar_misproductos);
+            product_name = itemView.findViewById(R.id.gas_camion_name);
+            txtMarca = itemView.findViewById(R.id.txtMarca);
+            txtUnidadMedida = itemView.findViewById(R.id.txtUnidadMedida);
+            etxtPrecioUnitario = itemView.findViewById(R.id.etxtPrecioUnitario);
+            image_product = itemView.findViewById(R.id.marcas_product);
+            btnguardar_misproductos = itemView.findViewById(R.id.guardar_misproductos);
         }
 
         void bind(final Product products) {
 
-            product_name.setText(products.getDescription().replace("Ã±","ñ"));
+            product_name.setText(products.getDescription().replace("Ã±", "ñ"));
             txtMarca.setText(products.getMarke_id().getName());
-            txtUnidadMedida.setText(" "+products.getUnit_measurement_id().getName());
+            txtUnidadMedida.setText(" " + products.getUnit_measurement_id().getName());
             etxtPrecioUnitario.setText("0.00");
             Picasso.get().load(products.getImage()).into(image_product);
             btnguardar_misproductos.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    if (etxtPrecioUnitario.getText().toString().equals("") ||Double.valueOf(etxtPrecioUnitario.getText().toString()) < 1)
+                    if (etxtPrecioUnitario.getText().toString().equals("") || Double.valueOf(etxtPrecioUnitario.getText().toString()) < 1)
                         Toast.makeText(context, "El precio debe ser mayor a 0", Toast.LENGTH_SHORT).show();
-                    else
-                    {
+                    else {
                         JSONObject object = new JSONObject();
                         try {
                             object.put("product_id", products.getId());
-                            object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString())+1);
+                            object.put("price", Double.valueOf(etxtPrecioUnitario.getText().toString()) + 1);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        String url = "http://34.71.251.155/api/product/staff/register/";
+                        String url = Variable.HOST + "/product/staff/register/";
                         JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST, url, object, new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 try {
-                                    Toast.makeText(context, "Se agrego el producto "+product_name.getText(), Toast.LENGTH_LONG).show();
-                               //     Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context, "Se agrego el producto " + product_name.getText(), Toast.LENGTH_LONG).show();
+                                    //     Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
                                     oFragmentProductDetail.Listar();
                                 } catch (Exception e) {
                                     e.printStackTrace();

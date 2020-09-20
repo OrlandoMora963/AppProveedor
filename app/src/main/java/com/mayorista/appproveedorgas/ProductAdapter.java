@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mayorista.appproveedorgas.util.LoadImage;
-import com.mayorista.appproveedorgas.util.product_marcas;
+import com.mayorista.appproveedorgas.pojo.product_marcas;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

@@ -11,8 +11,12 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 
+/**
+ * @author Cordova, Julian
+ * @author Mora Reyes, Orlando
+ * @author Anaya Mendoza, Elvis
+ */
 public class MainActivity extends FragmentActivity {
-    private DatabaseHelper db;
     private static FragmentManager fragmentManager;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
@@ -24,18 +28,12 @@ public class MainActivity extends FragmentActivity {
 
         getLocationPermission();
 
-
-        //Intent myIntent = new Intent(getBaseContext(),HomeActivity.class);
-        //startActivity(myIntent);
-
-
-        this.db = new DatabaseHelper(getApplicationContext());
-        if(db.existsToken()){
-            Intent myIntent = new Intent(getBaseContext(),HomeActivity.class);
+        DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+        if (db.existsToken()) {
+            Intent myIntent = new Intent(getBaseContext(), HomeActivity.class);
             startActivity(myIntent);
             finish();
         }
-
 
 
         fragmentManager = getSupportFragmentManager();
@@ -44,7 +42,7 @@ public class MainActivity extends FragmentActivity {
             fragmentManager
                     .beginTransaction()
                     .replace(R.id.frameContainer, new com.mayorista.appproveedorgas.Login_Fragment(),
-                            Utils.Login_Fragment).commit();
+                            Variable.Login_Fragment).commit();
         }
 
         // On close icon click finish activity
@@ -59,14 +57,13 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-
     // Replace Login Fragment with animation
     protected void replaceLoginFragment() {
         fragmentManager
                 .beginTransaction()
                 .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
                 .replace(R.id.frameContainer, new com.mayorista.appproveedorgas.Login_Fragment(),
-                        Utils.Login_Fragment).commit();
+                        Variable.Login_Fragment).commit();
     }
 
     @Override
@@ -74,16 +71,16 @@ public class MainActivity extends FragmentActivity {
 
         // Find the tag of signup and forgot password fragment
         Fragment SignUp_Fragment = fragmentManager
-                .findFragmentByTag(Utils.SignUp_Fragment);
+                .findFragmentByTag(Variable.SignUp_Fragment);
         Fragment TipoProveedor_Fragment = fragmentManager
-                .findFragmentByTag(Utils.TipoProveedorFragment);
+                .findFragmentByTag(Variable.TipoProveedorFragment);
         Fragment ForgotPassword_Fragment = fragmentManager
-                .findFragmentByTag(Utils.ForgotPassword_Fragment);
+                .findFragmentByTag(Variable.ForgotPassword_Fragment);
 
         // Check if both are null or not
         // If both are not null then replace login fragment else do backpressed
         // task
-        if(TipoProveedor_Fragment != null)
+        if (TipoProveedor_Fragment != null)
             replaceLoginFragment();
         else if (SignUp_Fragment != null)
             replaceLoginFragment();
@@ -94,12 +91,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void getLocationPermission() {
-        /*
-         * Request location permission, so that we can get the location of the
-         * device. The result of the permission request is handled by a callback,
-         * onRequestPermissionsResult.
-         */
-        if (ContextCompat.checkSelfPermission(MainActivity.this .getApplicationContext(),
+        if (ContextCompat.checkSelfPermission(MainActivity.this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
         } else {
