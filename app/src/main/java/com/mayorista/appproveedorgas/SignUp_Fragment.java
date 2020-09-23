@@ -622,6 +622,7 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
             object.put("username", username);
             object.put("password", password);
             object.put("email", email);
+
             object.put("staff_id", client_id);
             object.put("phone", phone);
             object.put("address", address);
@@ -651,7 +652,18 @@ public class SignUp_Fragment extends Fragment implements OnClickListener {
                                     Toast.makeText(getContext(), msj, Toast.LENGTH_SHORT).show();
                                     // new MainActivity().replaceLoginFragment();
 
-                                    postDataLogin(username, password);
+                                    // postDataLogin(username, password);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("email", email);
+                                    ValidarCuentaFragment validarCuentaFragment = new ValidarCuentaFragment();
+                                    validarCuentaFragment.setArguments(bundle);
+
+                                    fragmentManager
+                                            .beginTransaction()
+                                            .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
+                                            .replace(R.id.frameContainer, validarCuentaFragment, Variable.TipoProveedorFragment)
+                                            .commit();
+
                                 } else {
                                     Toast.makeText(getContext(), "Error en base de datos", Toast.LENGTH_SHORT).show();
                                 }
