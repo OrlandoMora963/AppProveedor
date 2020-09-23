@@ -51,6 +51,12 @@ public class ValidarCuentaFragment extends Fragment {
         progressBar = view.findViewById(R.id.pbValidarCodigo);
         tv_espera = view.findViewById(R.id.tv_espera);
 
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String email = bundle.getString("email");
+            txtEmail.setText(email);
+        }
+
         ocultarProgress();
         btnSolicitar.setOnClickListener(new View.OnClickListener() {
             @Override
