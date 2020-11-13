@@ -39,7 +39,8 @@ public class TipoProveedorFragment extends Fragment {
                                 Variable.SignUp_Fragment).commit();
             }
         });
-        Button btn_distribuidor = view.findViewById(R.id.btn_distribuidor_id);
+
+        /*Button btn_distribuidor = view.findViewById(R.id.btn_distribuidor_id);
         btn_distribuidor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,7 +51,8 @@ public class TipoProveedorFragment extends Fragment {
                         .replace(R.id.frameContainer, new SignUp_Fragment("t2"),
                                 Variable.SignUp_Fragment).commit();
             }
-        });
+        });*/
+
         return view;
     }
 
