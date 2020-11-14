@@ -43,6 +43,7 @@ class ItemViewHolder extends RecyclerView.ViewHolder {
     public Button btn_detalle, btnLlamar;
     public RatingBar ratingBar;
 
+
     public ItemViewHolder(@NonNull View itemView) {
         super(itemView);
         tv_estado = itemView.findViewById(R.id.tv_estado_id);
@@ -165,6 +166,7 @@ public class orderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     Intent myIntentPro = new Intent(mpedido.getContext(), PedidoActivity.class);
                     myIntentPro.putExtra("id_pedido", String.valueOf(mpedido.getIdPedido()));
                     myIntentPro.putExtra("referencia", "Referencia : " + getStringAddress(mpedido.getLatitud(), mpedido.getLongitud()));
+                    myIntentPro.putExtra("comprobante", mpedido.getFecha().split(" ")[0]);
                     activity.startActivity(myIntentPro);
                 }
             });
