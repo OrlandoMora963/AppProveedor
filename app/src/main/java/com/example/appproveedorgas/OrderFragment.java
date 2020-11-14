@@ -1,4 +1,4 @@
-package com.example.appproveedorgas;
+package com.mayorista.appproveedorgas;
 
 
 import android.os.Bundle;
@@ -26,6 +26,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.mayorista.appproveedorgas.pojo.Mpedido;
+import com.mayorista.appproveedorgas.pojo.Mpedido_detalle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,10 +39,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class OrderFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     View view;
@@ -48,9 +46,7 @@ public class OrderFragment extends Fragment {
     RecyclerView recyclerView;
     List<Mpedido> orders = new ArrayList<>();
     orderAdapter adapter;
-    //-----
-    //String baseUrl = "http://134.209.37.205:8000/api";
-    String baseUrl = "http://34.71.251.155/api";
+
     private DatabaseHelper db;
     //-----
     private int pagination;
@@ -70,7 +66,7 @@ public class OrderFragment extends Fragment {
         pagination = 1;
         onData = true;
         //---
-       swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -78,9 +74,6 @@ public class OrderFragment extends Fragment {
                 cargarDatos();
             }
         });
-        //--- cargar datos
-     //   cargarDatos();
-        //---- InitView
         recyclerView = view.findViewById(R.id.recycler_orders);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new orderAdapter(recyclerView, getActivity(), orders);
@@ -90,35 +83,31 @@ public class OrderFragment extends Fragment {
             @Override
             public void onLoadMore() {
                 if (onData) {
-
-
                     recyclerView.post(new Runnable() {
                         public void run() {
-                            orders.add(null);
-                            adapter.notifyItemInserted(orders.size() - 1);
+                          //  orders.add(null);
+                         //   adapter.notifyItemInserted(orders.size() - 1);
                         }
                     });
                     new android.os.Handler().postDelayed(
                             new Runnable() {
                                 public void run() {
                                     pagination++;
-                                    orders.remove(orders.size() - 1);
-                                    adapter.notifyItemRemoved(orders.size());
+                                  //  orders.remove(orders.size() - 1);
+                                //    adapter.notifyItemRemoved(orders.size());
                                     Log.d("Data", "Page " + pagination);
                                     postGetDataOrders(pagination);
-
                                 }
                             },
                             1000);
-
                 } else {
                     if (getActivity() != null)
                         Toast.makeText(getActivity(), "No hay mas datos", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
         // Inflate the layout for this fragment
+
         return view;
     }
 
@@ -141,13 +130,21 @@ public class OrderFragment extends Fragment {
         super.onResume();
         cargarDatos();
     }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser) {
+            cargarDatos();
+        } else {
 
+        }
+    }
     //----
     private void postGetDataOrders(int pg) {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         JSONObject object = new JSONObject();
         // Enter the correct url for your api service site
-        String url = this.baseUrl + "/company/orders/" + pg + "/";
+        String url = Variable.HOST + "/company/orders/" + pg + "/";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, object,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -172,17 +169,18 @@ public class OrderFragment extends Fragment {
                                         l_detalle.add(detalle);
                                     }
                                     Mpedido order = new Mpedido(jorder.getInt("id"),
-                                            jorder.getString("voucher")+
-                                                 " "+   jorder.getString("date")+
-                                            " "+   jorder.getString("time").substring(0,8),
+                                            jorder.getString("voucher") +
+                                                    " " + jorder.getString("date") +
+                                                    " " + jorder.getString("time").substring(0, 8),
                                             "0",
                                             jorder.getString("status"),
                                             l_detalle,
                                             jclient.getString("phone1"),
                                             getContext(),
                                             jorder.getDouble("latitude"),
-                                            jorder.getDouble("longitude")
-                                         );
+                                            jorder.getDouble("longitude"),
+                                            jorder.getDouble("calification")
+                                    );
                                     orders.add(order);
                                 }
                                 adapter.notifyDataSetChanged();
