@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,15 +41,17 @@ class ItemViewHolder extends RecyclerView.ViewHolder {
     public TextView tv_total;
     public LinearLayout li_detalle;
     public Button btn_detalle, btnLlamar;
+    public RatingBar ratingBar;
 
     public ItemViewHolder(@NonNull View itemView) {
         super(itemView);
-        tv_estado = (TextView) itemView.findViewById(R.id.tv_estado_id);
-        tv_fecha = (TextView) itemView.findViewById(R.id.tv_fecha_id);
-        tv_total = (TextView) itemView.findViewById(R.id.tv_total_id);
-        li_detalle = (LinearLayout) itemView.findViewById(R.id.l_detalle_id);
-        btn_detalle = (Button) itemView.findViewById(R.id.btn_detalle_id);
-        btnLlamar = (Button) itemView.findViewById(R.id.btnLlamar);
+        tv_estado = itemView.findViewById(R.id.tv_estado_id);
+        tv_fecha = itemView.findViewById(R.id.tv_fecha_id);
+        tv_total = itemView.findViewById(R.id.tv_total_id);
+        li_detalle = itemView.findViewById(R.id.l_detalle_id);
+        btn_detalle = itemView.findViewById(R.id.btn_detalle_id);
+        btnLlamar = itemView.findViewById(R.id.btnLlamar);
+        ratingBar = itemView.findViewById(R.id.ratingBar);
     }
 }
 
@@ -61,6 +64,7 @@ public class orderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     List<Mpedido> pedidos;
     int visibleThreshold = 5;
     int lastVisible, totalItemCount;
+
     private String getStringAddress(Double lat, Double lng) {
         String strAdd = "";
         Geocoder geocoder = new Geocoder(activity, Locale.getDefault());
@@ -73,18 +77,19 @@ public class orderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
                 }
-                strAdd = strReturnedAddress.toString().substring(0,strReturnedAddress.toString().lastIndexOf(","));
+                strAdd = strReturnedAddress.toString().substring(0, strReturnedAddress.toString().lastIndexOf(","));
 
             }
         } catch (Exception e) {
             e.printStackTrace();
 
         }
-        if(strAdd.contains(","))
+        if (strAdd.contains(","))
             return strAdd.substring(0, strAdd.lastIndexOf(","));
         else
             return "";
     }
+
     public orderAdapter(RecyclerView recyclerView, Activity activity, List<Mpedido> pedidos) {
         this.activity = activity;
         this.pedidos = pedidos;
@@ -139,7 +144,10 @@ public class orderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             //-- set data to components
             viewHolder.tv_estado.setText(mpedido.getEstado());
             viewHolder.tv_fecha.setText(mpedido.getFecha());
-
+            if(mpedido.getCalification()>0)
+                viewHolder.ratingBar.setRating( mpedido.getCalification().floatValue());
+            else
+                viewHolder.ratingBar.setVisibility(View.INVISIBLE);
             double total = 0;
             viewHolder.li_detalle.removeAllViews();
             for (int i = 0; i < mpedido.getDetalle().size(); i++) {
@@ -156,14 +164,14 @@ public class orderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 public void onClick(View view) {
                     Intent myIntentPro = new Intent(mpedido.getContext(), PedidoActivity.class);
                     myIntentPro.putExtra("id_pedido", String.valueOf(mpedido.getIdPedido()));
-                    myIntentPro.putExtra("referencia", "Referencia : "+getStringAddress(mpedido.getLatitud(),mpedido.getLongitud()));
+                    myIntentPro.putExtra("referencia", "Referencia : " + getStringAddress(mpedido.getLatitud(), mpedido.getLongitud()));
                     activity.startActivity(myIntentPro);
                 }
             });
 
             System.out.println(mpedido.getEstado());
 
-            if (!mpedido.getEstado().equals("Confirmado")) {
+            if (!mpedido.getEstado().equals("Confirmado")||!mpedido.getEstado().equals("Completado")) {
                 viewHolder.btnLlamar.setVisibility(View.GONE);
             } else {
                 viewHolder.btnLlamar.setOnClickListener(new View.OnClickListener() {

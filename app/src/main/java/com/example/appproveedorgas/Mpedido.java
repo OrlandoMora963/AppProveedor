@@ -16,7 +16,17 @@ public class Mpedido {
     private String phone;
     private Context context;
 
-    public Mpedido(int idPedido, String fecha, String precioTotal, String estado) {
+    public Double getCalification() {
+        return calification;
+    }
+
+    public void setCalification(Double calification) {
+        this.calification = calification;
+    }
+
+    private Double calification;
+
+    public Mpedido(int idPedido, String fecha, String precioTotal, String estado  ) {
         this.idPedido = idPedido;
         this.fecha = fecha;
         this.precioTotal = precioTotal;
@@ -25,7 +35,7 @@ public class Mpedido {
     }
 
     public Mpedido(int idPedido, String fecha, String precioTotal, String estado, List<Mpedido_detalle> detalle, String phone, Context context,
-                   Double Latitud,Double Longitud) {
+                   Double Latitud,Double Longitud,Double calification) {
         this.idPedido = idPedido;
         this.fecha = fecha;
         this.precioTotal = precioTotal;
@@ -43,6 +53,7 @@ public class Mpedido {
             this.estado = "En espera";
         if (estado.equals("confirm"))
             this.estado = "Confirmado";
+        this.calification=calification;
     }
 
     public Double getLatitud() {
