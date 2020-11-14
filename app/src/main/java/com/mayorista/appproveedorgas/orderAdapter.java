@@ -171,7 +171,7 @@ public class orderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             System.out.println(mpedido.getEstado());
 
-            if (!mpedido.getEstado().equals("Confirmado")||!mpedido.getEstado().equals("Completado")) {
+            if (!mpedido.getEstado().equals("Confirmado")&&!mpedido.getEstado().equals("Completado")) {
                 viewHolder.btnLlamar.setVisibility(View.GONE);
             } else {
                 viewHolder.btnLlamar.setOnClickListener(new View.OnClickListener() {
