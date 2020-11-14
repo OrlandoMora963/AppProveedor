@@ -1,15 +1,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="20dp" >
+    android:padding="20dp">
 
     <LinearLayout
         android:id="@+id/login_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
         <!--
         <TextView
             android:layout_width="fill_parent"
@@ -24,11 +26,10 @@
         <ImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@drawable/login_grande"/>
+            android:src="@drawable/login_grande" />
 
         <EditText
             android:id="@+id/login_emailid"
-             android:singleLine="true"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -39,6 +40,7 @@
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:padding="10dp"
+            android:singleLine="true"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textSize="16sp" />
@@ -50,7 +52,6 @@
 
         <EditText
             android:id="@+id/login_password"
-             android:singleLine="true"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
@@ -60,6 +61,7 @@
             android:hint="@string/passowrd"
             android:inputType="textPassword"
             android:padding="10dp"
+            android:singleLine="true"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textSize="16sp" />
@@ -68,17 +70,17 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="5dp"
-            android:paddingTop="8dp" >
+            android:paddingTop="8dp"
+            android:paddingBottom="5dp">
 
             <CheckBox
                 android:id="@+id/show_hide_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:buttonTint="@color/colorAccent"
                 android:text="@string/show_pwd"
                 android:textColor="@color/white"
-                android:buttonTint="@color/colorAccent"
                 android:textSize="14sp" />
 
             <TextView
@@ -115,21 +117,42 @@
             android:layout_marginTop="20dp"
             android:indeterminate="true"
             android:max="100"
-            android:minHeight="10dp"
-            android:minWidth="200dp"/>
+            android:minWidth="200dp"
+            android:minHeight="10dp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/createAccount"
-        android:layout_width="wrap_content"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="@string/newUser"
-        android:textColor="@color/white"
-        android:textSize="15sp" />
+        android:gravity=""
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btnValidarCuenta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:padding="5dp"
+            android:text="Válidar cuenta"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/createAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="1dp"
+            android:gravity="end"
+            android:padding="5dp"
+            android:text="@string/newUser"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

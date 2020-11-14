@@ -25,8 +25,7 @@
                 android:id="@+id/marcas_product"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="@color/fondoitems"
-                android:src="@drawable/avatar"
+                android:src="@drawable/fondo03"
                 app:layout_constraintBottom_toTopOf="@+id/guardar_misproductos"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
