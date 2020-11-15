@@ -178,7 +178,8 @@ public class OrderFragment extends Fragment {
                                             jclient.getString("phone1"),
                                             getContext(),
                                             jorder.getDouble("latitude"),
-                                            jorder.getDouble("longitude")
+                                            jorder.getDouble("longitude"),
+                                            jorder.getDouble("calification")
                                     );
                                     orders.add(order);
                                 }

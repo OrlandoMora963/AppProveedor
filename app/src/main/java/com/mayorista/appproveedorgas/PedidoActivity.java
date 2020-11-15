@@ -58,7 +58,7 @@ public class PedidoActivity extends AppCompatActivity {
     FloatingActionButton fab_notification;
     FloatingActionButton fab_delibered;
     //--
-
+    public TextView txtComprobante;
     RecyclerView recyclerDetailOrderList;
     TextView tv_espera;
     ProgressBar progressBarCon;
@@ -124,7 +124,7 @@ public class PedidoActivity extends AppCompatActivity {
         //--
         tv_espera = findViewById(R.id.tv_espera);
         progressBarCon = findViewById(R.id.pb_pedido);
-
+        txtComprobante = findViewById(R.id.txtComprobante);
         ocultarProgressConf();
         //--
         //et_tiempo = findViewById(R.id.txt_tiempo);
@@ -133,7 +133,10 @@ public class PedidoActivity extends AppCompatActivity {
         if (intent.getExtras() != null) {
             id_pedido = Integer.parseInt(intent.getStringExtra("id_pedido"));
             TextView txtReferencia = findViewById(R.id.txtReferencia);
-            txtReferencia.setText(intent.getStringExtra("referencia"));
+            txtReferencia.setText(intent.getStringExtra("referencia").substring(0, 1).toUpperCase()+
+                    intent.getStringExtra("referencia").substring( 1));
+            txtComprobante.setText(intent.getStringExtra("comprobante").substring(0, 1).toUpperCase()+
+                    intent.getStringExtra("comprobante").substring( 1));
             postOrderDetail(id_pedido);
 
         }
