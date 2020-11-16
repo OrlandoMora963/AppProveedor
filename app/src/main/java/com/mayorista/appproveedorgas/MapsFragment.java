@@ -241,10 +241,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public boolean onMarkerClick(Marker marker) {
         if (marker != null && marker.getTag() != null) {
-            Toast.makeText(getContext(), marker.getTag().toString(), Toast.LENGTH_SHORT).show();
+         //   Toast.makeText(getContext(), marker.getTag().toString(), Toast.LENGTH_SHORT).show();
             Intent myIntent = new Intent(getContext(), PedidoActivity.class);
             myIntent.putExtra("id_pedido", marker.getTag().toString());
             myIntent.putExtra("referencia", "Referencia : " + getStringAddress(marker.getPosition().latitude, marker.getPosition().longitude));
+
             startActivityForResult(myIntent, 1);
         } else {
             Toast.makeText(getContext(), "Marker null", Toast.LENGTH_SHORT).show();

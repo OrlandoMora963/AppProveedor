@@ -58,7 +58,7 @@ public class PedidoActivity extends AppCompatActivity {
     FloatingActionButton fab_notification;
     FloatingActionButton fab_delibered;
     //--
-    public TextView txtComprobante;
+     TextView txtComprobante;
     RecyclerView recyclerDetailOrderList;
     TextView tv_espera;
     ProgressBar progressBarCon;
@@ -135,8 +135,7 @@ public class PedidoActivity extends AppCompatActivity {
             TextView txtReferencia = findViewById(R.id.txtReferencia);
             txtReferencia.setText(intent.getStringExtra("referencia").substring(0, 1).toUpperCase()+
                     intent.getStringExtra("referencia").substring( 1));
-            txtComprobante.setText(intent.getStringExtra("comprobante").substring(0, 1).toUpperCase()+
-                    intent.getStringExtra("comprobante").substring( 1));
+
             postOrderDetail(id_pedido);
 
         }
@@ -406,6 +405,9 @@ public class PedidoActivity extends AppCompatActivity {
                             for (int i = 0; i < data.length(); i++) {
                                 JSONObject obj = data.getJSONObject(i);
                                 JSONObject prod = new JSONObject();
+                                if(i==0)
+                                    txtComprobante.setText(obj.getJSONObject("order_id").getString("voucher").substring(0, 1).toUpperCase()+
+                                            obj.getJSONObject("order_id").getString("voucher").substring( 1));
                                 prod.put("producto", obj.getJSONObject("product_id").getString("description"));
                                 prod.put("cantidad", obj.getInt("quantity"));
                                 prod.put("preciou", obj.getDouble("unit_price"));
@@ -419,6 +421,8 @@ public class PedidoActivity extends AppCompatActivity {
                                 oDetailOrder.setSubTotal(obj.getInt("quantity") * obj.getDouble("unit_price"));
                                 ListDetailOrder.add(oDetailOrder);
                             }
+
+
                             recyclerDetailOrderList.setAdapter(null);
                             DetailOrderAdapter adapterDetailOrder = new DetailOrderAdapter(ListDetailOrder, textViewProducto.getWidth());
                             recyclerDetailOrderList.setAdapter(adapterDetailOrder);
