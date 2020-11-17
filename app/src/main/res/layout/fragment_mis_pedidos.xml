@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
     tools:context=".MIsPedidosFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <androidx.recyclerview.widget.RecyclerView
+
+    <EditText
+        android:id="@+id/txtBuscarProductos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/mis_pedidos_recycler"
-        />
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:hint="Buscar"
+        android:inputType="textPersonName"
+        android:autofillHints="" />
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mis_pedidos_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

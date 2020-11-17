@@ -1,5 +1,6 @@
 package com.mayorista.appproveedorgas;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,22 +28,29 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.viewHolder> implements View.OnClickListener {
+public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.viewHolder>
+        implements View.OnClickListener, Filterable {
 
 
     private View.OnClickListener listener;
     private Context context;
     private DatabaseHelper db;
     List<ProductRegister> Product_list;
+    private final List<ProductRegister> filterProductRegisters;
+    private final CustomFilter customFilter;
     MIsPedidosFragment oMIsPedidosFragment;
 
     public MIsPedidosAdapter(List<ProductRegister> product_list, MIsPedidosFragment oMIsPedidosFragment) {
         this.Product_list = product_list;
         this.oMIsPedidosFragment = oMIsPedidosFragment;
+        this.filterProductRegisters = new ArrayList<>();
+        this.filterProductRegisters.addAll(product_list);
+        this.customFilter = new CustomFilter(MIsPedidosAdapter.this);
     }
 
     @Override
@@ -68,12 +78,17 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
 
     @Override
     public void onBindViewHolder(@NonNull MIsPedidosAdapter.viewHolder holder, int position) {
-        holder.bind(Product_list.get(position));
+        holder.bind(filterProductRegisters.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return Product_list.size();
+        return filterProductRegisters.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return customFilter;
     }
 
     public class viewHolder extends RecyclerView.ViewHolder {
@@ -95,6 +110,7 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
             btnEstado = itemView.findViewById(R.id.btnEstado);
         }
 
+        @SuppressLint("SetTextI18n")
         void bind(final ProductRegister products) {
             product_name.setText(products.getProduct().getDescription().replace("Ã±", "ñ"));
             txtPeso.setText(products.getProduct().getMeasurement() + " " + products.getProduct().getUnit_measurement_id().getName());
@@ -222,6 +238,38 @@ public class MIsPedidosAdapter extends RecyclerView.Adapter<MIsPedidosAdapter.vi
                     VolleySingleton.getInstance(context).addToRequestQueue(objectRequest);
                 }
             });
+        }
+    }
+
+    public class CustomFilter extends Filter {
+        private final MIsPedidosAdapter listAdapter;
+
+        private CustomFilter(MIsPedidosAdapter listAdapter) {
+            this.listAdapter = listAdapter;
+        }
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            filterProductRegisters.clear();
+            final FilterResults results = new FilterResults();
+            if (constraint.length() == 0) {
+                filterProductRegisters.addAll(Product_list);
+            } else {
+                final String filterPattern = constraint.toString().toLowerCase().trim();
+                for (final ProductRegister productRegister : Product_list) {
+                    if (productRegister.getProduct().getDescription().toLowerCase().contains(filterPattern)) {
+                        filterProductRegisters.add(productRegister);
+                    }
+                }
+            }
+            results.values = filterProductRegisters;
+            results.count = filterProductRegisters.size();
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            this.listAdapter.notifyDataSetChanged();
         }
     }
 }

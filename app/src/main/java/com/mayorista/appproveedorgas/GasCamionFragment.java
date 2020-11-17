@@ -3,6 +3,7 @@ package com.mayorista.appproveedorgas;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GasCamionFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
@@ -37,6 +40,7 @@ public class GasCamionFragment extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<Product> productDetails_list;
     private CamionGasAdapter camionGasAdapter;
+    private DatabaseHelper db;
 
     public GasCamionFragment() {
         // Required empty public constructor
@@ -67,31 +71,22 @@ public class GasCamionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_gas_camion, container, false);
         recyclerView = view.findViewById(R.id.gas_camion_container);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        this.db = new DatabaseHelper(getContext());
         Listar();
-    /*    productDetails_list=new ArrayList<>();
-        productDetails_list.add(new product_marcas(1,"gas solgas ",""));
-        productDetails_list.add(new product_marcas(1,"gas solgas ",""));
-        productDetails_list.add(new product_marcas(1,"gas solgas ",""));
-
-        camionGasAdapter=new CamionGasAdapter(productDetails_list);
-        recyclerView.setAdapter(camionGasAdapter);*/
 
         return view;
-
-
     }
 
     public void Listar() {
         RequestQueue queue = Volley.newRequestQueue(getContext());
         StringBuilder sb = new StringBuilder();
-        sb.append(Variable.HOST + "/product/gas/gas-cisterna");
+        sb.append(Variable.HOST + "/product/staff/cisterna/");
         String url = sb.toString();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
                         recyclerView.setAdapter(null);
                         Gson gson = new Gson();
                         productDetails_list = gson.fromJson(response.substring(34, response.length() - 1).trim(), new TypeToken<ArrayList<Product>>() {
@@ -105,9 +100,21 @@ public class GasCamionFragment extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                System.out.println(error.networkResponse);
                 Toast.makeText(getContext(), "That didn't work!", Toast.LENGTH_SHORT).show();
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                String token = db.getToken();
+                Log.d("Voley get", token);
+                headers.put("Authorization", "JWT " + token);
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+        ;
         queue.add(stringRequest);
     }
 

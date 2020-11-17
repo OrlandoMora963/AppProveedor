@@ -21,12 +21,6 @@ public class RestartServiceBroadcastReceiver extends BroadcastReceiver {
     private static JobScheduler jobScheduler;
     private RestartServiceBroadcastReceiver restartSensorServiceReceiver;
 
-    /**
-     * it returns the number of version code
-     *
-     * @param context
-     * @return
-     */
     public static long getVersionCode(Context context) {
         PackageInfo pInfo;
         try {
@@ -41,11 +35,10 @@ public class RestartServiceBroadcastReceiver extends BroadcastReceiver {
     }
 
 
-
     @Override
     public void onReceive(final Context context, Intent intent) {
         Log.d(TAG, "about to start timer " + context.toString());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             scheduleJob(context);
         } else {
             registerRestarterReceiver(context);
@@ -87,9 +80,9 @@ public class RestartServiceBroadcastReceiver extends BroadcastReceiver {
         // null. So we must use context.registerReceiver. Otherwise this will crash and we try with context.getApplicationContext
         if (restartSensorServiceReceiver == null)
             restartSensorServiceReceiver = new RestartServiceBroadcastReceiver();
-        else try{
+        else try {
             context.unregisterReceiver(restartSensorServiceReceiver);
-        } catch (Exception e){
+        } catch (Exception e) {
             // not registered
         }
         // give the time to run
@@ -106,7 +99,7 @@ public class RestartServiceBroadcastReceiver extends BroadcastReceiver {
                     try {
                         context.getApplicationContext().registerReceiver(restartSensorServiceReceiver, filter);
                     } catch (Exception ex) {
-
+                        ex.printStackTrace();
                     }
                 }
             }

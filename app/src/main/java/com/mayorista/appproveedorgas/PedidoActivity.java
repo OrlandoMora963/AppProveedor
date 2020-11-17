@@ -19,7 +19,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -68,44 +67,12 @@ public class PedidoActivity extends AppCompatActivity {
     public static Socket SOCKET;
     private static final String TAG = "Confirm Pedido";
     //----
-    RequestQueue requestQueue;  // This is our requests queue to process our HTTP requests.
-    //----
     private DatabaseHelper db;
     //--
     //TextInputEditText et_tiempo;
     //----- table -----
     private final ArrayList<JSONObject> productos = new ArrayList<>();
     //-------------
-    private static int SCREEN_HEIGHT;
-    private static int SCREEN_WIDTH;
-    /*  RelativeLayout relativeLayoutMain;
-
-      RelativeLayout relativeLayoutA;
-      RelativeLayout relativeLayoutB;
-      RelativeLayout relativeLayoutC;
-      RelativeLayout relativeLayoutD;
-
-      TableLayout tableLayoutA;
-      TableLayout tableLayoutB;
-      TableLayout tableLayoutC;
-      TableLayout tableLayoutD;
-
-      TableRow tableRow;
-      TableRow tableRowB;
-
-      HorizontalScroll horizontalScrollViewB;
-      HorizontalScroll horizontalScrollViewD;
-
-      VerticalScroll scrollViewC;
-      VerticalScroll scrollViewD;
-      int tableColumnCountB = 0;
-      int tableRowCountC = 0;
-      private int nro_filas = 0;
-      //----- dimens is pixel
-      int WidhFirstHeader = 150;
-      int WidhHeaderA = 50;
-      int WidhHeaderProduct = 300;*/
-    //---------
     BroadcastReceiver updateUIReciver;
 
     //-----
@@ -328,9 +295,9 @@ public class PedidoActivity extends AppCompatActivity {
         fab_delibered.hide();
     }
 
-    private void enableDeliberedBtn() {
+    /*private void enableDeliberedBtn() {
         fab_delibered.show();
-    }
+    }*/
 
     //---
 
@@ -476,7 +443,7 @@ public class PedidoActivity extends AppCompatActivity {
 
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders(){
                 Map<String, String> headers = new HashMap<>();
                 String token = db.getToken();
                 Log.d("Voley get", token);
