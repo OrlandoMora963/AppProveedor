@@ -161,12 +161,6 @@ public class Service extends android.app.Service {
     }
 
 
-    /**
-     * this is called when the process is killed by Android
-     *
-     * @param rootIntent
-     */
-
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
@@ -174,10 +168,6 @@ public class Service extends android.app.Service {
         // restart the never ending service
         Intent broadcastIntent = new Intent(Variable.RESTART_INTENT);
         sendBroadcast(broadcastIntent);
-        // do not call stoptimertask because on some phones it is called asynchronously
-        // after you swipe out the app and therefore sometimes
-        // it will stop the timer after it was restarted
-        // stoptimertask();
     }
 
 
@@ -480,9 +470,6 @@ public class Service extends android.app.Service {
         sendBroadcast(toastIntent);
     }
 
-    /**
-     * not needed
-     */
     /*
     public void stoptimertask() {
         //stop the timer, if it's not already null

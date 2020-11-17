@@ -114,7 +114,6 @@ public class CamionGasAdapter extends RecyclerView.Adapter<CamionGasAdapter.view
                             public void onResponse(JSONObject response) {
                                 try {
                                     Toast.makeText(context, "Se agrego el producto " + product_name.getText(), Toast.LENGTH_LONG).show();
-                                    // Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
                                     oGasCamionFragment.Listar();
                                 } catch (Exception e) {
                                     e.printStackTrace();
